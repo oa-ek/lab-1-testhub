@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHub", "TestHub\TestHub.csproj", "{5F8FE822-15EC-41F0-9AE5-A3E412F2F830}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHub.Core", "TestHub.Core\TestHub.Core.csproj", "{77147F0B-16F8-4FCE-95A4-136B8C4DA9C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{5F8FE822-15EC-41F0-9AE5-A3E412F2F830}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F8FE822-15EC-41F0-9AE5-A3E412F2F830}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F8FE822-15EC-41F0-9AE5-A3E412F2F830}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77147F0B-16F8-4FCE-95A4-136B8C4DA9C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77147F0B-16F8-4FCE-95A4-136B8C4DA9C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77147F0B-16F8-4FCE-95A4-136B8C4DA9C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77147F0B-16F8-4FCE-95A4-136B8C4DA9C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
