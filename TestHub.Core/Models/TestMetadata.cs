@@ -1,6 +1,6 @@
 ﻿namespace TestHub.Core.Models;
 
-public class TestMetadatum
+public class TestMetadata
 {
     public int Id { get; set; }
 
@@ -8,7 +8,7 @@ public class TestMetadatum
 
     public int TestId { get; set; }
 
-    public byte[] Like { get; set; } = null!;
+    public byte Like { get; set; }
 
     public int Rating { get; set; }
 

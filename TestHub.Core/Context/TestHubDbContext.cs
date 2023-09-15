@@ -28,7 +28,7 @@ public partial class TestHubDbContext : DbContext
 
     public virtual DbSet<TestCategory> TestCategories { get; set; }
 
-    public virtual DbSet<TestMetadatum> TestMetadata { get; set; }
+    public virtual DbSet<TestMetadata> TestMetadata { get; set; }
 
     public virtual DbSet<TestSession> TestSessions { get; set; }
 
@@ -187,7 +187,7 @@ public partial class TestHubDbContext : DbContext
                 .HasConstraintName("FK_TestCategory_Test");
         });
 
-        modelBuilder.Entity<TestMetadatum>(entity =>
+        modelBuilder.Entity<TestMetadata>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__TestMeta__3214EC0713326B82");
 

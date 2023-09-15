@@ -20,7 +20,7 @@ public class User
 
     public string Comment { get; set; } = null!;
 
-    public virtual ICollection<TestMetadatum> TestMetadata { get; set; } = new List<TestMetadatum>();
+    public virtual ICollection<TestMetadata> TestMetadata { get; set; } = new List<TestMetadata>();
 
     public virtual ICollection<TestSession> TestSessions { get; set; } = new List<TestSession>();
 

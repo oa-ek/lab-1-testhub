@@ -26,7 +26,7 @@ public class Test
 
     public virtual ICollection<TestCategory> TestCategories { get; set; } = new List<TestCategory>();
 
-    public virtual ICollection<TestMetadatum> TestMetadata { get; set; } = new List<TestMetadatum>();
+    public virtual ICollection<TestMetadata> TestMetadata { get; set; } = new List<TestMetadata>();
 
     public virtual ICollection<TestSession> TestSessions { get; set; } = new List<TestSession>();
 }
