@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHub", "TestHub\TestHub.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHub.Core", "TestHub.Core\TestHub.Core.csproj", "{77147F0B-16F8-4FCE-95A4-136B8C4DA9C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHub.Infrastructure", "TestHub.Infrastructure\TestHub.Infrastructure.csproj", "{3A34AC7C-173A-4279-9B30-05A5940DB9D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{77147F0B-16F8-4FCE-95A4-136B8C4DA9C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77147F0B-16F8-4FCE-95A4-136B8C4DA9C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77147F0B-16F8-4FCE-95A4-136B8C4DA9C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A34AC7C-173A-4279-9B30-05A5940DB9D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A34AC7C-173A-4279-9B30-05A5940DB9D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A34AC7C-173A-4279-9B30-05A5940DB9D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A34AC7C-173A-4279-9B30-05A5940DB9D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
