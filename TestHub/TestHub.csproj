@@ -16,7 +16,7 @@
 
 
     <ItemGroup>
-      <ProjectReference Include="..\TestHub.Core\TestHub.Core.csproj" />
+        <ProjectReference Include="..\TestHub.Infrastructure\TestHub.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

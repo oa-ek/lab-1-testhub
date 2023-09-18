@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TestHub.Core.Models;
 
-namespace TestHub.Core.Context;
+namespace TestHub.Infrastructure.Context;
 
 public partial class TestHubDbContext : DbContext
 {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using TestHub.Core.Context;
+using TestHub.Infrastructure.Context;
 using TestHub.Core.Models;
 
-namespace TestHub.Core.Seeders
+namespace TestHub.Infrastructure.Seeders
 {
     public class QuestionTypeSeeder
     {
