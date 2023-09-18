@@ -1,4 +1,5 @@
 ﻿using TestHub.Core.Context;
+using TestHub.Core.Enum;
 using TestHub.Core.Models;
 
 namespace TestHub.Core.Seeders

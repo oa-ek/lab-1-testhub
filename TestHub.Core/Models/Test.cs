@@ -1,31 +1,24 @@
-﻿namespace TestHub.Core.Models;
+﻿using TestHub.Core.Enum;
+
+namespace TestHub.Core.Models;
 
 using System.ComponentModel.DataAnnotations;
 
-public enum TestStatus
-{
-    Draft,
-    Active,
-    Archived
-}
-
 public class Test
 {
-    [Required] public int Id { get; set; }
+    public int Id { get; set; }
 
-    [Required] [MaxLength(255)] public string Title { get; set; } = null!;
+    public string Title { get; set; } = null!;
 
-    [MaxLength(512)] public string? Description { get; set; }
+    public string? Description { get; set; }
 
-    [Required] public int Duration { get; set; }
+    public int Duration { get; set; }
 
-    [Required] public int OwnerId { get; set; }
+    public int OwnerId { get; set; }
+    
+    public TestStatus Status { get; set; }
 
-    [Required]
-    [EnumDataType(typeof(TestStatus))]
-    public TestStatus Status { get; set; } = TestStatus.Draft;
-
-    [Required] public bool IsPublic { get; set; }
+    public bool IsPublic { get; set; }
 
     [Required] public DateTime CreatedAt { get; set; }
 
@@ -40,26 +33,4 @@ public class Test
     public virtual ICollection<TestMetadata> TestMetadata { get; set; } = new List<TestMetadata>();
 
     public virtual ICollection<TestSession> TestSessions { get; set; } = new List<TestSession>();
-}
-
-public class TestValidationResult
-{
-    public bool IsValid { get; set; }
-    public ICollection<ValidationResult>? Errors { get; set; }
-}
-
-public static class TestValidator
-{
-    public static TestValidationResult ValidateTest(Test test)
-    {
-        var context = new ValidationContext(test, serviceProvider: null, items: null);
-        var errors = new List<ValidationResult>();
-        var isValid = Validator.TryValidateObject(test, context, errors, validateAllProperties: true);
-
-        return new TestValidationResult
-        {
-            IsValid = isValid,
-            Errors = errors
-        };
-    }
 }

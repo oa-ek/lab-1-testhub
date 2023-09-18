@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TestHub.Core.Models;
+using TestHub.Core.Enum;
 
 namespace TestHub.Core.Context;
 
@@ -167,8 +168,9 @@ public partial class TestHubDbContext : DbContext
                 .IsUnicode(false)
                 .HasConversion(
                     v => v.ToString(),
-                    v => (TestStatus)Enum.Parse(typeof(TestStatus), v)
-                );
+                    v => (TestStatus) System.Enum.Parse(typeof(TestStatus), v)
+                    );
+
 
             entity.HasOne(d => d.Owner).WithMany(p => p.Tests)
                 .HasForeignKey(d => d.OwnerId)
