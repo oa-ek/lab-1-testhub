@@ -25,7 +25,7 @@ namespace TestHub.Core.Seeders
                     Description = "Description for Test 1",
                     Duration = 60,
                     OwnerId = 1,
-                    Status = "Active",
+                    Status = TestStatus.Active,
                     IsPublic = true,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = null
@@ -37,7 +37,7 @@ namespace TestHub.Core.Seeders
                     Description = "Description for Test 2",
                     Duration = 45,
                     OwnerId = 2,
-                    Status = "Inactive",
+                    Status = TestStatus.Archived,
                     IsPublic = false,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = null
@@ -49,7 +49,7 @@ namespace TestHub.Core.Seeders
                     Description = "Description for Test 3",
                     Duration = 30,
                     OwnerId = 1,
-                    Status = "Active",
+                    Status = TestStatus.Active,
                     IsPublic = true,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = null
@@ -61,7 +61,7 @@ namespace TestHub.Core.Seeders
                     Description = "Description for Test 4",
                     Duration = 75,
                     OwnerId = 3,
-                    Status = "Active",
+                    Status = TestStatus.Draft,
                     IsPublic = true,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = null
@@ -73,7 +73,7 @@ namespace TestHub.Core.Seeders
                     Description = "Description for Test 5",
                     Duration = 90,
                     OwnerId = 2,
-                    Status = "Inactive",
+                    Status = TestStatus.Archived,
                     IsPublic = false,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = null

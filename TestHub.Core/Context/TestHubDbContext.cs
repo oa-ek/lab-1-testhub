@@ -161,6 +161,14 @@ public partial class TestHubDbContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+            
+            entity.Property(e => e.Status)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => (TestStatus)Enum.Parse(typeof(TestStatus), v)
+                );
 
             entity.HasOne(d => d.Owner).WithMany(p => p.Tests)
                 .HasForeignKey(d => d.OwnerId)
