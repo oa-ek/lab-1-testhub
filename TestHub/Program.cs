@@ -1,7 +1,31 @@
+using TestHub.Infrastructure.Context;
+using TestHub.Infrastructure.Seeders;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services
+    .AddControllers()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    });
+builder.Services.AddDbContext<TestHubDbContext>(options =>
+{
+    options.UseSqlServer("Server=.;Database=TestHubDb;Trusted_Connection=true;TrustServerCertificate=true;");
+});
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "TestHub API v1", Version = "v1" });
+});
+
 
 var app = builder.Build();
 
@@ -12,6 +36,14 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+else
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "TestHub API v1");
+    });
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -19,6 +51,41 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+
+using (var context = new TestHubDbContext())
+{
+    // Створення сідера і виклик методу Seed()
+    var userSeeder = new UserSeeder(context);
+    userSeeder.Seed();
+    
+    var testSeeder = new TestSeeder(context);
+    testSeeder.Seed();
+    
+    var categorySeeder = new CategorySeeder(context);
+    categorySeeder.Seed();
+    
+    var testCategorySeeder = new TestCategorySeeder(context);
+    testCategorySeeder.Seed();
+    
+    var questionTypeSeeder = new QuestionTypeSeeder(context);
+    questionTypeSeeder.Seed();
+    
+    var questionSeeder = new QuestionSeeder(context);
+    questionSeeder.Seed();
+    
+    var answerSeeder = new AnswerSeeder(context);
+    answerSeeder.Seed();
+
+    var testMetadataSeeder = new TestMetadataSeeder(context);
+    testMetadataSeeder.Seed();
+    
+    var testSessionSeeder = new TestSessionSeeder(context);
+    testSessionSeeder.Seed();
+
+    var statusSessionQuestionSeeder = new StatusSessionQuestionSeeder(context);
+    statusSessionQuestionSeeder.Seed();
+}
 
 app.MapControllerRoute(
     name: "default",
