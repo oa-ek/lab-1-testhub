@@ -24,39 +24,39 @@ app.UseRouting();
 app.UseAuthorization();
 
 
-// using (var context = new TestHubDbContext())
-// {
-// //     // Створення сідера і виклик методу Seed()
-//      var userSeeder = new UserSeeder(context);
-//      userSeeder.Seed();
-     
-//     var testSeeder = new TestSeeder(context);
-//     testSeeder.Seed();
-//     
-//     var categorySeeder = new CategorySeeder(context);
-//     categorySeeder.Seed();
-//     
-//     var testCategorySeeder = new TestCategorySeeder(context);
-//     testCategorySeeder.Seed();
-//     
-//     var questionTypeSeeder = new QuestionTypeSeeder(context);
-//     questionTypeSeeder.Seed();
-//     
-//     var questionSeeder = new QuestionSeeder(context);
-//     questionSeeder.Seed();
-//     
-//     var answerSeeder = new AnswerSeeder(context);
-//     answerSeeder.Seed();
-//
-//     var testMetadataSeeder = new TestMetadataSeeder(context);
-//     testMetadataSeeder.Seed();
-//     
-//     var testSessionSeeder = new TestSessionSeeder(context);
-//     testSessionSeeder.Seed();
-//
-//     var statusSessionQuestionSeeder = new StatusSessionQuestionSeeder(context);
-//     statusSessionQuestionSeeder.Seed();
-// }
+using (var context = new TestHubDbContext())
+{
+    // Створення сідера і виклик методу Seed()
+    var userSeeder = new UserSeeder(context);
+    userSeeder.Seed();
+
+    var testSeeder = new TestSeeder(context);
+    testSeeder.Seed();
+
+    var categorySeeder = new CategorySeeder(context);
+    categorySeeder.Seed();
+    
+    var testCategorySeeder = new TestCategorySeeder(context);
+    testCategorySeeder.Seed();
+    
+    var questionTypeSeeder = new QuestionTypeSeeder(context);
+    questionTypeSeeder.Seed();
+    
+    var questionSeeder = new QuestionSeeder(context);
+    questionSeeder.Seed();
+    
+    var answerSeeder = new AnswerSeeder(context);
+    answerSeeder.Seed();
+
+    var testMetadataSeeder = new TestMetadataSeeder(context);
+    testMetadataSeeder.Seed();
+    
+    var testSessionSeeder = new TestSessionSeeder(context);
+    testSessionSeeder.Seed();
+
+    var statusSessionQuestionSeeder = new StatusSessionQuestionSeeder(context);
+    statusSessionQuestionSeeder.Seed();
+}
 
 app.MapControllerRoute(
     name: "default",

@@ -14,25 +14,25 @@ public partial class TestHubDbContext : DbContext
     {
     }
 
-    public virtual DbSet<Answer> Answers { get; set; }
+    public virtual DbSet<Answer>? Answers { get; set; }
 
-    public virtual DbSet<Category> Categories { get; set; }
+    public virtual DbSet<Category>? Categories { get; set; }
 
-    public virtual DbSet<Question> Questions { get; set; }
+    public virtual DbSet<Question>? Questions { get; set; }
 
-    public virtual DbSet<QuestionType> QuestionTypes { get; set; }
+    public virtual DbSet<QuestionType>? QuestionTypes { get; set; }
 
-    public virtual DbSet<StatusSessionQuestion> StatusSessionQuestions { get; set; }
+    public virtual DbSet<StatusSessionQuestion>? StatusSessionQuestions { get; set; }
 
-    public virtual DbSet<Test> Tests { get; set; }
+    public virtual DbSet<Test>? Tests { get; set; }
 
-    public virtual DbSet<TestCategory> TestCategories { get; set; }
+    public virtual DbSet<TestCategory>? TestCategories { get; set; }
 
-    public virtual DbSet<TestMetadata> TestMetadata { get; set; }
+    public virtual DbSet<TestMetadata>? TestMetadata { get; set; }
 
-    public virtual DbSet<TestSession> TestSessions { get; set; }
+    public virtual DbSet<TestSession>? TestSessions { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<User>? Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Server=.;Database=TestHubDb;Trusted_Connection=true;TrustServerCertificate=true;");
@@ -45,7 +45,7 @@ public partial class TestHubDbContext : DbContext
 
             entity.ToTable("Answer");
 
-            entity.HasIndex(e => e.Image, "UQ__Answer__3294EFD547D97E91").IsUnique();
+            entity.HasIndex(e => e.Image, "UQ__Answer__3294EFD547D97E91");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Image)
@@ -84,14 +84,14 @@ public partial class TestHubDbContext : DbContext
 
             entity.ToTable("Question");
 
-            entity.HasIndex(e => e.Image, "UQ__Question__3294EFD504A554B5").IsUnique();
+            entity.HasIndex(e => e.Image, "UQ__Question__3294EFD504A554B5");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Description)
                 .HasMaxLength(512)
                 .IsUnicode(false);
             entity.Property(e => e.Image)
-                .HasMaxLength(1)
+                .HasMaxLength(512)
                 .IsUnicode(false);
             entity.Property(e => e.Title)
                 .HasMaxLength(255)
@@ -250,7 +250,7 @@ public partial class TestHubDbContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.Password)
-                .HasMaxLength(1)
+                .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.Role)
                 .HasMaxLength(255)

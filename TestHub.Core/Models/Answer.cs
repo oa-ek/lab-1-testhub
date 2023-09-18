@@ -6,7 +6,7 @@ public class Answer
 
     public string Text { get; set; } = null!;
 
-    public string Image { get; set; } = null!;
+    public string? Image { get; set; }
 
     public bool IsCorrect { get; set; }
 
