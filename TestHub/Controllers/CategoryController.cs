@@ -24,7 +24,7 @@ public class CategoryController: Controller
    
         
         [HttpPost]
-        public ActionResult CreateCategory(CategoryDto categoryDTO)
+        public IActionResult CreateCategory(CategoryDto categoryDTO)
         {
                 var category = new Category
                 {
@@ -32,14 +32,34 @@ public class CategoryController: Controller
                 };
                 _categoryRepository.Insert(category);
                 // return RedirectToAction("GetAllCategory");
-                return Ok(category);
+                ViewBag.CreatedCategory = category;
+
+                return Ok();
         }
         
         [HttpGet]
         public IActionResult GetAllCategory()
         {
             var categories = _categoryRepository.Get();
-            return View("GetAllCategory",categories);
+            return View("crud/GetAllCategory",categories);
         }
         
+        [HttpPatch("UpdateCategory/{id}")]
+        public IActionResult UpdateCategory(int id, [FromBody] CategoryDto update)
+        {
+            var category=_categoryRepository.GetByID(id);
+            category.Title = update.Title;
+            _categoryRepository.Update(category);
+            return Ok();
+        }
+        
+        
+        [HttpDelete]
+        public IActionResult DeleteCategory(int id)
+        {
+            _categoryRepository.Delete(id);
+            return Ok();
+        }
+        
+             
 }
