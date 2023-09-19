@@ -1,42 +1,77 @@
 ﻿using TestHub.Infrastructure.Context;
-using TestHub.Infrastructure.Repository.Intarface;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace TestHub.Infrastructure.Repository;
 
-public class GenericRepository<T> : IGenericRepository<T> where T : class
+public class GenericRepository<TEntity> where TEntity : class
 {
-    protected readonly TestHubDbContext _context;
+    
+    protected readonly TestHubDbContext context;
+    internal DbSet<TEntity> dbSet;
+
     public GenericRepository(TestHubDbContext context)
     {
-        _context = context;
+        this.context = context;
+        this.dbSet = context.Set<TEntity>();
     }
-    public void Add(T entity)
+
+    public virtual IEnumerable<TEntity> Get(
+        Expression<Func<TEntity, bool>> filter = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+        string includeProperties = "")
     {
-        _context.Set<T>().Add(entity);
+        IQueryable<TEntity> query = dbSet;
+
+        if (filter != null)
+        {
+            query = query.Where(filter);
+        }
+
+        foreach (var includeProperty in includeProperties.Split
+                     (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+        {
+            query = query.Include(includeProperty);
+        }
+
+        if (orderBy != null)
+        {
+            return orderBy(query).ToList();
+        }
+        else
+        {
+            return query.ToList();
+        }
     }
-    public void AddRange(IEnumerable<T> entities)
+
+    public virtual TEntity GetByID(int id)
     {
-        _context.Set<T>().AddRange(entities);
+        return dbSet.Find(id);
     }
-    public IEnumerable<T> Find(Expression<Func<T, bool>> expression)
+
+    public virtual void Insert(TEntity entity)
     {
-        return _context.Set<T>().Where(expression);
+        dbSet.Add(entity);
     }
-    public IEnumerable<T> GetAll()
+
+    public virtual void Delete(object id)
     {
-        return _context.Set<T>().ToList();
+        TEntity entityToDelete = dbSet.Find(id);
+        Delete(entityToDelete);
     }
-    public T GetById(int id)
+
+    public virtual void Delete(TEntity entityToDelete)
     {
-        return _context.Set<T>().Find(id);
+        if (context.Entry(entityToDelete).State == EntityState.Detached)
+        {
+            dbSet.Attach(entityToDelete);
+        }
+        dbSet.Remove(entityToDelete);
     }
-    public void Remove(T entity)
+
+    public virtual void Update(TEntity entityToUpdate)
     {
-        _context.Set<T>().Remove(entity);
-    }
-    public void RemoveRange(IEnumerable<T> entities)
-    {
-        _context.Set<T>().RemoveRange(entities);
+        dbSet.Attach(entityToUpdate);
+        context.Entry(entityToUpdate).State = EntityState.Modified;
     }
 }
