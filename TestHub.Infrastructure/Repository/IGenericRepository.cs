@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 
-namespace TestHub.Infrastructure.Repository.Intarface;
+namespace TestHub.Infrastructure.Repository;
+
 public interface IGenericRepository<T> where T : class
 {
     T GetById(int id);
@@ -11,3 +12,4 @@ public interface IGenericRepository<T> where T : class
     void Remove(T entity);
     void RemoveRange(IEnumerable<T> entities);
 }
+
