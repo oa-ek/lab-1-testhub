@@ -67,12 +67,12 @@ public partial class TestHubDbContext : DbContext
         modelBuilder.Entity<Category>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Category__3214EC070B33831E");
-
+            
             entity.ToTable("Category");
 
             entity.HasIndex(e => e.Title, "UQ__Category__2CB664DC6C1971A6").IsUnique();
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).HasColumnName("Id").ValueGeneratedOnAdd();
             entity.Property(e => e.Title)
                 .HasMaxLength(255)
                 .IsUnicode(false);
