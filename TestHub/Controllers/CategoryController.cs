@@ -4,7 +4,7 @@ using TestHub.Core.Models;
 using TestHub.Core.Dtos;
 namespace TestHub.Controllers;
 
-[Route("api/Category")]
+[Route("Category")]
 [ApiController]
 public class CategoryController: Controller
 {
