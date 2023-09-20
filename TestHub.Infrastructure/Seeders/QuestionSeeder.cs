@@ -20,7 +20,6 @@ namespace TestHub.Infrastructure.Seeders
             {
                 new Question
                 {
-                    Id = 1,
                     Title = "Question 1",
                     Description = "Description for Question 1",
                     Image = "image1.jpg",
@@ -29,7 +28,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new Question
                 {
-                    Id = 2,
                     Title = "Question 2",
                     Description = "Description for Question 2",
                     Image = "image2.jpg",
@@ -38,7 +36,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new Question
                 {
-                    Id = 3,
                     Title = "Question 3",
                     Description = "Description for Question 3",
                     Image = "image3.jpg",
@@ -47,7 +44,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new Question
                 {
-                    Id = 4,
                     Title = "Question 4",
                     Description = "Description for Question 4",
                     Image = "image4.jpg",
@@ -56,7 +52,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new Question
                 {
-                    Id = 5,
                     Title = "Question 5",
                     Description = "Description for Question 5",
                     Image = "image5.jpg",

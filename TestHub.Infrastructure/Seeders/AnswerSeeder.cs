@@ -20,7 +20,6 @@ public class AnswerSeeder
         {
             new Answer
             {
-                Id = 1,
                 Text = "Option 1",
                 Image = "image1.jpg",
                 IsCorrect = true,
@@ -29,7 +28,6 @@ public class AnswerSeeder
             },
             new Answer
             {
-                Id = 2,
                 Text = "Option 2",
                 Image = "image2.jpg",
                 IsCorrect = false,
@@ -38,7 +36,6 @@ public class AnswerSeeder
             },
             new Answer
             {
-                Id = 3, 
                 Text = "Answer A",
                 Image = null,
                 IsCorrect = true,
@@ -47,7 +44,6 @@ public class AnswerSeeder
             },
             new Answer
             {
-                Id = 4, 
                 Text = "Answer B",
                 Image = null,
                 IsCorrect = false,
@@ -56,7 +52,6 @@ public class AnswerSeeder
             },
             new Answer
             {
-                Id = 5,
                 Text = "Yes",
                 Image = null,
                 IsCorrect = true,

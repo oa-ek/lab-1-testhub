@@ -20,7 +20,6 @@ namespace TestHub.Infrastructure.Seeders
             {
                 new User
                 {
-                    Id = 1,
                     Email = "user1@example.com",
                     Password = "password1",
                     Name = "User 1",
@@ -32,7 +31,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new User
                 {
-                    Id = 2,
                     Email = "user2@example.com",
                     Password = "password2",
                     Name = "User 2",
@@ -44,7 +42,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new User
                 {
-                    Id = 3,
                     Email = "user3@example.com",
                     Password = "password3",
                     Name = "User 3",
@@ -56,7 +53,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new User
                 {
-                    Id = 4,
                     Email = "user4@example.com",
                     Password = "password4",
                     Name = "User 4",
@@ -68,7 +64,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new User
                 {
-                    Id = 5,
                     Email = "user5@example.com",
                     Password = "password5",
                     Name = "User 5",

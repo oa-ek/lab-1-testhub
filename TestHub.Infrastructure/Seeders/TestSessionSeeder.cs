@@ -20,7 +20,6 @@ namespace TestHub.Infrastructure.Seeders
             {
                 new TestSession
                 {
-                    Id = 1,
                     StartedAt = DateTime.UtcNow.AddHours(-2),
                     FinishedAt = DateTime.UtcNow.AddHours(-1),
                     UserId = 1,
@@ -30,7 +29,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new TestSession
                 {
-                    Id = 2,
                     StartedAt = DateTime.UtcNow.AddHours(-3),
                     FinishedAt = DateTime.UtcNow.AddHours(-2),
                     UserId = 2,
@@ -40,7 +38,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new TestSession
                 {
-                    Id = 3,
                     StartedAt = DateTime.UtcNow.AddHours(-4),
                     FinishedAt = DateTime.UtcNow.AddHours(-3),
                     UserId = 1,
@@ -50,7 +47,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new TestSession
                 {
-                    Id = 4,
                     StartedAt = DateTime.UtcNow.AddHours(-5),
                     FinishedAt = DateTime.UtcNow.AddHours(-4),
                     UserId = 3,
@@ -60,7 +56,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new TestSession
                 {
-                    Id = 5,
                     StartedAt = DateTime.UtcNow.AddHours(-6),
                     FinishedAt = DateTime.UtcNow.AddHours(-5),
                     UserId = 2,

@@ -19,27 +19,22 @@ public class CategorySeeder
         {
             new Category
             {
-                Id = 1,
                 Title = "Category 1"
             },
             new Category
             {
-                Id = 2,
                 Title = "Category 2"
             },
             new Category
             {
-                Id = 3,
                 Title = "Category 3"
             },
             new Category
             {
-                Id = 4,
                 Title = "Category 4"
             },
             new Category
             {
-                Id = 5,
                 Title = "Category 5"
             }
         };
