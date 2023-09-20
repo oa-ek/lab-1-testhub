@@ -20,25 +20,21 @@ namespace TestHub.Infrastructure.Seeders
             {
                 new TestCategory
                 {
-                    Id = 1,
                     TestId = 1,
                     CategoryId = 1 
                 },
                 new TestCategory
                 {
-                    Id = 2,
                     TestId = 2,  
                     CategoryId = 2 
                 },
                 new TestCategory
                 {
-                    Id = 3,
                     TestId = 3,  
                     CategoryId = 3 
                 },
                 new TestCategory
                 {
-                    Id = 4,
                     TestId = 4, 
                     CategoryId = 4  
                 },

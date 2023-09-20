@@ -22,27 +22,22 @@ namespace TestHub.Infrastructure.Seeders
             {
                 new QuestionType
                 {
-                    Id = 1,
                     Type = "Single Choice Question"
                 },
                 new QuestionType
                 {
-                    Id = 2,
                     Type = "Yes or No Question"
                 },
                 new QuestionType
                 {
-                    Id = 3,
                     Type = "Matching Question"
                 },
                 new QuestionType
                 {
-                    Id = 4,
                     Type = "Multiple Choice Question"
                 },
                 new QuestionType
                 {
-                    Id = 5,
                     Type = "Fill in the Blanks Question"
                 }
             };
