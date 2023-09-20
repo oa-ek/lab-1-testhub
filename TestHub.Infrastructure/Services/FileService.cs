@@ -1,5 +1,6 @@
 ﻿using Firebase.Auth;
 using Firebase.Storage;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace TestHub.Infrastructure.Services
@@ -16,6 +17,25 @@ namespace TestHub.Infrastructure.Services
         public FileService(ILogger<FileService> logger)
         {
             _logger = logger;
+        }
+
+        public async Task<string> UploadImage(IFormFile file)
+        {
+            if (file.Length <= 0) return string.Empty;
+
+            string uniqueFileName = GetUniqueFileName(file.FileName);
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "src", "images", uniqueFileName);
+
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                file.CopyTo(fileStream);
+            }
+
+            _logger.LogInformation($"Uploading file: {file.FileName}");
+            await Upload(new FileStream(path, FileMode.Open), uniqueFileName);
+            _logger.LogInformation($"File uploaded: {file.FileName}");
+
+            return uniqueFileName;
         }
 
         public async Task Upload(FileStream stream, string fileName)
@@ -45,7 +65,7 @@ namespace TestHub.Infrastructure.Services
                 _logger.LogError($"Exception occurred while uploading file '{fileName}': {ex.Message}");
             }
         }
-        
+
         public string GetUniqueFileName(string fileName)
         {
             fileName = Path.GetFileName(fileName);
@@ -53,6 +73,5 @@ namespace TestHub.Infrastructure.Services
                    + "_" + Guid.NewGuid().ToString().Substring(0, 6)
                    + Path.GetExtension(fileName);
         }
-
     }
 }
