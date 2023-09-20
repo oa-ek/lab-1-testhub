@@ -1,0 +1,41 @@
+﻿@model IEnumerable<TestHub.Core.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-secondary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th></th>
+              <th></th>
+    </tr>
+  
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id },  new { @class = "btn btn-light" }) 
+              </td>
+            <td>
+                <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+                    <button type="submit" class="btn  btn-light">Delete</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -40,4 +40,11 @@
     </ItemGroup>
 
 
+
+    <ItemGroup>
+        <AdditionalFiles Include="Views\Category\Create.cshtml" />
+        <AdditionalFiles Include="Views\Category\Index.cshtml" />
+        <AdditionalFiles Include="Views\Category\Edit.cshtml" />
+    </ItemGroup>
+    
 </Project>
