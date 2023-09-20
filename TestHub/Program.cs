@@ -12,6 +12,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped(typeof(GenericRepository<>));
 builder.Services.AddDbContext<TestHubDbContext>();
 builder.Services.AddScoped<FileService>();
+builder.Services.AddScoped<AnswerService>();
+
 
 builder.Services
     .AddControllers()

@@ -35,8 +35,8 @@
 
 
     <ItemGroup>
-      <AdditionalFiles Include="Views\AnswerDto\Create.cshtml" />
-      <AdditionalFiles Include="Views\AnswerDto\Index.cshtml" />
+      <AdditionalFiles Include="Views\Answer\Create.cshtml" />
+      <AdditionalFiles Include="Views\Answer\Index.cshtml" />
     </ItemGroup>
 
 
