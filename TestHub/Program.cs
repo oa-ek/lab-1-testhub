@@ -3,6 +3,7 @@ using TestHub.Infrastructure.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using TestHub.Infrastructure.Repository;
+using TestHub.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped(typeof(GenericRepository<>));
 builder.Services.AddDbContext<TestHubDbContext>();
+builder.Services.AddScoped<FileService>();
 
 builder.Services
     .AddControllers()
