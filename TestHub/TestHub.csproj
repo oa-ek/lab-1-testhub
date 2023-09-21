@@ -35,8 +35,16 @@
 
 
     <ItemGroup>
-      <AdditionalFiles Include="Views\Answer\Create.cshtml" />
-      <AdditionalFiles Include="Views\Answer\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Answer\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Answer\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Answer\Photo.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Error.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\_ViewImports.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\_ViewStart.cshtml" />
     </ItemGroup>
 
 
