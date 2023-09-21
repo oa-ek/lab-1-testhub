@@ -14,7 +14,7 @@ builder.Services.AddDbContext<TestHubDbContext>();
 builder.Services.AddScoped<FileService>();
 builder.Services.AddScoped<AnswerService>();
 builder.Services.AddScoped<CategoryService>();
-
+builder.Services.AddScoped<QuestionService>();
 
 builder.Services
     .AddControllers()
