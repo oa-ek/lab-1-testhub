@@ -2,12 +2,14 @@ using TestHub.Infrastructure.Context;
 using TestHub.Infrastructure.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-
+using TestHub.Infrastructure.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped(typeof(GenericRepository<>));
+builder.Services.AddDbContext<TestHubDbContext>();
 
 builder.Services
     .AddControllers()
