@@ -1,0 +1,44 @@
+﻿using TestHub.Core.Dtos;
+using TestHub.Core.Models;
+using TestHub.Infrastructure.Repository;
+
+namespace TestHub.Infrastructure.Services;
+
+public class QuestionService
+{
+    private readonly GenericRepository<Question> _questionRepository;
+
+    public QuestionService(GenericRepository<Question> questionRepository)
+    {
+        _questionRepository = questionRepository;
+    }
+    
+    public IEnumerable<Question> GetAll()
+    {
+        return _questionRepository.Get();
+    }
+
+    public Question GetById(int id)
+    {
+        return _questionRepository.GetByID(id);
+    }
+
+    public void Add(Question question)
+    {
+        _questionRepository.Insert(question);
+    }
+
+    public void Delete(Question questionToDelete)
+    {
+        _questionRepository.Delete(questionToDelete);
+    }
+
+    public void Update(Question questionToUpdate, QuestionDto questionChanging)
+    {
+        questionToUpdate.Title = questionChanging.Title;
+        questionToUpdate.Description = questionChanging.Description;
+        questionToUpdate.Image = questionChanging.Image;
+        
+        _questionRepository.Update(questionToUpdate);
+    }
+}
