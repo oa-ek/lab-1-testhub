@@ -73,7 +73,7 @@ public class CategoryController : Controller
         }
     }
     
-    [HttpDelete("{id:int}", Name = "Delete")]
+    [HttpDelete("{id:int}", Name = "DeleteCategory")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -82,7 +82,7 @@ public class CategoryController : Controller
         Category? categoryToDelete = _categoryService.GetAll().FirstOrDefault(c => c.Id == id);
         if (categoryToDelete == null)
             return StatusCode(StatusCodes.Status404NotFound, "There is not such category in DataBase.");
-
+    
         _categoryService.Delete(categoryToDelete);
         return StatusCode(StatusCodes.Status204NoContent);
     }
