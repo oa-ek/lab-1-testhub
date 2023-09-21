@@ -14,8 +14,7 @@ public class CategoryController : Controller
 {
     private readonly CategoryService _categoryService;
     private readonly ILogger _logger;
-
-
+    
     public CategoryController(ILogger<CategoryController> logger, CategoryService categoryService)
     {
         _logger = logger;
@@ -36,7 +35,7 @@ public class CategoryController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<Category> GetRecord(int id)
+    public ActionResult<Category> GetCategory(int id)
     {
         Category? searchCategory = _categoryService.GetAll().FirstOrDefault(r=>r.Id==id);
         if (searchCategory == null)
