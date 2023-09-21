@@ -55,7 +55,7 @@ public class QuestionController : Controller
         throw new NotImplementedException();
     }
     
-    [HttpDelete("{id:int}", Name = "Delete")]
+    [HttpDelete("{id:int}", Name = "DeleteQuestion")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -64,7 +64,7 @@ public class QuestionController : Controller
         Question? questionToDelete = _questionService.GetAll().FirstOrDefault(q => q.Id == id);
         if (questionToDelete == null)
             return StatusCode(StatusCodes.Status404NotFound, "There is not such question in DataBase.");
-
+    
         _questionService.Delete(questionToDelete);
         return StatusCode(StatusCodes.Status204NoContent);
     }

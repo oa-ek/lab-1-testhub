@@ -7,6 +7,9 @@ using TestHub.Infrastructure.Services;
 
 namespace TestHub.Controllers
 {
+    [Route("api/Answer")]
+    [Produces("application/json")]
+    [ApiController]
     public class AnswerController : Controller
     {
         private readonly ILogger<AnswerController> _logger;
@@ -43,7 +46,7 @@ namespace TestHub.Controllers
             return StatusCode(StatusCodes.Status200OK, searchAnswer);
         }
 
-        [HttpDelete("{id:int}", Name = "Delete")]
+        [HttpDelete("{id:int}", Name = "DeleteAnswer")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -52,7 +55,7 @@ namespace TestHub.Controllers
             Answer? answerToDelete = _answerService.GetAll().FirstOrDefault(c => c.Id == id);
             if (answerToDelete == null)
                 return StatusCode(StatusCodes.Status404NotFound, "There is not such answer in DataBase.");
-
+        
             _answerService.Delete(answerToDelete);
             return StatusCode(StatusCodes.Status204NoContent);
         }
