@@ -47,7 +47,7 @@ public partial class TestHubDbContext : DbContext
 
             entity.HasIndex(e => e.Image, "UQ__Answer__3294EFD547D97E91");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Image)
                 .HasMaxLength(512)
                 .IsUnicode(false);
@@ -72,7 +72,7 @@ public partial class TestHubDbContext : DbContext
 
             entity.HasIndex(e => e.Title, "UQ__Category__2CB664DC6C1971A6").IsUnique();
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();;
             entity.Property(e => e.Title)
                 .HasMaxLength(255)
                 .IsUnicode(false);
@@ -86,7 +86,7 @@ public partial class TestHubDbContext : DbContext
 
             entity.HasIndex(e => e.Image, "UQ__Question__3294EFD504A554B5");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Description)
                 .HasMaxLength(512)
                 .IsUnicode(false);
@@ -116,7 +116,7 @@ public partial class TestHubDbContext : DbContext
 
             entity.HasIndex(e => e.Type, "UQ__Question__F9B8A48B62D55D75").IsUnique();
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Type)
                 .HasMaxLength(32)
                 .IsUnicode(false);
@@ -128,7 +128,7 @@ public partial class TestHubDbContext : DbContext
 
             entity.ToTable("StatusSessionQuestion");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.IsCorrect).HasColumnName("isCorrect");
             entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
 
@@ -149,7 +149,7 @@ public partial class TestHubDbContext : DbContext
 
             entity.ToTable("Test");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
             entity.Property(e => e.Description)
                 .HasMaxLength(512)
@@ -174,7 +174,7 @@ public partial class TestHubDbContext : DbContext
 
             entity.ToTable("TestCategory");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
             entity.HasOne(d => d.Category).WithMany(p => p.TestCategories)
                 .HasForeignKey(d => d.CategoryId)
@@ -191,7 +191,7 @@ public partial class TestHubDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__TestMeta__3214EC0713326B82");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Like)
                 .HasMaxLength(1)
                 .IsFixedLength();
@@ -213,7 +213,7 @@ public partial class TestHubDbContext : DbContext
 
             entity.ToTable("TestSession");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.FinishedAt).HasColumnType("datetime");
             entity.Property(e => e.IsTraining).HasColumnName("isTraining");
             entity.Property(e => e.StartedAt).HasColumnType("datetime");
@@ -237,7 +237,7 @@ public partial class TestHubDbContext : DbContext
 
             entity.HasIndex(e => e.Name, "UQ__User__737584F633AAFF38").IsUnique();
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Comment)
                 .HasMaxLength(512)
                 .IsUnicode(false);

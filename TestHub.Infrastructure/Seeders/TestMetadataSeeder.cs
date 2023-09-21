@@ -20,7 +20,6 @@ namespace TestHub.Infrastructure.Seeders
             {
                 new TestMetadata
                 {
-                    Id = 1,
                     UserId = 1,
                     TestId = 1,
                     Like = 1,
@@ -28,7 +27,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new TestMetadata
                 {
-                    Id = 2,
                     UserId = 2,
                     TestId = 1,
                     Like = 0,
@@ -36,7 +34,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new TestMetadata
                 {
-                    Id = 3,
                     UserId = 1,
                     TestId = 2,
                     Like = 1,
@@ -44,7 +41,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new TestMetadata
                 {
-                    Id = 4,
                     UserId = 3,
                     TestId = 3,
                     Like = 1,
@@ -52,7 +48,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new TestMetadata
                 {
-                    Id = 5,
                     UserId = 2,
                     TestId = 4,
                     Like = 0,

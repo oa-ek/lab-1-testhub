@@ -20,7 +20,6 @@ namespace TestHub.Infrastructure.Seeders
             {
                 new Test
                 {
-                    Id = 1,
                     Title = "Test 1",
                     Description = "Description for Test 1",
                     Duration = 60,
@@ -32,7 +31,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new Test
                 {
-                    Id = 2,
                     Title = "Test 2",
                     Description = "Description for Test 2",
                     Duration = 45,
@@ -44,7 +42,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new Test
                 {
-                    Id = 3,
                     Title = "Test 3",
                     Description = "Description for Test 3",
                     Duration = 30,
@@ -56,7 +53,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new Test
                 {
-                    Id = 4,
                     Title = "Test 4",
                     Description = "Description for Test 4",
                     Duration = 75,
@@ -68,7 +64,6 @@ namespace TestHub.Infrastructure.Seeders
                 },
                 new Test
                 {
-                    Id = 5,
                     Title = "Test 5",
                     Description = "Description for Test 5",
                     Duration = 90,
