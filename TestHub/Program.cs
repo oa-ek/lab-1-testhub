@@ -15,6 +15,7 @@ builder.Services.AddScoped<FileService>();
 builder.Services.AddScoped<AnswerService>();
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<QuestionService>();
+builder.Services.AddScoped<TestService>();
 
 builder.Services
     .AddControllers()
