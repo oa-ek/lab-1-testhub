@@ -12,18 +12,18 @@ namespace TestHub.Controllers;
 public class QuestionController : Controller
 {
     private readonly QuestionService _questionService;
+    private readonly AnswerService _answerService;
     private readonly FileService _fileService;
     private readonly ILogger<QuestionController> _logger;
 
-    public QuestionController(QuestionService questionService, FileService fileService, ILogger<QuestionController> logger)
+    public QuestionController(QuestionService questionService, AnswerService answerService, ILogger<QuestionController> logger)
     {
         _questionService = questionService;
-        _fileService = fileService;
+        _answerService = answerService;
         _logger = logger;
 
         // Log the type being injected
         _logger.LogInformation($"Injected questionService of type: {questionService.GetType()}");
-        _logger.LogInformation($"Injected fileService of type: {fileService.GetType()}");
     }
 
     [HttpGet]
@@ -50,9 +50,34 @@ public class QuestionController : Controller
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<CategoryDto> CreateCategory(int testId, [FromBody] object? jsonObject)
+    public ActionResult<Question> CreateQuestionAnswer(int testId, [FromBody]  AnswerArrayDto data)
     {
-        throw new NotImplementedException();
+        if (data == null)
+        {
+            return StatusCode(StatusCodes.Status400BadRequest, "Invalid object identification.");
+        }
+        var question = new Question
+        {
+            TestId = testId,
+            Title = data.Title,
+            TypeId = 1
+        };
+        _questionService.Add(question);
+        var answerd = data.Answers;
+           
+        for (int i = 0; i < answerd.Count(); i++)
+        {
+            var answ = new Answer
+            {
+                QuestionId = question.Id,
+                Text = answerd[i].Text,
+                IsCorrect = true,
+                IsStrictText = true
+            };
+            _answerService.Add(answ);
+        }
+        
+        return StatusCode(StatusCodes.Status201Created, question);
     }
     
     [HttpDelete("{id:int}", Name = "Delete")]
@@ -69,36 +94,46 @@ public class QuestionController : Controller
         return StatusCode(StatusCodes.Status204NoContent);
     }
     
-    [HttpPut("{id:int}", Name = "UpdateQuestion")]
+    [HttpPut("{testId:int}", Name = "UpdateQuestionAndAnswer")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public IActionResult UpdateQuestion(int id, QuestionDto? questionDto)
+    public IActionResult UpdateQuestionAndAnswer(int testId, [FromBody]  AnswerArray data)
     {
-        if (questionDto == null)
+        if (data == null)
+        {
             return StatusCode(StatusCodes.Status400BadRequest, "Invalid object identification.");
-        
-        Question? questionToUpdate = _questionService.GetAll().FirstOrDefault(q => q.Id == id);
+        }
+
+        Question? questionToUpdate = _questionService.GetAll()
+            .FirstOrDefault(q => q.Id == data.Answers.FirstOrDefault().QuestionId);
+
         if (questionToUpdate == null)
-            return StatusCode(StatusCodes.Status404NotFound, "There is not such question in DataBase.");
-        
-        var modelValidator = new ModelValidatorService();
-        var validationResult = modelValidator.ValidateModel(questionDto);
-
-        if (validationResult.IsValid)
         {
-            _questionService.Update(questionToUpdate, questionDto);
-            return StatusCode(StatusCodes.Status201Created, questionDto);
+            return StatusCode(StatusCodes.Status500InternalServerError, "There is not such question in DataBase.");
         }
-        else
+        var questionChanging = new QuestionDto
         {
-            Debug.Assert(validationResult.Errors != null, "validationResult.Errors != null");
-            foreach (var error in validationResult.Errors)
+            Title = data.Title,
+            TypeId = 1
+        };
+        _questionService.Update(questionToUpdate, questionChanging);
+        var answerd = data.Answers;
+           
+        for (int i = 0; i < answerd.Count(); i++)
+        {
+            Answer? answerToUpdate = _answerService.GetAll()
+                .FirstOrDefault(q => q.Id == answerd[i].Id);
+            var answerChanging = new Answer
             {
-                _logger.LogError($"Errors occurred while validation model: {error.ErrorMessage}");
-            }
-
-            return StatusCode(StatusCodes.Status500InternalServerError, validationResult.Errors);
+                QuestionId = questionToUpdate.Id,
+                Text = answerd[i].Text,
+                IsCorrect = true,
+                IsStrictText = true
+            };
+            _answerService.Update(answerToUpdate, answerChanging);
         }
+        
+        return StatusCode(StatusCodes.Status201Created, questionToUpdate);    
     }
 }
