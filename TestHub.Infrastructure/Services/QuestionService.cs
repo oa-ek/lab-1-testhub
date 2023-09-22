@@ -1,4 +1,5 @@
-﻿using TestHub.Core.Dtos;
+﻿using System.Linq.Expressions;
+using TestHub.Core.Dtos;
 using TestHub.Core.Models;
 using TestHub.Infrastructure.Repository;
 
@@ -16,6 +17,12 @@ public class QuestionService
     public IEnumerable<Question> GetAll()
     {
         return _questionRepository.Get();
+    }
+
+    public IEnumerable<Question> GetAllByTest(int testId)
+    {
+        Expression<Func<Question, bool>> filter = q =>q.Test.Id== testId;
+        return _questionRepository.Get(filter, null, "Test");
     }
 
     public Question GetById(int id)

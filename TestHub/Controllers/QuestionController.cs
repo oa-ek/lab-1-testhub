@@ -26,6 +26,13 @@ public class QuestionController : Controller
         _logger.LogInformation($"Injected fileService of type: {fileService.GetType()}");
     }
 
+    [HttpGet("getByTest/{testid:int}",  Name = "GetQuestionByTest")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult<ICollection<Question>> GetAllQuestionByTest(int testId)
+    {
+        return Ok(_questionService.GetAllByTest(testId));
+    }
+    
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<ICollection<Question>> Get()
