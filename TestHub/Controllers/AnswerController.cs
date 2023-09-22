@@ -66,6 +66,34 @@ namespace TestHub.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult UpdateAnswer(int id, AnswerDto? answerDto)
         {
+        {
+            Answer? searchAnswer = _answerService.GetAll().FirstOrDefault(r => r.Id == id);
+            if (searchAnswer == null)
+                return StatusCode(StatusCodes.Status404NotFound, "There is no such answer in the database.");
+
+            return StatusCode(StatusCodes.Status200OK, searchAnswer);
+        }
+
+        [HttpDelete("{id:int}", Name = "DeleteAnswer")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult Delete(int id)
+        {
+            Answer? answerToDelete = _answerService.GetAll().FirstOrDefault(c => c.Id == id);
+            if (answerToDelete == null)
+                return StatusCode(StatusCodes.Status404NotFound, "There is not such answer in DataBase.");
+        
+            _answerService.Delete(answerToDelete);
+            return StatusCode(StatusCodes.Status204NoContent);
+        }
+
+        [HttpPut("{id:int}", Name = "UpdateAnswer")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult UpdateAnswer(int id, AnswerDto? answerDto)
+        {
             if (answerDto == null)
                 return StatusCode(StatusCodes.Status400BadRequest, "Invalid object identification.");
 

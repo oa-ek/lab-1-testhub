@@ -26,6 +26,13 @@ public class QuestionController : Controller
         _logger.LogInformation($"Injected questionService of type: {questionService.GetType()}");
     }
 
+    [HttpGet("getByTest/{testid:int}",  Name = "GetQuestionByTest")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult<ICollection<Question>> GetAllQuestionByTest(int testId)
+    {
+        return Ok(_questionService.GetAllByTest(testId));
+    }
+    
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<ICollection<Question>> Get()
@@ -80,7 +87,7 @@ public class QuestionController : Controller
         return StatusCode(StatusCodes.Status201Created, question);
     }
     
-    [HttpDelete("{id:int}", Name = "Delete")]
+    [HttpDelete("{id:int}", Name = "DeleteQuestion")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -89,7 +96,7 @@ public class QuestionController : Controller
         Question? questionToDelete = _questionService.GetAll().FirstOrDefault(q => q.Id == id);
         if (questionToDelete == null)
             return StatusCode(StatusCodes.Status404NotFound, "There is not such question in DataBase.");
-
+    
         _questionService.Delete(questionToDelete);
         return StatusCode(StatusCodes.Status204NoContent);
     }
