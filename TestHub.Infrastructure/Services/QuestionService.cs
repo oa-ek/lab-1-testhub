@@ -22,7 +22,7 @@ public class QuestionService
     public IEnumerable<Question> GetAllByTest(int testId)
     {
         Expression<Func<Question, bool>> filter = q =>q.Test.Id== testId;
-        return _questionRepository.Get(filter, null, "Test");
+        return _questionRepository.Get(filter, null, "Test,Answers");
     }
 
     public Question GetById(int id)
