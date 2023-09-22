@@ -50,4 +50,19 @@ public class AnswerService
         
         _answerRepository.Update(answerToUpdate);
     }
+
+    public void Add(Answer answ)
+    {
+        _answerRepository.Insert(answ);
+    }
+
+    public void Update(Answer answerToUpdate, Answer answerChanging)
+    {
+        answerToUpdate.QuestionId = answerChanging.QuestionId;
+        answerToUpdate.Text = answerChanging.Text;
+        answerToUpdate.IsCorrect = answerChanging.IsCorrect;
+        answerToUpdate.IsStrictText = answerChanging.IsStrictText;
+        
+        _answerRepository.Update(answerToUpdate);
+    }
 }
