@@ -16,18 +16,19 @@ builder.Services.AddScoped<AnswerService>();
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<QuestionService>();
 builder.Services.AddScoped<TestService>();
-
+builder.Services.AddScoped<DataSeederService>();
+builder.Services.AddScoped<DataSeederService.DataSeeder>();
 builder.Services
     .AddControllers()
     .AddNewtonsoftJson(options =>
     {
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
     });
+
 builder.Services.AddDbContext<TestHubDbContext>(options =>
 {
     options.UseSqlServer("Server=.;Database=TestHubDb;Trusted_Connection=true;TrustServerCertificate=true;");
 });
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -61,38 +62,19 @@ app.UseRouting();
 app.UseAuthorization();
 
 
+
+//Will create the database if it does not already exist
 using (var context = new TestHubDbContext())
 {
-    // Створення сідера і виклик методу Seed()
-    var userSeeder = new UserSeeder(context);
-    userSeeder.Seed();
-    
-    var testSeeder = new TestSeeder(context);
-    testSeeder.Seed();
-    
-    var categorySeeder = new CategorySeeder(context);
-    categorySeeder.Seed();
-    
-    var testCategorySeeder = new TestCategorySeeder(context);
-    testCategorySeeder.Seed();
-    
-    var questionTypeSeeder = new QuestionTypeSeeder(context);
-    questionTypeSeeder.Seed();
-    
-    var questionSeeder = new QuestionSeeder(context);
-    questionSeeder.Seed();
-    
-    var answerSeeder = new AnswerSeeder(context);
-    answerSeeder.Seed();
+    context.Database.Migrate(); 
+}
 
-    var testMetadataSeeder = new TestMetadataSeeder(context);
-    testMetadataSeeder.Seed();
-    
-    var testSessionSeeder = new TestSessionSeeder(context);
-    testSessionSeeder.Seed();
-
-    var statusSessionQuestionSeeder = new StatusSessionQuestionSeeder(context);
-    statusSessionQuestionSeeder.Seed();
+// Call DataSeeder to initialize the data
+using (var scope = app.Services.CreateScope())
+{
+    var serviceProvider = scope.ServiceProvider;
+    var dataSeeder = serviceProvider.GetRequiredService<DataSeederService.DataSeeder>();
+    dataSeeder.SeedData();
 }
 
 app.MapControllerRoute(
