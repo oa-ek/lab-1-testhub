@@ -18,6 +18,19 @@ builder.Services.AddScoped<QuestionService>();
 builder.Services.AddScoped<TestService>();
 builder.Services.AddScoped<DataSeederService>();
 builder.Services.AddScoped<DataSeederService.DataSeeder>();
+builder.Services.AddScoped<FirebaseService>();
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowMyOrigin", p =>
+    {
+        p.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 builder.Services
     .AddControllers()
     .AddNewtonsoftJson(options =>
@@ -58,7 +71,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseCors("AllowMyOrigin");
 app.UseAuthorization();
 
 
