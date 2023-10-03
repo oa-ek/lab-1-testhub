@@ -66,4 +66,9 @@ public class UserService
         
         return _httpContextAccessor.HttpContext.User?.Identity?.Name;
     }
+
+    public void Update(User userToUpdate)
+    {
+        _userRepository.Update(userToUpdate);
+    }
 }

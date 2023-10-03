@@ -20,15 +20,17 @@ public class AuthController : Controller
     private readonly IConfiguration _configuration;
     private readonly UserService _userService;
     private readonly PasswordService _passwordService;
+    private readonly AuthService _authService;
     private readonly ILogger<AuthController> _logger;
 
     public AuthController(IConfiguration configuration, UserService userService, 
-        ILogger<AuthController> logger, PasswordService passwordService)
+        ILogger<AuthController> logger, PasswordService passwordService, AuthService authService)
     {
         _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _passwordService = passwordService ?? throw new ArgumentNullException(nameof(passwordService));
+        _authService = authService;
     }
 
     [HttpPost("register")]
@@ -84,7 +86,9 @@ public class AuthController : Controller
             if (!BCrypt.Net.BCrypt.Verify(userDto.Password, currentUser.Password))
                 return BadRequest("Wrong password.");
             
-            string token = CreateToken(currentUser);
+            var token = CreateToken(currentUser);
+            var refreshToken = _authService.GenerateRefreshToken();
+            _authService.SetRefreshToken(currentUser, refreshToken, Response);
             
             return StatusCode(StatusCodes.Status201Created, token);
         }
@@ -106,6 +110,24 @@ public class AuthController : Controller
         return StatusCode(StatusCodes.Status200OK, _userService.GetName());
     }
 
+    [HttpPost("refresh-token"), Authorize]
+    public async Task<ActionResult<string>> RefreshToken()
+    {
+        var currentUser = _userService.GetAll().FirstOrDefault(u => u.Name == _userService.GetName());
+        var refreshToken = Request.Cookies["refreshToken"];
+
+        if (currentUser == null || !currentUser.RefreshToken.Equals(refreshToken))
+            return StatusCode(StatusCodes.Status401Unauthorized, "Invalid refresh token.");
+        else if ( currentUser.TokenExpires < DateTime.Now)
+            return StatusCode(StatusCodes.Status401Unauthorized, "Token expired.");
+
+        string token = CreateToken(currentUser);
+        var newRefreshToken = _authService.GenerateRefreshToken();
+        _authService.SetRefreshToken(currentUser, newRefreshToken, Response);
+        
+        return StatusCode(StatusCodes.Status200OK, token);
+    }
+
     private string CreateToken(User user)
     {
         List<Claim> claims = new List<Claim>
@@ -122,7 +144,7 @@ public class AuthController : Controller
 
         var token = new JwtSecurityToken(
             claims: claims,
-            expires: DateTime.Now.AddDays(1),
+            expires: DateTime.Now.AddHours(1),
             signingCredentials: creds
         );
 
