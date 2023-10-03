@@ -255,7 +255,7 @@ public partial class TestHubDbContext : DbContext
             entity.Property(e => e.Role)
                 .HasMaxLength(255)
                 .IsUnicode(false);
-            entity.Property(e => e.UpdateAd).HasColumnType("datetime");
+            entity.Property(e => e.UpdateAt).HasColumnType("datetime");
         });
 
         OnModelCreatingPartial(modelBuilder);

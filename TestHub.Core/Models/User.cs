@@ -14,11 +14,11 @@ public class User
 
     public DateTime CreateAt { get; set; }
 
-    public DateTime UpdateAd { get; set; }
+    public DateTime? UpdateAt { get; set; }
 
-    public DateTime DeleteAt { get; set; }
+    public DateTime? DeleteAt { get; set; }
 
-    public string Comment { get; set; } = null!;
+    public string? Comment { get; set; } = null!;
 
     public virtual ICollection<TestMetadata> TestMetadata { get; set; } = new List<TestMetadata>();
 
