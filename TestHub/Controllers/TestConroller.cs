@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TestHub.Core.Dtos;
 using TestHub.Infrastructure.Repository;
@@ -10,6 +11,7 @@ namespace TestHub.Controllers;
 [Route("api/Test")]
 [Produces("application/json")]
 [ApiController]
+[Authorize]
 public class TestController : Controller
 {
     private readonly TestService _testService;

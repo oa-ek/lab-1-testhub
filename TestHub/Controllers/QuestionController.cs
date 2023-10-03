@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TestHub.Core.Dtos;
 using TestHub.Core.Models;
@@ -9,6 +10,7 @@ namespace TestHub.Controllers;
 [Route("api/Question")]
 [Produces("application/json")]
 [ApiController]
+[Authorize]
 public class QuestionController : Controller
 {
     private readonly QuestionService _questionService;

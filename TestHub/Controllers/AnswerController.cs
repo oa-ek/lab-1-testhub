@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TestHub.Core.Dtos;
 using TestHub.Core.Models;
@@ -10,6 +11,7 @@ namespace TestHub.Controllers
     [Route("api/Answer")]
     [Produces("application/json")]
     [ApiController]
+    [Authorize]
     public class AnswerController : Controller
     {
         private readonly ILogger<AnswerController> _logger;
@@ -38,34 +40,6 @@ namespace TestHub.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<Category> GetAnswer(int id)
-        {
-            Answer? searchAnswer = _answerService.GetAll().FirstOrDefault(r => r.Id == id);
-            if (searchAnswer == null)
-                return StatusCode(StatusCodes.Status404NotFound, "There is no such answer in the database.");
-
-            return StatusCode(StatusCodes.Status200OK, searchAnswer);
-        }
-
-        [HttpDelete("{id:int}", Name = "DeleteAnswer")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Delete(int id)
-        {
-            Answer? answerToDelete = _answerService.GetAll().FirstOrDefault(c => c.Id == id);
-            if (answerToDelete == null)
-                return StatusCode(StatusCodes.Status404NotFound, "There is not such answer in DataBase.");
-
-            _answerService.Delete(answerToDelete);
-            return StatusCode(StatusCodes.Status204NoContent);
-        }
-
-        [HttpPut("{id:int}", Name = "UpdateAnswer")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult UpdateAnswer(int id, AnswerDto? answerDto)
-        {
         {
             Answer? searchAnswer = _answerService.GetAll().FirstOrDefault(r => r.Id == id);
             if (searchAnswer == null)

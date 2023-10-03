@@ -25,7 +25,7 @@ namespace TestHub.Infrastructure.Seeders
                     Name = "User 1",
                     Role = "User",
                     CreateAt = DateTime.Now,
-                    UpdateAd = DateTime.Now,
+                    UpdateAt = DateTime.Now,
                     DeleteAt = DateTime.Now,
                     Comment = "This is User 1"
                 },
@@ -36,7 +36,7 @@ namespace TestHub.Infrastructure.Seeders
                     Name = "User 2",
                     Role = "User",
                     CreateAt = DateTime.Now,
-                    UpdateAd = DateTime.Now,
+                    UpdateAt = DateTime.Now,
                     DeleteAt = DateTime.Now,
                     Comment = "This is User 2"
                 },
@@ -47,7 +47,7 @@ namespace TestHub.Infrastructure.Seeders
                     Name = "User 3",
                     Role = "User",
                     CreateAt = DateTime.Now,
-                    UpdateAd = DateTime.Now,
+                    UpdateAt = DateTime.Now,
                     DeleteAt = DateTime.Now,
                     Comment = "This is User 3"
                 },
@@ -58,7 +58,7 @@ namespace TestHub.Infrastructure.Seeders
                     Name = "User 4",
                     Role = "User",
                     CreateAt = DateTime.Now,
-                    UpdateAd = DateTime.Now,
+                    UpdateAt = DateTime.Now,
                     DeleteAt = DateTime.Now,
                     Comment = "This is User 4"
                 },
@@ -69,7 +69,7 @@ namespace TestHub.Infrastructure.Seeders
                     Name = "User 5",
                     Role = "User",
                     CreateAt = DateTime.Now,
-                    UpdateAd = DateTime.Now,
+                    UpdateAt = DateTime.Now,
                     DeleteAt = DateTime.Now,
                     Comment = "This is User 5"
                 }
