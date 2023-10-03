@@ -23,7 +23,7 @@ builder.Services.AddScoped<DataSeederService>();
 builder.Services.AddScoped<DataSeederService.DataSeeder>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<PasswordService>();
-
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors(options =>
 {

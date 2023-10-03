@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using TestHub.Core.Dtos;
@@ -16,7 +17,6 @@ namespace TestHub.Controllers;
 [ApiController]
 public class AuthController : Controller
 {
-    public static User CurrentUser = new User();
     private readonly IConfiguration _configuration;
     private readonly UserService _userService;
     private readonly PasswordService _passwordService;
@@ -47,8 +47,8 @@ public class AuthController : Controller
         if (validationResult.IsValid)
         {
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
-            CurrentUser = _userService.GetUser(userDto, passwordHash);
-            _userService.Add(CurrentUser);
+            var currentUser = _userService.GetUser(userDto, passwordHash);
+            _userService.Add(currentUser);
             return StatusCode(StatusCodes.Status201Created, userDto);
         }
         else
@@ -98,6 +98,12 @@ public class AuthController : Controller
 
             return StatusCode(StatusCodes.Status500InternalServerError, validationResult.Errors);
         }
+    }
+    
+    [HttpGet, Authorize]
+    public ActionResult<string> GetAuthorizedUserName()
+    {
+        return StatusCode(StatusCodes.Status200OK, _userService.GetName());
     }
 
     private string CreateToken(User user)
