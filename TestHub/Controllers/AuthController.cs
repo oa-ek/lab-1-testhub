@@ -66,31 +66,32 @@ public class AuthController : Controller
     }
 
     [HttpPost("login")]
-    public ActionResult<User> Login(UserDto? userDto)
+    public ActionResult<User> Login(LoginDTO? userDto)
     {
         if (userDto == null)
             return StatusCode(StatusCodes.Status400BadRequest, "Invalid object identification.");
 
-        User? currentUser = _userService.GetAll().FirstOrDefault(u => u.Email == userDto.Email);
-        if (currentUser == null)
+        User? user = _userService.GetAll().FirstOrDefault(u => u.Email == userDto.Email);
+        if (user == null)
             return StatusCode(StatusCodes.Status404NotFound, "There is not such user in DataBase.");
 
         var modelValidator = new ModelValidatorService();
-        var validationResult = modelValidator.ValidateModel(currentUser);
+        var validationResult = modelValidator.ValidateModel(user);
 
         if (validationResult.IsValid)
         {
-            if (currentUser.Name != userDto.Name)
-                return BadRequest("Wrong username.");
+            // if (currentUser.Email != userDto.Email)
+            //     return BadRequest("Wrong email.");
 
-            if (!BCrypt.Net.BCrypt.Verify(userDto.Password, currentUser.Password))
+            if (!BCrypt.Net.BCrypt.Verify(userDto.Password, user.Password))
                 return BadRequest("Wrong password.");
             
-            var token = CreateToken(currentUser);
+            var token = CreateToken(user);
             var refreshToken = _authService.GenerateRefreshToken();
-            _authService.SetRefreshToken(currentUser, refreshToken, Response);
+            _authService.SetRefreshToken(user, refreshToken, Response);
+            var responseToken = new { token , user};
             
-            return StatusCode(StatusCodes.Status201Created, token);
+            return StatusCode(StatusCodes.Status201Created, responseToken);
         }
         else
         {
