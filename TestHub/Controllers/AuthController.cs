@@ -133,9 +133,9 @@ public class AuthController : Controller
     {
         List<Claim> claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, user.Name),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.Role)
+            new Claim("Name", user.Name),
+            new Claim("Email", user.Email),
+            new Claim("Role", user.Role)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
