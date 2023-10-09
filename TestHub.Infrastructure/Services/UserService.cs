@@ -1,4 +1,5 @@
-﻿using TestHub.Core.Models;
+﻿using Microsoft.AspNetCore.Http;
+using TestHub.Core.Models;
 using TestHub.Core.Dtos;
 using TestHub.Infrastructure.Repository;
 
@@ -6,11 +7,13 @@ namespace TestHub.Infrastructure.Services;
 
 public class UserService
 {
+    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly GenericRepository<User> _userRepository;
 
-    public UserService(GenericRepository<User> userRepository)
+    public UserService(GenericRepository<User> userRepository, IHttpContextAccessor httpContextAccessor)
     {
         _userRepository = userRepository;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public User GetUser(UserDto userDto, string passwordHash, string role = "User")
@@ -53,6 +56,19 @@ public class UserService
         userToUpdate.Password = userChanging.Password;
         userToUpdate.UpdateAt = DateTime.Now;
         
+        _userRepository.Update(userToUpdate);
+    }
+
+    public string? GetName()
+    {
+        if (_httpContextAccessor.HttpContext == null)
+            return string.Empty;
+        
+        return _httpContextAccessor.HttpContext.User?.Identity?.Name;
+    }
+
+    public void Update(User userToUpdate)
+    {
         _userRepository.Update(userToUpdate);
     }
 }
