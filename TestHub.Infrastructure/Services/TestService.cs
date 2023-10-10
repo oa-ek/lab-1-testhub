@@ -8,10 +8,16 @@ public class TestService
 {
 
     private readonly GenericRepository<Test> _testRepository;
+    private readonly GenericRepository<TestCategory> _testCategoryRepository;
+    private readonly CategoryService _categoryService;
 
-    public TestService(GenericRepository<Test> testRepository)
+    public TestService(GenericRepository<Test> testRepository, 
+        GenericRepository<TestCategory> testCategoryRepository, 
+        CategoryService categoryService)
     {
         _testRepository = testRepository;
+        _testCategoryRepository = testCategoryRepository;
+        _categoryService = categoryService;
     }
 
     public IEnumerable<Test> GetAll()
@@ -28,7 +34,19 @@ public class TestService
     {
         _testRepository.Insert(test);
     }
-
+    
+    public void SetCategories(Test test, string[] categories)
+    {
+        foreach (var category in categories)
+        {
+            var testCategory = new TestCategory
+            {
+                Test = test,
+                Category = _categoryService.GetById(int.Parse(category))
+            };
+            _testCategoryRepository.Insert(testCategory);
+        }
+    }
     public void Delete(Test testDtoToDelete)
     {
         _testRepository.Delete(testDtoToDelete);

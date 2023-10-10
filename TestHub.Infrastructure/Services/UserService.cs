@@ -26,6 +26,11 @@ public class UserService
             Role = role
         };
     }
+
+    public User? GerRegistrationUser()
+    {
+        return GetAll().FirstOrDefault(u => u.Name == GetName());
+    }
     
     public IEnumerable<User> GetAll()
     {
@@ -64,7 +69,7 @@ public class UserService
         if (_httpContextAccessor.HttpContext == null)
             return string.Empty;
         
-        return _httpContextAccessor.HttpContext.User?.Identity?.Name;
+        return _httpContextAccessor.HttpContext.User?.Claims.FirstOrDefault().Value;
     }
 
     public void Update(User userToUpdate)
