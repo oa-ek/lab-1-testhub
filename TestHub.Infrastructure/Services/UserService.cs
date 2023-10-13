@@ -43,6 +43,21 @@ public class UserService
         _userRepository.Insert(user);
     }
 
+    public void AddResetPasswodToken(User user, string token, DateTime expiresResetToken)
+    {
+        user.PasswordResetToken = token;
+        user.ResetTokenExpires= expiresResetToken;
+        _userRepository.Update(user);
+    }
+    
+    
+    public void AddResetPasswod(User user, string password)
+    {
+        user.Password = password;
+        user.PasswordResetToken = null;
+        user.ResetTokenExpires= null;
+        _userRepository.Update(user);
+    }
     public void Delete(User userToDelete)
     {
         userToDelete.DeleteAt = DateTime.Now;
