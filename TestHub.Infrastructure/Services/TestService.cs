@@ -55,6 +55,33 @@ public class TestService
     public void Update(Test testToUpdate, TestDto testChanging)
     {
         testToUpdate.Title = testChanging.Title;
+        testToUpdate.Description = testChanging.Description;
+        testToUpdate.Duration = testChanging.Duration;
+        testToUpdate.IsPublic = testChanging.IsPublic;
+        testToUpdate.UpdatedAt = DateTime.Now;
+        
         _testRepository.Update(testToUpdate);
     }
+
+    public void UpdateCategories(Test testToUpdate, string[] testDtoCategories)
+    {
+        var categories = _categoryService.GetAll();
+        var existingCategories = _testCategoryRepository.Get()
+            .Where(tc => tc.TestId == testToUpdate.Id)
+            .ToList();
+        
+        foreach (var existingCategory in existingCategories)
+            _testCategoryRepository.Delete(existingCategory);
+        
+        foreach (var category in testDtoCategories)
+        {
+            var testCategory = new TestCategory
+            {
+                TestId = testToUpdate.Id,
+                Category= categories.FirstOrDefault(c=>c.Title==category)
+            };
+            _testCategoryRepository.Insert(testCategory);
+        }
+    }
+
 }
