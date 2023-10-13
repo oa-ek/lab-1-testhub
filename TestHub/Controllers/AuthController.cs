@@ -1,15 +1,21 @@
 ﻿using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using TestHub.Core.Dtos;
+using TestHub.Core.Dtos.AuthDTO;
 using TestHub.Core.Models;
+using TestHub.Infrastructure.Repository;
 using TestHub.Infrastructure.Services;
 using TestHub.Infrastructure.Services.Password;
-
+using SmtpClient = MailKit.Net.Smtp.SmtpClient;
+using MailKit.Security;
+using MimeKit;
+using MimeKit.Text;
 namespace TestHub.Controllers;
 
 [Route("api/Auth")]
@@ -153,4 +159,76 @@ public class AuthController : Controller
 
         return jwt;
     }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            User? user = _userService.GetAll().FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                return BadRequest("User not found.");
+            }
+            
+            string passwordResetToken = CreateRandomToken();
+            DateTime resetTokenExpires = DateTime.Now.AddDays(1);
+            _userService.AddResetPasswodToken(user, passwordResetToken, resetTokenExpires);
+            
+            
+               string fromEmail = _configuration["Smtp:FromEmail"];
+               string username = _configuration["Smtp:Username"];
+               string password = _configuration["Smtp:Password"];
+               string emailUser = user.Email;
+        
+                var mimeServer = new MimeMessage();
+                // email.From.Add(MailboxAddress.Parse(fromEmail));
+                mimeServer.From.Add(new MailboxAddress("TestHub", fromEmail));
+                mimeServer.To.Add(MailboxAddress.Parse(emailUser));
+                
+                mimeServer.Subject = "Reset TestHub password";
+                mimeServer.Body = new TextPart(TextFormat.Html) { Text = $"Для скидання пароля на сайті TestHub перейдіть за наступним посиланням: <br />" +
+                                                                         $"http://localhost:3000/reset/{user.Email}/{passwordResetToken}" +
+                                                                         $"<br />Дякуємо за використання нашої платформи!" };
+        
+
+                using var smtp = new SmtpClient();
+                await smtp.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+                await smtp.AuthenticateAsync(username, password);
+                await smtp.SendAsync(mimeServer);
+                await smtp.DisconnectAsync(true);
+
+            return StatusCode(StatusCodes.Status200OK, "Send url on email");
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto request)
+        {
+            User? user = _userService.GetAll().FirstOrDefault(u => u.Email == request.Email&&u.PasswordResetToken == request.Token);
+            if (user == null || user.ResetTokenExpires < DateTime.Now)
+            {
+                return BadRequest("Invalid Token.");
+            }
+        
+            
+            var validationPwdResult = _passwordService.ValidatePassword(request.Password);
+            if (!validationPwdResult.IsValid)
+                return StatusCode(StatusCodes.Status400BadRequest, validationPwdResult.ErrorMessage);
+
+
+            if (request.Password != request.ConfirmPassword)
+            {
+                return BadRequest("Passwords not equal.");
+            }
+            
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+            _userService.AddResetPasswod(user, passwordHash);
+        
+        
+            return Ok("Password successfully reset.");
+        }
+      
+
+        private string CreateRandomToken()
+        {
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        }
 }
