@@ -125,6 +125,7 @@ public class TestController : Controller
         if (validationResult.IsValid)
         {
             _testService.Update(testToUpdate, testDto);
+            _testService.UpdateCategories(testToUpdate, testDto.Categories);
             return StatusCode(StatusCodes.Status201Created, testDto);
         }
         else
