@@ -83,5 +83,17 @@ public class TestService
             _testCategoryRepository.Insert(testCategory);
         }
     }
+    
+    public Category[] GetCategoriesByTestId(int testId)
+    {
+        var testCategories = _testCategoryRepository.Get().Where(tc => tc.TestId == testId);
+        var categories = testCategories.Select(tc => new Category
+        {
+            Id = tc.CategoryId,
+            Title = _categoryService.GetById(tc.CategoryId).Title
+        }).ToArray();
+
+        return categories;
+    }
 
 }

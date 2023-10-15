@@ -2,7 +2,6 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TestHub.Core.Dtos;
-using TestHub.Infrastructure.Repository;
 using TestHub.Core.Models;
 using TestHub.Infrastructure.Services;
 
