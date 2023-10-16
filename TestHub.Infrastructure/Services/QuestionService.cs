@@ -8,10 +8,13 @@ namespace TestHub.Infrastructure.Services;
 public class QuestionService
 {
     private readonly GenericRepository<Question> _questionRepository;
+    private readonly GenericRepository<QuestionType> _questionTypeRepository;
 
-    public QuestionService(GenericRepository<Question> questionRepository)
+    public QuestionService(GenericRepository<Question> questionRepository, 
+        GenericRepository<QuestionType> questionTypeRepository)
     {
         _questionRepository = questionRepository;
+        _questionTypeRepository = questionTypeRepository;
     }
     
     public IEnumerable<Question> GetAll()
@@ -47,5 +50,10 @@ public class QuestionService
         questionToUpdate.Image = questionChanging.Image;
         
         _questionRepository.Update(questionToUpdate);
+    }
+
+    public IEnumerable<QuestionType> GetQuestionTypes()
+    {
+        return _questionTypeRepository.Get();
     }
 }

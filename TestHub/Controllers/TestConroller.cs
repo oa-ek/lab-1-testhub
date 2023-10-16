@@ -2,7 +2,6 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TestHub.Core.Dtos;
-using TestHub.Infrastructure.Repository;
 using TestHub.Core.Models;
 using TestHub.Infrastructure.Services;
 
@@ -15,15 +14,18 @@ namespace TestHub.Controllers;
 public class TestController : Controller
 {
     private readonly TestService _testService;
+    private readonly UserService _userService;
     private readonly ILogger _logger;
     
-    public TestController(ILogger<TestController> logger, TestService testService)
+    public TestController(ILogger<TestController> logger, TestService testService, UserService userService)
     {
         _logger = logger;
         _testService = testService;
+        _userService = userService;
 
         // Log the type being injected
         _logger.LogInformation($"Injected testService of type: {testService.GetType()}");
+        _logger.LogInformation($"Injected userService of type: {userService.GetType()}");
     }
 
     [HttpGet]
@@ -52,6 +54,7 @@ public class TestController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<TestDto> CreateTest([FromBody] TestDto? testDto)
     {
+        int ownerId = _userService.GerRegistrationUser()!.Id;
         if (testDto == null)
             return StatusCode(StatusCodes.Status400BadRequest, testDto);
 
@@ -63,14 +66,16 @@ public class TestController : Controller
             var createdTest = new Test
             {
                 Title = testDto.Title,
-                Duration = 30,
-                IsPublic = true,
-                OwnerId = 1,
-                Status = "string",
+                Description = testDto.Description,
+                Duration = testDto.Duration,
+                IsPublic = testDto.IsPublic,
+                OwnerId = ownerId,
+                Status = testDto.Status,
                 CreatedAt = DateTime.Now
             };
             
             _testService.Add(createdTest);
+            _testService.SetCategories(createdTest, testDto.Categories);
 
         return StatusCode(StatusCodes.Status201Created, createdTest);
         }
@@ -119,6 +124,7 @@ public class TestController : Controller
         if (validationResult.IsValid)
         {
             _testService.Update(testToUpdate, testDto);
+            _testService.UpdateCategories(testToUpdate, testDto.Categories);
             return StatusCode(StatusCodes.Status201Created, testDto);
         }
         else
