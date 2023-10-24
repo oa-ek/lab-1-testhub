@@ -1,9 +1,9 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TestHub.Core.Dtos;
 using TestHub.Core.Models;
 using TestHub.Infrastructure.Services;
+using InvalidOperationException = System.InvalidOperationException;
 
 namespace TestHub.Controllers;
 
@@ -16,16 +16,15 @@ public class QuestionController : Controller
     private readonly QuestionService _questionService;
     private readonly AnswerService _answerService;
     private readonly FileService _fileService;
-    private readonly ILogger<QuestionController> _logger;
 
-    public QuestionController(QuestionService questionService, AnswerService answerService, ILogger<QuestionController> logger)
+    public QuestionController(QuestionService questionService, AnswerService answerService, ILogger<QuestionController> logger, FileService fileService)
     {
         _questionService = questionService;
         _answerService = answerService;
-        _logger = logger;
+        _fileService = fileService;
 
         // Log the type being injected
-        _logger.LogInformation($"Injected questionService of type: {questionService.GetType()}");
+        logger.LogInformation($"Injected questionService of type: {questionService.GetType()}");
     }
 
     [HttpGet("getByTest/{testid:int}",  Name = "GetQuestionByTest")]
@@ -59,34 +58,45 @@ public class QuestionController : Controller
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<Question> CreateQuestionAnswer(int testId, [FromBody]  AnswerArrayDto data)
+    public async Task<ActionResult<Question>> CreateQuestionAnswer(int testId, [FromBody] QuestionDto[]? questionDtos)
     {
-        if (data == null)
-        {
+        if (questionDtos == null)
             return StatusCode(StatusCodes.Status400BadRequest, "Invalid object identification.");
-        }
-        var question = new Question
+    
+        var modelValidator = new ModelValidatorService();
+        var types = _questionService.GetQuestionTypes();
+        foreach (var questionDto in questionDtos)
         {
-            TestId = testId,
-            Title = data.Title,
-            TypeId = 1
-        };
-        _questionService.Add(question);
-        var answerd = data.Answers;
-           
-        for (int i = 0; i < answerd.Count(); i++)
-        {
-            var answ = new Answer
+            var validationResult = modelValidator.ValidateModel(questionDto);
+            var type = types.FirstOrDefault(t => t.Type.Equals(questionDto.Type)) ??
+                       throw new InvalidOperationException("There is not such question's type in Database.");
+            if (validationResult.IsValid)
             {
-                QuestionId = question.Id,
-                Text = answerd[i].Text,
-                IsCorrect = true,
-                IsStrictText = true
-            };
-            _answerService.Add(answ);
+                var question = new Question
+                {
+                    TestId = testId,
+                    Title = questionDto.Title,
+                    Description = questionDto.Description,
+                    Image = questionDto.q_image == null ? null :  await _fileService.UploadImage(questionDto.q_image), 
+                    Type = type
+                };
+                _questionService.Add(question);
+                foreach (var answerDto in questionDto.Answers)
+                {
+                    var answer = new Answer
+                    {
+                        QuestionId = question.Id,
+                        Text = answerDto.Text,
+                        IsCorrect = answerDto.IsCorrect,
+                        IsStrictText = answerDto.IsStrictText,
+                        Image = answerDto.a_image == null ? null : await _fileService.UploadImage(answerDto.a_image)
+                    };
+                    _answerService.Add(answer);
+                }
+            }
         }
-        
-        return StatusCode(StatusCodes.Status201Created, question);
+   
+        return StatusCode(StatusCodes.Status201Created, questionDtos);
     }
     
     [HttpDelete("{id:int}", Name = "DeleteQuestion")]
@@ -109,7 +119,7 @@ public class QuestionController : Controller
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public IActionResult UpdateQuestionAndAnswer(int testId, [FromBody]  AnswerArray data)
     {
-        if (data == null)
+        /*if (data == null)
         {
             return StatusCode(StatusCodes.Status400BadRequest, "Invalid object identification.");
         }
@@ -124,7 +134,7 @@ public class QuestionController : Controller
         var questionChanging = new QuestionDto
         {
             Title = data.Title,
-            TypeId = 1
+            Type = ""
         };
         _questionService.Update(questionToUpdate, questionChanging);
         var answerd = data.Answers;
@@ -142,7 +152,7 @@ public class QuestionController : Controller
             };
             _answerService.Update(answerToUpdate, answerChanging);
         }
-        
-        return StatusCode(StatusCodes.Status201Created, questionToUpdate);    
+        */
+        return StatusCode(StatusCodes.Status201Created);    
     }
 }

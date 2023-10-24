@@ -15,14 +15,14 @@ public class AnswerService
 
     public Answer GetAswer(AnswerDto answerDto, int questionId)
     {
-        return new Answer
-        {
+        return new Answer();
+        /*{
             Text = answerDto.Text,
             Image = answerDto.Image,
             IsCorrect = answerDto.IsCorrect,
             IsStrictText = answerDto.IsStrictText,
             QuestionId = questionId
-        };
+        };*/
     }
     
     public IEnumerable<Answer> GetAll()
@@ -41,15 +41,15 @@ public class AnswerService
         _answerRepository.Delete(answerToDelete);
     }
 
-    public void Update(Answer answerToUpdate, AnswerDto answerChanging)
+    /*public void Update(Answer answerToUpdate, AnswerDto answerChanging)
     {
         answerToUpdate.Text = answerChanging.Text;
-        answerToUpdate.Image = answerChanging.Image;
+        //answerToUpdate.Image = answerChanging.Image;
         answerToUpdate.IsCorrect = answerChanging.IsCorrect;
         answerToUpdate.IsStrictText = answerChanging.IsStrictText;
         
         _answerRepository.Update(answerToUpdate);
-    }
+    }*/
 
     public void Add(Answer answ)
     {

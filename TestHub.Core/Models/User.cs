@@ -20,9 +20,9 @@ public class User
 
     public string? Comment { get; set; }
 
-    public string RefreshToken { get; set; } = string.Empty;
-    public DateTime TokenCreated { get; set; }
-    public DateTime TokenExpires { get; set; }
+    public string? RefreshToken { get; set; } = string.Empty;
+    public DateTime? TokenCreated { get; set; }
+    public DateTime? TokenExpires { get; set; }
 
     public virtual ICollection<TestMetadata> TestMetadata { get; set; } = new List<TestMetadata>();
 

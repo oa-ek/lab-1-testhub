@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace TestHub.Core.Dtos;
 
 public class AnswerDto
 {
-    [Required] [MaxLength(512)] public string Text { get; set; } = null!;
+    public string Text { get; set; } = null!;
     
-    public string? Image { get; set; }
+    public FileDto? a_image { get; set; }
     
-    [Required] public bool IsCorrect { get; set; }
+    public bool IsCorrect { get; set; }
 
-    [Required] public bool IsStrictText { get; set; }
+    public bool IsStrictText { get; set; }
 }

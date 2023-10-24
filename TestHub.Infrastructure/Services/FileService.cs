@@ -1,7 +1,7 @@
 ﻿using Firebase.Auth;
 using Firebase.Storage;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using TestHub.Core.Dtos;
 
 namespace TestHub.Infrastructure.Services
 {
@@ -19,16 +19,16 @@ namespace TestHub.Infrastructure.Services
             _logger = logger;
         }
 
-        public async Task<string> UploadImage(IFormFile file)
+        public async Task<string> UploadImage(FileDto file)
         {
-            if (file.Length <= 0) return string.Empty;
+            if (file.Data.Length == 0) return string.Empty;
 
             string uniqueFileName = GetUniqueFileName(file.FileName);
             string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "src", "images", uniqueFileName);
-
+            
             using (var fileStream = new FileStream(path, FileMode.Create))
             {
-                file.CopyTo(fileStream);
+                await fileStream.WriteAsync(file.Data, 0, file.Data.Length);
             }
 
             _logger.LogInformation($"Uploading file: {file.FileName}");

@@ -43,14 +43,14 @@ public class QuestionService
         _questionRepository.Delete(questionToDelete);
     }
 
-    public void Update(Question questionToUpdate, QuestionDto questionChanging)
+    /*public void Update(Question questionToUpdate, QuestionDto questionChanging)
     {
         questionToUpdate.Title = questionChanging.Title;
         questionToUpdate.Description = questionChanging.Description;
-        questionToUpdate.Image = questionChanging.Image;
+        //questionToUpdate.Image = questionChanging.Image;
         
         _questionRepository.Update(questionToUpdate);
-    }
+    }*/
 
     public IEnumerable<QuestionType> GetQuestionTypes()
     {
