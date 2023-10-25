@@ -25,21 +25,22 @@ namespace TestHub.Infrastructure.Services
 
             string uniqueFileName = GetUniqueFileName(file.FileName);
             string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "src", "images", uniqueFileName);
-            
-            using (var fileStream = new FileStream(path, FileMode.Create))
+
+            await using (var fileStream = new FileStream(path, FileMode.Create))
             {
                 await fileStream.WriteAsync(file.Data, 0, file.Data.Length);
             }
 
             _logger.LogInformation($"Uploading file: {file.FileName}");
-            await Upload(new FileStream(path, FileMode.Open), uniqueFileName);
+             string link = await Upload(new FileStream(path, FileMode.Open), uniqueFileName);
             _logger.LogInformation($"File uploaded: {file.FileName}");
 
-            return uniqueFileName;
+            return link;
         }
 
-        public async Task Upload(FileStream stream, string fileName)
+        private async Task<string> Upload(FileStream stream, string fileName)
         {
+            string link = string.Empty;
             var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
             var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPwd);
 
@@ -57,16 +58,18 @@ namespace TestHub.Infrastructure.Services
 
             try
             {
-                string link = ("Download link:\n" + await task);
+                link = ("Download link:\n" + await task);
                 _logger.LogInformation($"File '{fileName}' uploaded successfully. Download link: {link}");
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Exception occurred while uploading file '{fileName}': {ex.Message}");
             }
+
+            return link;
         }
 
-        public string GetUniqueFileName(string fileName)
+        private string GetUniqueFileName(string fileName)
         {
             fileName = Path.GetFileName(fileName);
             return Path.GetFileNameWithoutExtension(fileName)
