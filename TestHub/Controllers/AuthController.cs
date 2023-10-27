@@ -105,6 +105,9 @@ public class AuthController : Controller
         User? user = _userService.GetAll().FirstOrDefault(u => u.Email == userDto.Email);
         if (user == null)
             return StatusCode(StatusCodes.Status404NotFound, "There is not such user in DataBase.");
+        
+        if (user.IsVerifiedEmail ==false )
+            return StatusCode(StatusCodes.Status404NotFound, "The email is not verified.");
 
         var modelValidator = new ModelValidatorService();
         var validationResult = modelValidator.ValidateModel(user);
