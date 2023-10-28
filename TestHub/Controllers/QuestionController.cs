@@ -27,7 +27,7 @@ public class QuestionController : Controller
         logger.LogInformation($"Injected questionService of type: {questionService.GetType()}");
     }
 
-    [HttpGet("getByTest/{testid:int}",  Name = "GetQuestionByTest")]
+    [HttpGet("getByTest/{testId:int}",  Name = "GetQuestionByTest")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<ICollection<Question>> GetAllQuestionByTest(int testId)
     {

@@ -25,7 +25,7 @@ public class QuestionService
     public IEnumerable<Question> GetAllByTest(int testId)
     {
         Expression<Func<Question, bool>> filter = q =>q.Test.Id== testId;
-        return _questionRepository.Get(filter, null, "Test,Answers");
+        return _questionRepository.Get(filter, null, "Test,Answers,Type");
     }
 
     public Question GetById(int id)
