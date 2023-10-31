@@ -58,7 +58,7 @@ namespace TestHub.Infrastructure.Services
 
             try
             {
-                link = ("Download link:\n" + await task);
+                link = await task;
                 _logger.LogInformation($"File '{fileName}' uploaded successfully. Download link: {link}");
             }
             catch (Exception ex)

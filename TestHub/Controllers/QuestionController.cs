@@ -108,51 +108,48 @@ public class QuestionController : Controller
         Question? questionToDelete = _questionService.GetAll().FirstOrDefault(q => q.Id == id);
         if (questionToDelete == null)
             return StatusCode(StatusCodes.Status404NotFound, "There is not such question in DataBase.");
-    
+        
+        _questionService.DeleteAnswers(questionToDelete);
         _questionService.Delete(questionToDelete);
         return StatusCode(StatusCodes.Status204NoContent);
     }
     
-    [HttpPut("{testId:int}", Name = "UpdateQuestionAndAnswer")]
+    [HttpPut("{questionId:int}", Name = "UpdateQuestionAndAnswer")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public IActionResult UpdateQuestionAndAnswer(int testId, [FromBody]  AnswerArray data)
+    public async Task<ActionResult<Question>> UpdateQuestionAndAnswer(int questionId, [FromBody]  QuestionDto? questionDto)
     {
-        /*if (data == null)
+        if (questionDto == null)
         {
             return StatusCode(StatusCodes.Status400BadRequest, "Invalid object identification.");
         }
 
-        Question? questionToUpdate = _questionService.GetAll()
-            .FirstOrDefault(q => q.Id == data.Answers.FirstOrDefault().QuestionId);
-
-        if (questionToUpdate == null)
+        var modelValidator = new ModelValidatorService();
+        var types = _questionService.GetQuestionTypes();
+        var validationResult = modelValidator.ValidateModel(questionDto);
+        var type = types.FirstOrDefault(t => t.Type.Equals(questionDto.Type)) ??
+                   throw new InvalidOperationException("There is not such question's type in Database.");
+        if (validationResult.IsValid)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, "There is not such question in DataBase.");
-        }
-        var questionChanging = new QuestionDto
-        {
-            Title = data.Title,
-            Type = ""
-        };
-        _questionService.Update(questionToUpdate, questionChanging);
-        var answerd = data.Answers;
-           
-        for (int i = 0; i < answerd.Count(); i++)
-        {
-            Answer? answerToUpdate = _answerService.GetAll()
-                .FirstOrDefault(q => q.Id == answerd[i].Id);
-            var answerChanging = new Answer
+            var questionToUpdate = _questionService.GetById(questionId);
+            await _questionService.Update(questionToUpdate, questionDto, type);
+            
+            _questionService.DeleteAnswers(questionToUpdate);
+            foreach (var answerDto in questionDto.Answers)
             {
-                QuestionId = questionToUpdate.Id,
-                Text = answerd[i].Text,
-                IsCorrect = true,
-                IsStrictText = true
-            };
-            _answerService.Update(answerToUpdate, answerChanging);
+                var answer = new Answer
+                {
+                    QuestionId = questionToUpdate.Id,
+                    Text = answerDto.Text,
+                    IsCorrect = answerDto.IsCorrect,
+                    IsStrictText = answerDto.IsStrictText,
+                    Image = answerDto.a_image == null ? null : await _fileService.UploadImage(answerDto.a_image)
+                };
+                _answerService.Add(answer);
+            }
         }
-        */
+        
         return StatusCode(StatusCodes.Status201Created);    
     }
 }
