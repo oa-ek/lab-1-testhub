@@ -35,7 +35,7 @@ public class AuthService
         
         httpResponse.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOption);
 
-        user.RefreshToken = newRefreshToken.Token;
+        // user.RefreshToken = newRefreshToken.Token;
         user.TokenCreated = newRefreshToken.CreatedAt;
         user.TokenExpires = newRefreshToken.Expires;
         
