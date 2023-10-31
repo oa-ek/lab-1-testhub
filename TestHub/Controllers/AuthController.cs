@@ -40,7 +40,7 @@ public class AuthController : Controller
     }
 
     [HttpPost("register")]
-    public ActionResult<User> Register(UserDto? userDto)
+   public async Task<IActionResult> Register(UserDto? userDto)
     {
         if (userDto == null)
             return StatusCode(StatusCodes.Status400BadRequest, "Invalid object identification.");
@@ -56,7 +56,32 @@ public class AuthController : Controller
         {
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
             var currentUser = _userService.GetUser(userDto, passwordHash);
+            string token = CreateRandomToken();
+            currentUser.Token=token;
             _userService.Add(currentUser);
+            
+            string fromEmail = _configuration["Smtp:FromEmail"];
+            string username = _configuration["Smtp:Username"];
+            string password = _configuration["Smtp:Password"];
+            string emailUser = currentUser.Email;
+            //
+            var mimeServer = new MimeMessage();
+            // email.From.Add(MailboxAddress.Parse(fromEmail));
+            mimeServer.From.Add(new MailboxAddress("TestHub", fromEmail));
+            mimeServer.To.Add(MailboxAddress.Parse(emailUser));
+                 
+            mimeServer.Subject = "Confirm email TestHub ";
+            mimeServer.Body = new TextPart(TextFormat.Html) { Text = $"Для підтвердження пошти перейдіть за посиланням: <br />" +
+            $"http://localhost:3000/reset/{currentUser.Email}/{token}" +
+            $"<br />Дякуємо за використання нашої платформи!" };
+            
+            
+            using var smtp = new SmtpClient();
+            await smtp.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+            await smtp.AuthenticateAsync(username, password);
+            await smtp.SendAsync(mimeServer);
+            await smtp.DisconnectAsync(true);
+            
             return StatusCode(StatusCodes.Status201Created, userDto);
         }
         else
@@ -80,6 +105,9 @@ public class AuthController : Controller
         User? user = _userService.GetAll().FirstOrDefault(u => u.Email == userDto.Email);
         if (user == null)
             return StatusCode(StatusCodes.Status404NotFound, "There is not such user in DataBase.");
+        
+        if (user.IsVerifiedEmail ==false )
+            return StatusCode(StatusCodes.Status404NotFound, "The email is not verified.");
 
         var modelValidator = new ModelValidatorService();
         var validationResult = modelValidator.ValidateModel(user);
@@ -117,22 +145,13 @@ public class AuthController : Controller
         return StatusCode(StatusCodes.Status200OK, _userService.GetName());
     }
 
-    [HttpPost("refresh-token"), Authorize]
-    public async Task<ActionResult<string>> RefreshToken()
+    [HttpPatch("verify")]
+    public async Task<ActionResult<string>> VerifiedEmail(VerifiedEmaildDto? payload)
     {
-        var currentUser = _userService.GetAll().FirstOrDefault(u => u.Name == _userService.GetName());
-        var refreshToken = Request.Cookies["refreshToken"];
-
-        if (currentUser == null || !currentUser.RefreshToken.Equals(refreshToken))
-            return StatusCode(StatusCodes.Status401Unauthorized, "Invalid refresh token.");
-        else if ( currentUser.TokenExpires < DateTime.Now)
-            return StatusCode(StatusCodes.Status401Unauthorized, "Token expired.");
-
-        string token = CreateToken(currentUser);
-        var newRefreshToken = _authService.GenerateRefreshToken();
-        _authService.SetRefreshToken(currentUser, newRefreshToken, Response);
-        
-        return StatusCode(StatusCodes.Status200OK, token);
+        User? user = _userService.GetAll().FirstOrDefault(u => u.Email == payload.Email&& u.Token==payload.Token);
+        user.IsVerifiedEmail = true;
+        _userService.Update(user);
+        return StatusCode(StatusCodes.Status200OK, user);
     }
 
     private string CreateToken(User user)
