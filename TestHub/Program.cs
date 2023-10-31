@@ -97,12 +97,12 @@ else
     }
 
     // Call DataSeeder to initialize the data
-    using (var scope = app.Services.CreateScope())
+    /*using (var scope = app.Services.CreateScope())
     {
         var serviceProvider = scope.ServiceProvider;
         var dataSeeder = serviceProvider.GetRequiredService<DataSeederService.DataSeeder>();
         dataSeeder.SeedData();
-    }
+    }*/
 }
 
 app.UseHttpsRedirection();

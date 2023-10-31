@@ -20,11 +20,12 @@ public class User
 
     public string? Comment { get; set; }
 
-    public string Token { get; set; } = string.Empty;
+
+    public string? Token { get; set; } = string.Empty;
     
     public bool IsVerifiedEmail { get; set; } = false;
-    public DateTime TokenCreated { get; set; }
-    public DateTime TokenExpires { get; set; }
+    public DateTime? TokenCreated { get; set; }
+    public DateTime? TokenExpires { get; set; }
 
     public string? PasswordResetToken { get; set; }
     

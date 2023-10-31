@@ -62,7 +62,7 @@ namespace TestHub.Controllers
             return StatusCode(StatusCodes.Status204NoContent);
         }
 
-        [HttpPut("{id:int}", Name = "UpdateAnswer")]
+        /*[HttpPut("{id:int}", Name = "UpdateAnswer")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -93,6 +93,6 @@ namespace TestHub.Controllers
 
                 return StatusCode(StatusCodes.Status500InternalServerError, validationResult.Errors);
             }
-        }
+        }*/
     }
 }

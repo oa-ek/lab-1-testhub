@@ -100,10 +100,16 @@ public class TestController : Controller
         Test? testToDelete = _testService.GetAll().FirstOrDefault(c => c.Id == id);
         if (testToDelete == null)
             return StatusCode(StatusCodes.Status404NotFound, "There is not such test in DataBase.");
+        
+        _testService.DeleteCategories(testToDelete);
+        _testService.DeleteQuestionsAndAnswers(testToDelete);
     
+        // Видалити видаляємий тест
         _testService.Delete(testToDelete);
+    
         return StatusCode(StatusCodes.Status204NoContent);
     }
+
     
     [HttpPut("{id:int}", Name = "UpdateTest")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

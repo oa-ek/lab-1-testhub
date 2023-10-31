@@ -10,19 +10,25 @@ public class TestService
     private readonly GenericRepository<Test> _testRepository;
     private readonly GenericRepository<TestCategory> _testCategoryRepository;
     private readonly CategoryService _categoryService;
+    private readonly QuestionService _questionService;
+    private readonly AnswerService _answerService;
 
     public TestService(GenericRepository<Test> testRepository, 
         GenericRepository<TestCategory> testCategoryRepository, 
-        CategoryService categoryService)
+        CategoryService categoryService, 
+        QuestionService questionService, 
+        AnswerService answerService)
     {
         _testRepository = testRepository;
         _testCategoryRepository = testCategoryRepository;
         _categoryService = categoryService;
+        _questionService = questionService;
+        _answerService = answerService;
     }
 
     public IEnumerable<Test> GetAll()
     {
-        return _testRepository.Get();
+        return _testRepository.Get(null, null, "Owner");
     }
 
     public Test GetById(int id)
@@ -66,12 +72,6 @@ public class TestService
     public void UpdateCategories(Test testToUpdate, string[] testDtoCategories)
     {
         var categories = _categoryService.GetAll();
-        var existingCategories = _testCategoryRepository.Get()
-            .Where(tc => tc.TestId == testToUpdate.Id)
-            .ToList();
-        
-        foreach (var existingCategory in existingCategories)
-            _testCategoryRepository.Delete(existingCategory);
         
         foreach (var category in testDtoCategories)
         {
@@ -96,4 +96,34 @@ public class TestService
         return categories;
     }
 
+    public void DeleteQuestionsAndAnswers(Test testToDelete)
+    {
+        // Знайти всі питання, пов'язані з видаляємим тестом
+        var questionsToDelete = _questionService.GetAll().Where(q => q.TestId == testToDelete.Id).ToList();
+    
+        foreach (var question in questionsToDelete)
+        {
+            // Знайти всі відповіді, пов'язані з цим питанням
+            var answersToDelete = _answerService.GetAll().Where(a => a.QuestionId == question.Id).ToList();
+    
+            // Видалити всі знайдені відповіді
+            foreach (var answer in answersToDelete)
+            {
+                _answerService.Delete(answer);
+            }
+    
+            // Видалити саме питання
+            _questionService.Delete(question);
+        }
+    }
+
+    public void DeleteCategories(Test test)
+    {
+        var existingCategories = _testCategoryRepository.Get()
+            .Where(tc => tc.TestId == test.Id)
+            .ToList();
+        
+        foreach (var existingCategory in existingCategories)
+            _testCategoryRepository.Delete(existingCategory);
+    }
 }

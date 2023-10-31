@@ -1,7 +1,7 @@
 ﻿using Firebase.Auth;
 using Firebase.Storage;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using TestHub.Core.Dtos;
 
 namespace TestHub.Infrastructure.Services
 {
@@ -19,27 +19,28 @@ namespace TestHub.Infrastructure.Services
             _logger = logger;
         }
 
-        public async Task<string> UploadImage(IFormFile file)
+        public async Task<string> UploadImage(FileDto file)
         {
-            if (file.Length <= 0) return string.Empty;
+            if (file.Data.Length == 0) return string.Empty;
 
             string uniqueFileName = GetUniqueFileName(file.FileName);
             string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "src", "images", uniqueFileName);
 
-            using (var fileStream = new FileStream(path, FileMode.Create))
+            await using (var fileStream = new FileStream(path, FileMode.Create))
             {
-                file.CopyTo(fileStream);
+                await fileStream.WriteAsync(file.Data, 0, file.Data.Length);
             }
 
             _logger.LogInformation($"Uploading file: {file.FileName}");
-            await Upload(new FileStream(path, FileMode.Open), uniqueFileName);
+             string link = await Upload(new FileStream(path, FileMode.Open), uniqueFileName);
             _logger.LogInformation($"File uploaded: {file.FileName}");
 
-            return uniqueFileName;
+            return link;
         }
 
-        public async Task Upload(FileStream stream, string fileName)
+        private async Task<string> Upload(FileStream stream, string fileName)
         {
+            string link = string.Empty;
             var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
             var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPwd);
 
@@ -57,16 +58,18 @@ namespace TestHub.Infrastructure.Services
 
             try
             {
-                string link = ("Download link:\n" + await task);
+                link = await task;
                 _logger.LogInformation($"File '{fileName}' uploaded successfully. Download link: {link}");
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Exception occurred while uploading file '{fileName}': {ex.Message}");
             }
+
+            return link;
         }
 
-        public string GetUniqueFileName(string fileName)
+        private string GetUniqueFileName(string fileName)
         {
             fileName = Path.GetFileName(fileName);
             return Path.GetFileNameWithoutExtension(fileName)
