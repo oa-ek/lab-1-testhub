@@ -72,7 +72,7 @@ public class AuthController : Controller
                  
             mimeServer.Subject = "Confirm email TestHub ";
             mimeServer.Body = new TextPart(TextFormat.Html) { Text = $"Для підтвердження пошти перейдіть за посиланням: <br />" +
-            $"http://localhost:3000/reset/{currentUser.Email}/{token}" +
+            $"http://localhost:3000/confirm/{currentUser.Email}/{token}" +
             $"<br />Дякуємо за використання нашої платформи!" };
             
             
@@ -144,6 +144,14 @@ public class AuthController : Controller
     {
         return StatusCode(StatusCodes.Status200OK, _userService.GetName());
     }
+    
+    [HttpGet ("user")] [Authorize]
+    public ActionResult<string> GetUser(string email)
+    {
+        User? user = _userService.GetAll().FirstOrDefault(u => u.Email == email);
+        return StatusCode(StatusCodes.Status200OK, user);
+    }
+    
 
     [HttpPatch("verify")]
     public async Task<ActionResult<string>> VerifiedEmail(VerifiedEmaildDto? payload)
@@ -250,4 +258,45 @@ public class AuthController : Controller
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }
+        
+        [HttpDelete("{id:int}", Name = "DeleteUser")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult DeleteTest(int id)
+        {
+            User? user = _userService.GetAll().FirstOrDefault(c => c.Id == id);
+            if (user == null)
+                return StatusCode(StatusCodes.Status404NotFound, "There is not such test in DataBase.");
+
+            _userService.Delete(user);
+
+            // Видалити видаляємий тест
+            _userService.Delete(user);
+
+            return StatusCode(StatusCodes.Status204NoContent);
+        }
+        
+        [HttpGet("GetUsers")][Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<ICollection<User>> GetUsers()
+        {
+            return Ok(_userService.GetAll());
+        }
+        
+        
+        // [HttpDelete("{id:int}", Name="DeleteUser")][Authorize]
+        // [ProducesResponseType(StatusCodes.Status200OK)]
+        // public IActionResult DeleteUser(int id)
+        // {
+        //     User? userToDelete = _userService.GetAll().FirstOrDefault(c => c.Id == id);
+        //     if (userToDelete == null)
+        //         return StatusCode(StatusCodes.Status404NotFound, "There is not such user in DataBase.");
+        //
+        //     _userService.Delete(userToDelete);
+        //     return StatusCode(StatusCodes.Status204NoContent);
+        // }
+        
+        
+        
 }
