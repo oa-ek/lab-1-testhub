@@ -1,43 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-<PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-</PropertyGroup>
-
-<ItemGroup>
-    <PackageReference Include="Firebase.Auth" Version="1.0.0" />
-    <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
-    <PackageReference Include="MailKit" Version="4.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.11">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-</ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TestHub.Core\TestHub.Core.csproj" />
+      <PackageReference Include="Ardalis.GuardClauses" Version="4.2.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.14" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
     </ItemGroup>
-
-
-
-    <ItemGroup>
-      <Reference Include="Microsoft.AspNetCore.Http.Features">
-        <HintPath>..\..\..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\7.0.11\Microsoft.AspNetCore.Http.Features.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
-
-
-
-
-
 
 </Project>
