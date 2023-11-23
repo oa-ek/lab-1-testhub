@@ -1,4 +1,6 @@
-﻿namespace Application.models;
+﻿using Application.common.models;
+
+namespace Application.features.answer.queries;
 
 public class AnswerDto
 {

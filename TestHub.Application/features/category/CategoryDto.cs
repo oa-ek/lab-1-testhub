@@ -1,4 +1,4 @@
-﻿namespace Application.models;
+﻿namespace Application.features.category;
 
 public class CategoryDto
 {
