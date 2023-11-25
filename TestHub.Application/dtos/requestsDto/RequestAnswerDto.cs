@@ -1,8 +1,8 @@
-﻿namespace Application.dtos;
+﻿namespace Application.dtos.requestsDto;
 
-public class AnswerDto
+public class RequestAnswerDto
 {
-    public string Text { get; set; } 
+    public required string Text { get; set; } 
     
     public FileDto? Image { get; set; }
     

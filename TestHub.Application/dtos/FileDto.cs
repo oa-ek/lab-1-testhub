@@ -2,7 +2,7 @@
 
 public class FileDto
 {
-    public string FileName { get; set; }  
-    public string ContentType { get; set; }  
-    public byte[] Data { get; set; } 
+    public required string FileName { get; set; }  
+    public required string ContentType { get; set; }  
+    public required byte[] Data { get; set; } 
 }

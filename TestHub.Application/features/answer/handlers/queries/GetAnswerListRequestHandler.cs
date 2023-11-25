@@ -1,10 +1,11 @@
 ﻿using Application.dtos;
+using Application.dtos.requestsDto;
 using Application.features.answer.requests.queries;
 using Application.persistence.contracts;
 
 namespace Application.features.answer.handlers.queries;
 
-public class GetAnswerListRequestHandler : IRequestHandler<GetAnswerListRequest, List<AnswerDto>>
+public class GetAnswerListRequestHandler : IRequestHandler<GetAnswerListRequest, List<RequestAnswerDto>>
 {
     private readonly IAnswerRepository _repository;
     private readonly IMapper _mapper;
@@ -15,10 +16,10 @@ public class GetAnswerListRequestHandler : IRequestHandler<GetAnswerListRequest,
         _mapper = mapper;
     }
 
-    public async Task<List<AnswerDto>> Handle(GetAnswerListRequest request, CancellationToken cancellationToken)
+    public async Task<List<RequestAnswerDto>> Handle(GetAnswerListRequest request, CancellationToken cancellationToken)
     {
         var categories = await _repository.GetAll();
 
-        return _mapper.Map<List<AnswerDto>>(categories);
+        return _mapper.Map<List<RequestAnswerDto>>(categories);
     }
 }
