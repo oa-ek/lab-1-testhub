@@ -1,6 +1,4 @@
 ﻿using System.Reflection;
-using Application.repositories.interfaces;
-using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;

@@ -19,8 +19,20 @@
     </ItemGroup>
 
 
+
+
+
     <ItemGroup>
-      <Folder Include="features\answer\commands\" />
+      <Folder Include="features\answer\handlers\commands\" />
+      <Folder Include="features\answer\requests\commands\" />
+      <Folder Include="features\category\handlers\commands\" />
+      <Folder Include="features\category\requests\commands\" />
+      <Folder Include="features\question\handlers\commands\" />
+      <Folder Include="features\question\requests\commands\" />
+      <Folder Include="features\test\handlers\commands\" />
+      <Folder Include="features\test\requests\commands\" />
+      <Folder Include="features\user\handlers\" />
+      <Folder Include="features\user\requests\" />
     </ItemGroup>
 
 </Project>

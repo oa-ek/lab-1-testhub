@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\TestHub.Application\TestHub.Application.csproj" />
-      <ProjectReference Include="..\TestHub.Infrastructure\TestHub.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
