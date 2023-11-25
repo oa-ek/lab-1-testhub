@@ -1,6 +1,5 @@
-﻿using Application.dtos;
-using Application.dtos.respondsDto;
+﻿using Application.dtos.requestsDto;
 
 namespace Application.features.test.requests.queries;
 
-public class GetTestDetailedListRequest  : IRequest<List<RespondTestDto>> {}
+public class GetTestDetailedListRequest  : IRequest<List<RequestTestDto>> {}

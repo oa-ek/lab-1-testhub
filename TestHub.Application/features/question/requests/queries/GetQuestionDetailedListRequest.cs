@@ -1,6 +1,5 @@
-﻿using Application.dtos;
-using Application.dtos.requestsDto;
+﻿using Application.dtos.respondsDto;
 
 namespace Application.features.question.requests.queries;
 
-public class GetQuestionDetailedListRequest  : IRequest<List<RequestQuestionDto>> {}
+public class GetQuestionDetailedListRequest  : IRequest<List<RespondQuestionDto>> {}

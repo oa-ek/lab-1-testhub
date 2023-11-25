@@ -1,11 +1,10 @@
-﻿using Application.dtos;
-using Application.dtos.requestsDto;
+﻿using Application.dtos.respondsDto;
 using Application.features.question.requests.queries;
 using Application.persistence.contracts;
 
 namespace Application.features.question.handlers.queries;
 
-public class GetQuestionDetailedListRequestHandler : IRequestHandler<GetQuestionDetailedListRequest, List<RequestQuestionDto>>
+public class GetQuestionDetailedListRequestHandler : IRequestHandler<GetQuestionDetailedListRequest, List<RespondQuestionDto>>
 {
     private readonly IQuestionRepository _repository;
     private readonly IMapper _mapper;
@@ -16,10 +15,10 @@ public class GetQuestionDetailedListRequestHandler : IRequestHandler<GetQuestion
         _mapper = mapper;
     }
 
-    public async Task<List<RequestQuestionDto>> Handle(GetQuestionDetailedListRequest request, CancellationToken cancellationToken)
+    public async Task<List<RespondQuestionDto>> Handle(GetQuestionDetailedListRequest request, CancellationToken cancellationToken)
     {
         var questions = await _repository.GetQuestionsWithDetails();
 
-        return _mapper.Map<List<RequestQuestionDto>>(questions);
+        return _mapper.Map<List<RespondQuestionDto>>(questions);
     }
 }

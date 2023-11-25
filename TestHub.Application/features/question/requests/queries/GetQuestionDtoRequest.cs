@@ -1,9 +1,8 @@
-﻿using Application.dtos;
-using Application.dtos.requestsDto;
+﻿using Application.dtos.respondsDto;
 
 namespace Application.features.question.requests.queries;
 
-public class GetQuestionDtoRequest: IRequest<RequestQuestionDto>
+public class GetQuestionDtoRequest: IRequest<RespondQuestionDto>
 {
     public int Id { get; set; }
 }

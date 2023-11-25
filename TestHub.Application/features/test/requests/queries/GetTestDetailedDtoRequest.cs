@@ -1,9 +1,8 @@
-﻿using Application.dtos;
-using Application.dtos.respondsDto;
+﻿using Application.dtos.requestsDto;
 
 namespace Application.features.test.requests.queries;
 
-public class GetTestDetailedDtoRequest: IRequest<RespondTestDto>
+public class GetTestDetailedDtoRequest: IRequest<RequestTestDto>
 {
     public int Id { get; set; }
 }

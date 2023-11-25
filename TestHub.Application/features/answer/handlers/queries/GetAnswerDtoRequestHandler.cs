@@ -1,11 +1,10 @@
-﻿using Application.dtos;
-using Application.dtos.requestsDto;
+﻿using Application.dtos.respondsDto;
 using Application.features.answer.requests.queries;
 using Application.persistence.contracts;
 
 namespace Application.features.answer.handlers.queries;
 
-public class GetAnswerDtoRequestHandler : IRequestHandler<GetAnswerDtoRequest, RequestAnswerDto>
+public class GetAnswerDtoRequestHandler : IRequestHandler<GetAnswerDtoRequest, RespondAnswerDto>
 {
     private readonly IAnswerRepository _repository;
     private readonly IMapper _mapper;
@@ -16,10 +15,10 @@ public class GetAnswerDtoRequestHandler : IRequestHandler<GetAnswerDtoRequest, R
         _mapper = mapper;
     }
     
-    public async Task<RequestAnswerDto> Handle(GetAnswerDtoRequest request, CancellationToken cancellationToken)
+    public async Task<RespondAnswerDto> Handle(GetAnswerDtoRequest request, CancellationToken cancellationToken)
     {
         var answer = await _repository.Get(request.Id);
         
-        return _mapper.Map<RequestAnswerDto>(answer);
+        return _mapper.Map<RespondAnswerDto>(answer);
     }
 }
