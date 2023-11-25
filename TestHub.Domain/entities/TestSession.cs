@@ -34,8 +34,8 @@ namespace Domain.entities
         public virtual User User { get; set; } = new User();
 
         public int TestId { get; set; }
-        public virtual Test Test { get; set; } = new Test()!;
+        public virtual Test Test { get; set; } = new Test();
 
-        protected internal virtual ICollection<StatusSessionQuestion> StatusSessionQuestions { get; set; } = new List<StatusSessionQuestion>();
+        public virtual ICollection<StatusSessionQuestion> StatusSessionQuestions { get; set; } = new List<StatusSessionQuestion>();
     }
 }

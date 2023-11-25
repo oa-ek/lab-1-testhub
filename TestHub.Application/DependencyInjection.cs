@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Application.repositories.interfaces;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,10 +13,7 @@ public static class DependencyInjection
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-        services.AddMediatR(cfg => {
-            cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-            
-        });
+        services.AddMediatR(cfg => { cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()); });
 
         return services;
     }

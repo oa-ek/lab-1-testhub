@@ -10,7 +10,7 @@ namespace Domain.entities
         public string Role { get; set; } = string.Empty;
         public string? Comment { get; set; }
 
-        public DateTimeOffset? Deleted { get; set; }
+        public DateTime? Deleted { get; set; }
 
         public string Token { get; set; } = string.Empty;
         public bool IsEmailVerified { get; set; }
@@ -21,8 +21,8 @@ namespace Domain.entities
         public DateTimeOffset? ResetTokenExpires { get; set; }
 
 
-        protected internal virtual ICollection<Test> Tests { get; set; } = new List<Test>();
-        protected internal virtual ICollection<TestSession> TestSessions { get; set; } = new List<TestSession>();
-        protected internal virtual ICollection<TestMetadata> TestMetadata { get; set; } = new List<TestMetadata>();
+        public virtual ICollection<Test> Tests { get; set; } = new List<Test>();
+        public virtual ICollection<TestSession> TestSessions { get; set; } = new List<TestSession>();
+        public virtual ICollection<TestMetadata> TestMetadata { get; set; } = new List<TestMetadata>();
     }
 }

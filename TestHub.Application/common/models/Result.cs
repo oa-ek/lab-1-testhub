@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Domain.entities;
-
-namespace Application.common.models
+﻿namespace Application.common.models
 {
     public class Result<T>
     {
-        public Result(bool succeeded, IEnumerable<string> errors, T value)
+        private Result(bool succeeded, IEnumerable<string> errors, T? value)
         {
             Succeeded = succeeded;
             Errors = errors.ToArray();
@@ -15,16 +11,16 @@ namespace Application.common.models
 
         public bool Succeeded { get; init; }
         public string[] Errors { get; init; }
-        public T Value { get; init; }
+        public T? Value { get; init; }
 
         public static Result<T> Success(T value)
         {
             return new Result<T>(true, Enumerable.Empty<string>(), value);
         }
 
-        public static Result<T?> Failure(IEnumerable<string> errors)
+        public static Result<T> Failure(IEnumerable<string> errors)
         {
-            return new Result<T?>(false, errors, default);
+            return new Result<T>(false, errors, default);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Domain.common;
 
-namespace Application.repositories.interfaces;
+namespace Application.repositories.interfaces.common;
 
 public interface IBaseRepository<T> where T : BaseAuditableEntity
 {

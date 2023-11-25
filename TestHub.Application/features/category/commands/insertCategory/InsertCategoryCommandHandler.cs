@@ -4,7 +4,7 @@ using Domain.entities;
 
 namespace Application.features.category.commands.insertCategory
 {
-    public class InsertCategoryCommandHandler : IRequestHandler<InsertCategoryCommand, Result<Category>>
+    public class InsertCategoryCommandHandler : IRequestHandler<InsertCategoryCommand, int>
     {
         private readonly ICategoryRepository _repository;
         private readonly IMapper _mapper;
@@ -15,18 +15,18 @@ namespace Application.features.category.commands.insertCategory
             _mapper = mapper;
         }
 
-        public async Task<Result<Category>> Handle(InsertCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(InsertCategoryCommand request, CancellationToken cancellationToken)
         {
             var category = _mapper.Map<Category>(request.CategoryDto);
 
             try
             {
                 await _repository.InsertAsync(category);
-                return Result<Category>.Success(category);
+                return Result<Category>.Success(category).Value.Id;
             }
             catch (Exception e)
             {
-                return Result<Category>.Failure(new[] { e.Message })!;
+                return Result<Category>.Failure(new[] { e.Message }).Value!.Id;
             }
         }
     }

@@ -1,6 +1,4 @@
-﻿using Domain.common;
-
-namespace Domain.entities;
+﻿namespace Domain.entities;
 
 public class Question : BaseAuditableEntity
 {
@@ -9,10 +7,13 @@ public class Question : BaseAuditableEntity
     public string? Image { get; set; }
    
     public int TestId { get; set; }
+    public virtual Test Test { get; set; } = new Test();
 
     public int TypeId { get; set; } 
     public virtual QuestionType Type { get; set; } = new QuestionType();
+
     
-    protected internal virtual ICollection<Answer> Answers { get; set; } = new List<Answer>();
-    protected internal virtual ICollection<StatusSessionQuestion> StatusSessionQuestions { get; set; } = new List<StatusSessionQuestion>();
+    public virtual ICollection<Answer> Answers { get; set; } = new List<Answer>();
+    public virtual ICollection<StatusSessionQuestion> StatusSessionQuestions { get; set; } = new List<StatusSessionQuestion>();
+    
 }

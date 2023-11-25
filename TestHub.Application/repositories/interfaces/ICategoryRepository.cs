@@ -1,4 +1,5 @@
-﻿using Domain.entities;
+﻿using Application.repositories.interfaces.common;
+using Domain.entities;
 
 namespace Application.repositories.interfaces;
 

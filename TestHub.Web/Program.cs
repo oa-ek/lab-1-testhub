@@ -1,4 +1,5 @@
 using Application;
+using Microsoft.OpenApi.Models;
 using TestHub.Infrastructure;
 using TestHub.Web;
 
@@ -10,6 +11,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddWebServices();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "TestHub API v1", Version = "v1" });
+});
 
 var app = builder.Build();
 
