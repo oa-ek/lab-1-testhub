@@ -2,7 +2,8 @@
 
 namespace Application.features.category.requests.commands;
 
-public class CreateCategoryCommand : IRequest<int>
+public class UpdateCategoryCommand: IRequest<Unit>
 {
+    public int Id { get; set; }
     public required CategoryDto CategoryDto { get; set; }
 }
