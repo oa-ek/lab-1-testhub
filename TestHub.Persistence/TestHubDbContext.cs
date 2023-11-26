@@ -73,6 +73,30 @@ namespace TestHub.Persistence
 
                 propertyBuilder?.GetType().GetMethod("ValueGeneratedOnAdd")?.Invoke(propertyBuilder, null);
             }
+            
+            modelBuilder.Entity<Question>()
+                .HasOne(q => q.Test)
+                .WithMany(t => t.Questions)
+                .HasForeignKey(q => q.TestId)
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            modelBuilder.Entity<StatusSessionQuestion>()
+                .HasOne(ssq => ssq.TestSession)
+                .WithMany(ts => ts.StatusSessionQuestions)
+                .HasForeignKey(ssq => ssq.SessionId)
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            modelBuilder.Entity<TestMetadata>()
+                .HasOne(d => d.User)
+                .WithMany(p => p.TestMetadata)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+            
+            modelBuilder.Entity<TestSession>()
+                .HasOne(d => d.User)
+                .WithMany(p => p.TestSessions)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
