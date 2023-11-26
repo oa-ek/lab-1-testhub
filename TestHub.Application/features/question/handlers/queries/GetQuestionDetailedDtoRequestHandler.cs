@@ -1,6 +1,7 @@
 ﻿using Application.dtos.respondsDto;
 using Application.features.question.requests.queries;
 using Application.persistence.contracts;
+using Domain.entities;
 
 namespace Application.features.question.handlers.queries;
 
