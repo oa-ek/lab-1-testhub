@@ -1,11 +1,9 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using Application.features.category.requests.commands;
-using Application.persistence.contracts;
+﻿using Application.features.category.requests.commands;
 using Domain.entities;
 
 namespace Application.features.category.handlers.commands;
 
-public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, int>
+public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, BaseCommandResponse>
 {
     private readonly ICategoryRepository _repository;
     private readonly IMapper _mapper;
@@ -16,11 +14,15 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
         _mapper = mapper;
     }
 
-    public async Task<int> Handle(CreateCategoryCommand command, CancellationToken cancellationToken)
+    public async Task<BaseCommandResponse> Handle(CreateCategoryCommand command, CancellationToken cancellationToken)
     {
+        var validator = new CategoryDtoValidator();
+        var validationResult = await validator.ValidateAsync(command.CategoryDto, cancellationToken);
+        if (!validationResult.IsValid) return new BadRequestFailedStatusResponse(validationResult.Errors);
+        
         var category = _mapper.Map<Category>(command.CategoryDto);
 
         category = await _repository.Add(category);
-        return category.Id;
+        return new CreatedSuccessStatusResponse(category.Id);
     }
 }

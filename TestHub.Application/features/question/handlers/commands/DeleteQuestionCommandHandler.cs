@@ -1,9 +1,8 @@
 ﻿using Application.features.question.requests.commands;
-using Application.persistence.contracts;
 
 namespace Application.features.question.handlers.commands;
 
-public class DeleteQuestionCommandHandler : IRequestHandler<DeleteQuestionCommand, Unit>
+public class DeleteQuestionCommandHandler : IRequestHandler<DeleteQuestionCommand, BaseCommandResponse>
 {
     private readonly IQuestionRepository _repository;
 
@@ -11,11 +10,12 @@ public class DeleteQuestionCommandHandler : IRequestHandler<DeleteQuestionComman
     {
         _repository = repository;
     }
-    public async Task<Unit> Handle(DeleteQuestionCommand command, CancellationToken cancellationToken)
+    public async Task<BaseCommandResponse> Handle(DeleteQuestionCommand command, CancellationToken cancellationToken)
     {
         var question = await _repository.Get(command.Id);
+        if (question == null) return new NotFoundFailedStatusResponse(command.Id);
 
         await _repository.Delete(question);
-        return Unit.Value;
+        return new OkSuccessStatusResponse(command.Id);
     }
 }

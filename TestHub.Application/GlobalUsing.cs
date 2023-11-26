@@ -1,5 +1,11 @@
 ﻿global using AutoMapper;
-global using AutoMapper.QueryableExtensions;
-global using Microsoft.EntityFrameworkCore;
 global using FluentValidation;
 global using MediatR;
+global using ValidationException = Application.exceptions.ValidationException;
+global using Application.dtos.sharedDTOs.validators;
+global using Application.persistence.contracts;
+global using Application.dtos.requestsDto.validators;
+global using Application.exceptions;
+global using Application.responses.common;
+global using Application.responses.failed;
+global using Application.responses.success;

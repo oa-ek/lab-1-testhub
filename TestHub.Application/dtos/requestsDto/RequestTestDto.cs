@@ -1,6 +1,4 @@
-﻿using Application.persistence.dtos;
-
-namespace Application.dtos.requestsDto;
+﻿namespace Application.dtos.requestsDto;
 
 public class RequestTestDto
 {

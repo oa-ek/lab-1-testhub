@@ -1,6 +1,6 @@
-﻿using Application.features.category.requests.queries;
+﻿using Application.dtos.sharedDTOs;
+using Application.features.category.requests.queries;
 using Application.persistence.contracts;
-using Application.persistence.dtos;
 
 namespace Application.features.category.handlers.queries;
 

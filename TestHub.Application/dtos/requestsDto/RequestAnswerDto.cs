@@ -1,4 +1,6 @@
-﻿namespace Application.dtos.requestsDto;
+﻿using Application.dtos.sharedDTOs;
+
+namespace Application.dtos.requestsDto;
 
 public class RequestAnswerDto
 {
@@ -9,4 +11,5 @@ public class RequestAnswerDto
     public bool IsCorrect { get; set; }
 
     public bool IsStrictText { get; set; }
+    public int QuestionId { get; set; }
 }

@@ -1,10 +1,9 @@
 ﻿using Application.features.answer.requests.commands;
-using Application.persistence.contracts;
 using Domain.entities;
 
 namespace Application.features.answer.handlers.commands;
 
-public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, int>
+public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, BaseCommandResponse>
 {
     private readonly IAnswerRepository _repository;
     private readonly IMapper _mapper;
@@ -15,11 +14,15 @@ public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, i
         _mapper = mapper;
     }
     
-    public async Task<int> Handle(CreateAnswerCommand command, CancellationToken cancellationToken)
+    public async Task<BaseCommandResponse> Handle(CreateAnswerCommand command, CancellationToken cancellationToken)
     {
+        var validator = new RequestAnswerDtoValidator(_repository);
+        var validationResult = await validator.ValidateAsync(command.AnswerDto, cancellationToken);
+        if (!validationResult.IsValid) return new BadRequestFailedStatusResponse(validationResult.Errors);
+        
         var answer = _mapper.Map<Answer>(command.AnswerDto);
 
         answer = await _repository.Add(answer);
-        return answer.Id;
+        return new CreatedSuccessStatusResponse(answer.Id);
     }
 }

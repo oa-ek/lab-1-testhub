@@ -1,5 +1,5 @@
 ﻿using Application.dtos.requestsDto;
-using Application.persistence.dtos;
+using Application.dtos.sharedDTOs;
 
 namespace Application.dtos.respondsDto;
 

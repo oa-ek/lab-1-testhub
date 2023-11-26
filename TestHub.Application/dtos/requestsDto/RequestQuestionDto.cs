@@ -1,4 +1,6 @@
-﻿namespace Application.dtos.requestsDto;
+﻿using Application.dtos.sharedDTOs;
+
+namespace Application.dtos.requestsDto;
 
 public class RequestQuestionDto
 {
@@ -9,4 +11,5 @@ public class RequestQuestionDto
     public required string Type { get; set; }
 
     public FileDto? Image { get; set; }
+    public int TestId { get; set; }
 }

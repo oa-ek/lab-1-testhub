@@ -1,10 +1,9 @@
 ﻿using Application.features.test.requests.commands;
-using Application.persistence.contracts;
 using Domain.entities;
 
 namespace Application.features.test.handlers.commands;
 
-public class CreateTestCommandHandler : IRequestHandler<CreateTestCommand, int>
+public class CreateTestCommandHandler : IRequestHandler<CreateTestCommand, BaseCommandResponse>
 {
     private readonly ITestRepository _repository;
     private readonly IMapper _mapper;
@@ -15,11 +14,15 @@ public class CreateTestCommandHandler : IRequestHandler<CreateTestCommand, int>
         _mapper = mapper;
     }
     
-    public async Task<int> Handle(CreateTestCommand command, CancellationToken cancellationToken)
+    public async Task<BaseCommandResponse> Handle(CreateTestCommand command, CancellationToken cancellationToken)
     {
+        var validator = new RequestTestDtoValidator();
+        var validationResult = await validator.ValidateAsync(command.TestDto, cancellationToken);
+        if (!validationResult.IsValid) return new BadRequestFailedStatusResponse(validationResult.Errors);
+        
         var test = _mapper.Map<Test>(command.TestDto);
 
         test = await _repository.Add(test);
-        return test.Id;
+        return new CreatedSuccessStatusResponse(test.Id);
     }
 }

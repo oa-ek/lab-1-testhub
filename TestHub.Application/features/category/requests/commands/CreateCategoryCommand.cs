@@ -1,8 +1,8 @@
-﻿using Application.persistence.dtos;
+﻿using Application.dtos.sharedDTOs;
 
 namespace Application.features.category.requests.commands;
 
-public class CreateCategoryCommand : IRequest<int>
+public class CreateCategoryCommand : IRequest<BaseCommandResponse>
 {
     public required CategoryDto CategoryDto { get; set; }
 }

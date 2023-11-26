@@ -1,4 +1,4 @@
-﻿namespace Application.persistence.dtos;
+﻿namespace Application.dtos.sharedDTOs;
 
 public class CategoryDto
 {

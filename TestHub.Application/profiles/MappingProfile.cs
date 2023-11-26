@@ -1,4 +1,4 @@
-﻿using Application.persistence.dtos;
+﻿using Application.dtos.sharedDTOs;
 using Domain.entities;
 
 namespace Application.persistence.profiles;

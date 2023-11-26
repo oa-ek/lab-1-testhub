@@ -1,9 +1,8 @@
 ﻿using Application.features.test.requests.commands;
-using Application.persistence.contracts;
 
 namespace Application.features.test.handlers.commands;
 
-public class UpdateTestCommandHandler : IRequestHandler<UpdateTestCommand, Unit>
+public class UpdateTestCommandHandler : IRequestHandler<UpdateTestCommand, BaseCommandResponse>
 {
     private readonly ITestRepository _repository;
     private readonly IMapper _mapper;
@@ -14,12 +13,17 @@ public class UpdateTestCommandHandler : IRequestHandler<UpdateTestCommand, Unit>
         _mapper = mapper;
     }
     
-    public async Task<Unit> Handle(UpdateTestCommand command, CancellationToken cancellationToken)
+    public async Task<BaseCommandResponse> Handle(UpdateTestCommand command, CancellationToken cancellationToken)
     {
+        var validator = new RequestTestDtoValidator();
+        var validationResult = await validator.ValidateAsync(command.TestDto, cancellationToken);
+        if (!validationResult.IsValid) return new BadRequestFailedStatusResponse(validationResult.Errors);
+        
         var test = await _repository.Get(command.Id);
+        if (test == null) return new NotFoundFailedStatusResponse(command.Id);
+        
         _mapper.Map(command.TestDto, test);
-
         await _repository.Update(test);
-        return Unit.Value;
+        return new OkSuccessStatusResponse(test.Id);
     }
 }

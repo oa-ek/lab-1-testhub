@@ -1,8 +1,6 @@
-﻿using Application.persistence.dtos;
+﻿namespace Application.features.category.requests.commands;
 
-namespace Application.features.category.requests.commands;
-
-public class DeleteCategoryCommand : IRequest<Unit>
+public class DeleteCategoryCommand : IRequest<BaseCommandResponse>
 {
     public int Id { get; set; }
 }

@@ -2,7 +2,7 @@
 
 namespace Application.features.question.requests.commands;
 
-public class CreateQuestionCommand : IRequest<int>
+public class CreateQuestionCommand : IRequest<BaseCommandResponse>
 {
     public required RequestQuestionDto QuestionDto { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿namespace Application.dtos;
+﻿namespace Application.dtos.sharedDTOs;
 
 public class FileDto
 {
