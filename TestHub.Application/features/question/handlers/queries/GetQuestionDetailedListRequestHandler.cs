@@ -1,6 +1,6 @@
-﻿using Application.dtos.respondsDto;
+﻿using Application.contracts.persistence;
+using Application.dtos.respondsDto;
 using Application.features.question.requests.queries;
-using Application.persistence.contracts;
 
 namespace Application.features.question.handlers.queries;
 

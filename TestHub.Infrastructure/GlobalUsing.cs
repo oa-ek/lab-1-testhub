@@ -1,1 +1,0 @@
-﻿global using TestHub.Infrastructure.data;

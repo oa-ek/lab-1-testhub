@@ -1,6 +1,4 @@
-﻿using Domain.entities;
-
-namespace Application.persistence.contracts;
+﻿namespace Application.contracts.persistence;
 
 public interface ITestRepository : IGenericRepository<Test>
 {

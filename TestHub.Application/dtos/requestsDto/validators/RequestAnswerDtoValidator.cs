@@ -1,5 +1,5 @@
-﻿using Application.dtos.sharedDTOs.validators;
-using Application.persistence.contracts;
+﻿using Application.contracts.persistence;
+using Application.dtos.sharedDTOs.validators;
 
 namespace Application.dtos.requestsDto.validators;
 

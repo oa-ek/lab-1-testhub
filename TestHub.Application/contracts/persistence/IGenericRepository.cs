@@ -1,4 +1,4 @@
-﻿namespace Application.persistence.contracts
+﻿namespace Application.contracts.persistence
 {
     public interface IGenericRepository<T> where T : class
     {

@@ -1,4 +1,6 @@
-﻿namespace TestHub.Persistence.repositories;
+﻿using Application.contracts.persistence;
+
+namespace TestHub.Persistence.repositories;
 
 public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
 {

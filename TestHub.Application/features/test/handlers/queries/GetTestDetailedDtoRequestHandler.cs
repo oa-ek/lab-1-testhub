@@ -1,6 +1,6 @@
-﻿using Application.dtos.requestsDto;
+﻿using Application.contracts.persistence;
+using Application.dtos.requestsDto;
 using Application.features.test.requests.queries;
-using Application.persistence.contracts;
 using Domain.entities;
 
 namespace Application.features.test.handlers.queries;
