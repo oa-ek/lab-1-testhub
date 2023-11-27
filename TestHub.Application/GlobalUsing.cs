@@ -8,3 +8,6 @@ global using Application.responses.failed;
 global using Application.responses.success;
 global using Domain.entities;
 global using Application.models;
+global using Application.contracts.persistence;
+global using FluentValidation.Results;
+global using Application.dtos.respondsDto;

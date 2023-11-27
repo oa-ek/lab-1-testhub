@@ -1,10 +1,8 @@
-﻿using Application.contracts.persistence;
-using Application.dtos.respondsDto;
-using Application.features.answer.requests.queries;
+﻿using Application.features.answer.requests.queries;
 
 namespace Application.features.answer.handlers.queries;
 
-public class GetAnswerListRequestHandler : IRequestHandler<GetAnswerListRequest, List<RespondAnswerDto>>
+public class GetAnswerListRequestHandler : IRequestHandler<GetAnswerListRequest, BaseCommandResponse<List<RespondAnswerDto>>>
 {
     private readonly IAnswerRepository _repository;
     private readonly IMapper _mapper;
@@ -15,10 +13,11 @@ public class GetAnswerListRequestHandler : IRequestHandler<GetAnswerListRequest,
         _mapper = mapper;
     }
 
-    public async Task<List<RespondAnswerDto>> Handle(GetAnswerListRequest request, CancellationToken cancellationToken)
+    public async Task<BaseCommandResponse<List<RespondAnswerDto>>> Handle(GetAnswerListRequest request, CancellationToken cancellationToken)
     {
         var categories = await _repository.GetAll();
 
-        return _mapper.Map<List<RespondAnswerDto>>(categories);
+        var respondAnswerDtos = _mapper.Map<List<RespondAnswerDto>>(categories);
+        return new OkSuccessStatusResponse<List<RespondAnswerDto>>(respondAnswerDtos);
     }
 }

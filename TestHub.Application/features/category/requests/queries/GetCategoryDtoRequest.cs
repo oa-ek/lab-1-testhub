@@ -2,7 +2,7 @@
 
 namespace Application.features.category.requests.queries;
 
-public class GetCategoryDtoRequest : IRequest<CategoryDto>
+public class GetCategoryDtoRequest : IRequest<BaseCommandResponse<CategoryDto>>
 {
     public int Id { get; set; }
 }

@@ -1,11 +1,10 @@
 ﻿using Application.dtos.sharedDTOs;
-using Domain.entities;
 
-namespace Application.persistence.profiles;
+namespace Application.profiles;
 
 public class MappingProfile : Profile
 {
-    protected MappingProfile()
+    public MappingProfile()
     {
         CreateMap<Category, CategoryDto>().ReverseMap();
     }

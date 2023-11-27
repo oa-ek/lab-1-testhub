@@ -28,4 +28,26 @@ public class TestRepository : GenericRepository<Test>, ITestRepository
             .ToListAsync();
         return tests;
     }
+
+    public async Task<List<Test>> GetTestWithDetailsByUser(int ownerId)
+    {
+        var tests = await _context.Tests!
+            .Where(q => q.OwnerId == ownerId)
+            .Include(q => q.Questions)
+            .ThenInclude(a => a.Answers)
+            .ToListAsync();
+
+        return tests;
+    }
+
+    public async Task<List<Test>> GetTestWithDetailsByPublicity()
+    {
+        var tests = await _context.Tests!
+            .Where(q => q.IsPublic == true)
+            .Include(q => q.Questions)
+            .ThenInclude(a => a.Answers)
+            .ToListAsync();
+
+        return tests;
+    }
 }

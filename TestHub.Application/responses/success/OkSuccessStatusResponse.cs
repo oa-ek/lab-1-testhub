@@ -1,11 +1,18 @@
 ﻿namespace Application.responses.success;
 
-public class OkSuccessStatusResponse  : BaseCommandResponse
+public class OkSuccessStatusResponse<T>  : BaseCommandResponse<T>
 {
     public OkSuccessStatusResponse(int objectId)
     {
         Success = true;
         Message = "Operation Successful";
-        ObjectId = objectId;
+        ResponseObjectId = objectId;
+    }
+    
+    public OkSuccessStatusResponse(T responseObject)
+    {
+        Success = true;
+        Message = "Operation Successful";
+        ResponseObject = responseObject;
     }
 }

@@ -24,7 +24,6 @@
 
     <ItemGroup>
       <Folder Include="features\user\handlers\" />
-      <Folder Include="features\user\requests\" />
     </ItemGroup>
 
 </Project>

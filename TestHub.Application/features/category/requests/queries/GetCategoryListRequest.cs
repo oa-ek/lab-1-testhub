@@ -2,4 +2,4 @@
 
 namespace Application.features.category.requests.queries;
 
-public class GetCategoryListRequest : IRequest<List<CategoryDto>> {}
+public class GetCategoryListRequest : IRequest<BaseCommandResponse<List<CategoryDto>>> {}

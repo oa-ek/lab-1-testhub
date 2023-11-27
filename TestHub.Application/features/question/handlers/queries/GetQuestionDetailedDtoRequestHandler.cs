@@ -1,11 +1,8 @@
-﻿using Application.contracts.persistence;
-using Application.dtos.respondsDto;
-using Application.features.question.requests.queries;
-using Domain.entities;
+﻿using Application.features.question.requests.queries;
 
 namespace Application.features.question.handlers.queries;
 
-public class GetQuestionDetailedDtoRequestHandler : IRequestHandler<GetQuestionDtoRequest, RespondQuestionDto>
+public class GetQuestionDetailedDtoRequestHandler : IRequestHandler<GetQuestionDetailedDtoRequest, BaseCommandResponse<RespondQuestionDto>>
 {
     private readonly IQuestionRepository _repository;
     private readonly IMapper _mapper;
@@ -16,10 +13,12 @@ public class GetQuestionDetailedDtoRequestHandler : IRequestHandler<GetQuestionD
         _mapper = mapper;
     }
     
-    public async Task<RespondQuestionDto> Handle(GetQuestionDtoRequest request, CancellationToken cancellationToken)
+    public async Task<BaseCommandResponse<RespondQuestionDto>> Handle(GetQuestionDetailedDtoRequest request, CancellationToken cancellationToken)
     {
         var question = await _repository.GetQuestionWithDetails(request.Id);
+        if (question == null) return new NotFoundFailedStatusResponse<RespondQuestionDto>(request.Id);
         
-        return _mapper.Map<RespondQuestionDto>(question);
+        var respondQuestionDto = _mapper.Map<RespondQuestionDto>(question);
+        return new OkSuccessStatusResponse<RespondQuestionDto>(respondQuestionDto);
     }
 }

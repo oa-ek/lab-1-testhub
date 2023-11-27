@@ -1,9 +1,8 @@
-﻿using Application.contracts.persistence;
-using Application.features.answer.requests.commands;
+﻿using Application.features.answer.requests.commands;
 
 namespace Application.features.answer.handlers.commands;
 
-public class DeleteAnswerCommandHandler : IRequestHandler<DeleteAnswerCommand, BaseCommandResponse>
+public class DeleteAnswerCommandHandler : IRequestHandler<DeleteAnswerCommand, BaseCommandResponse<RespondAnswerDto>>
 {
     private readonly IAnswerRepository _repository;
 
@@ -12,12 +11,12 @@ public class DeleteAnswerCommandHandler : IRequestHandler<DeleteAnswerCommand, B
         _repository = repository;
     }
     
-    public async Task<BaseCommandResponse> Handle(DeleteAnswerCommand command, CancellationToken cancellationToken)
+    public async Task<BaseCommandResponse<RespondAnswerDto>> Handle(DeleteAnswerCommand command, CancellationToken cancellationToken)
     {
         var answer = await _repository.Get(command.Id);
-        if (answer == null) return new NotFoundFailedStatusResponse(command.Id);
+        if (answer == null) return new NotFoundFailedStatusResponse<RespondAnswerDto>(command.Id);
         
         await _repository.Delete(answer);
-        return new OkSuccessStatusResponse(command.Id);
+        return new OkSuccessStatusResponse<RespondAnswerDto>(command.Id);
     }
 }

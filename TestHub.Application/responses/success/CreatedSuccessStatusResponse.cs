@@ -1,11 +1,11 @@
 ﻿namespace Application.responses.success;
 
-public class CreatedSuccessStatusResponse : BaseCommandResponse
+public class CreatedSuccessStatusResponse<T> : BaseCommandResponse<T>
 {
     public CreatedSuccessStatusResponse(int objectId)
     {
         Success = true;
         Message = "Creation Successful";
-        ObjectId = objectId;
+        ResponseObjectId = objectId;
     }
 }

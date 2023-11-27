@@ -1,10 +1,8 @@
-﻿using Application.contracts.persistence;
-using Application.dtos.requestsDto;
-using Application.features.test.requests.queries;
+﻿using Application.features.test.requests.queries;
 
 namespace Application.features.test.handlers.queries;
 
-public class GetTestDetailedListRequestHandler : IRequestHandler<GetTestDetailedListRequest, List<RequestTestDto>>
+public class GetTestDetailedListRequestHandler : IRequestHandler<GetTestDetailedListRequest, BaseCommandResponse<List<RespondTestDto>>>
 {
     private readonly ITestRepository _repository;
     private readonly IMapper _mapper;
@@ -15,10 +13,11 @@ public class GetTestDetailedListRequestHandler : IRequestHandler<GetTestDetailed
         _mapper = mapper;
     }
 
-    public async Task<List<RequestTestDto>> Handle(GetTestDetailedListRequest request, CancellationToken cancellationToken)
+    public async Task<BaseCommandResponse<List<RespondTestDto>>> Handle(GetTestDetailedListRequest request, CancellationToken cancellationToken)
     {
         var tests = await _repository.GetTestWithDetails();
 
-        return _mapper.Map<List<RequestTestDto>>(tests);
+        var respondTestDtos = _mapper.Map<List<RespondTestDto>>(tests);
+        return new OkSuccessStatusResponse<List<RespondTestDto>>(respondTestDtos);
     }
 }

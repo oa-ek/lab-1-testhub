@@ -13,7 +13,7 @@ namespace TestHub.Persistence.Migrations
 {
     [DbContext(typeof(TestHubDbContext))]
     [Migration("20231126212545_init")]
-    partial class init
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

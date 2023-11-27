@@ -1,10 +1,9 @@
-﻿using Application.contracts.persistence;
-using Application.dtos.sharedDTOs;
+﻿using Application.dtos.sharedDTOs;
 using Application.features.category.requests.queries;
 
 namespace Application.features.category.handlers.queries;
 
-public class GetCategoryListRequestHandler : IRequestHandler<GetCategoryListRequest, List<CategoryDto>>
+public class GetCategoryListRequestHandler : IRequestHandler<GetCategoryListRequest, BaseCommandResponse<List<CategoryDto>>>
 {
     private readonly ICategoryRepository _repository;
     private readonly IMapper _mapper;
@@ -15,10 +14,11 @@ public class GetCategoryListRequestHandler : IRequestHandler<GetCategoryListRequ
         _mapper = mapper;
     }
 
-    public async Task<List<CategoryDto>> Handle(GetCategoryListRequest request, CancellationToken cancellationToken)
+    public async Task<BaseCommandResponse<List<CategoryDto>>> Handle(GetCategoryListRequest request, CancellationToken cancellationToken)
     {
         var categories = await _repository.GetAll();
 
-        return _mapper.Map<List<CategoryDto>>(categories);
+        var categoryDtos = _mapper.Map<List<CategoryDto>>(categories);
+        return new OkSuccessStatusResponse<List<CategoryDto>>(categoryDtos);
     }
 }

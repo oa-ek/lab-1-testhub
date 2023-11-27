@@ -1,5 +1,3 @@
-﻿using Application.dtos.respondsDto;
+﻿namespace Application.features.question.requests.queries;
 
-namespace Application.features.question.requests.queries;
-
-public class GetQuestionDetailedListRequest  : IRequest<List<RespondQuestionDto>> {}
+public class GetQuestionDetailedListRequest  : IRequest<BaseCommandResponse<List<RespondQuestionDto>>> {}

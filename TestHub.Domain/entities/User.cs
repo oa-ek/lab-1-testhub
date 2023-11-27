@@ -1,6 +1,4 @@
-﻿using Domain.common;
-
-namespace Domain.entities
+﻿namespace Domain.entities
 {
     public class User : BaseAuditableEntity
     {

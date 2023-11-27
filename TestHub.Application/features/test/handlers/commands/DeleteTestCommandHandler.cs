@@ -1,9 +1,8 @@
-﻿using Application.contracts.persistence;
-using Application.features.test.requests.commands;
+﻿using Application.features.test.requests.commands;
 
 namespace Application.features.test.handlers.commands;
 
-public class DeleteTestCommandHandler : IRequestHandler<DeleteTestCommand, BaseCommandResponse>
+public class DeleteTestCommandHandler : IRequestHandler<DeleteTestCommand, BaseCommandResponse<RespondTestDto>>
 {
     private readonly ITestRepository _repository;
 
@@ -12,12 +11,12 @@ public class DeleteTestCommandHandler : IRequestHandler<DeleteTestCommand, BaseC
         _repository = repository;
     }
     
-    public async Task<BaseCommandResponse> Handle(DeleteTestCommand command, CancellationToken cancellationToken)
+    public async Task<BaseCommandResponse<RespondTestDto>> Handle(DeleteTestCommand command, CancellationToken cancellationToken)
     {
         var test = await _repository.Get(command.Id);
-        if (test == null) return new NotFoundFailedStatusResponse(command.Id);
+        if (test == null) return new NotFoundFailedStatusResponse<RespondTestDto>(command.Id);
 
         await _repository.Delete(test);
-        return new OkSuccessStatusResponse(command.Id);
+        return new OkSuccessStatusResponse<RespondTestDto>(command.Id);
     }
 }
