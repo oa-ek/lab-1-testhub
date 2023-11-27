@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TestHub.Core.Dtos;
 using TestHub.Infrastructure.Repository;
@@ -10,6 +11,7 @@ namespace TestHub.Controllers;
 [Route("api/Category")]
 [Produces("application/json")]
 [ApiController]
+[Authorize]
 public class CategoryController : Controller
 {
     private readonly CategoryService _categoryService;
@@ -26,8 +28,9 @@ public class CategoryController : Controller
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public ActionResult<ICollection<CategoryDto>> Get()
+    public ActionResult<ICollection<Category>> Get()
     {
+        Console.Write("here");
         return Ok(_categoryService.GetAll());
     }
     
@@ -58,8 +61,11 @@ public class CategoryController : Controller
 
         if (validationResult.IsValid)
         {
-            _categoryService.Add(new Category{Title = categoryDto.Title});
-            return StatusCode(StatusCodes.Status201Created, categoryDto);
+            var createdCategory=new Category{Title = categoryDto.Title};
+            _categoryService.Add(createdCategory);
+            
+            
+            return StatusCode(StatusCodes.Status201Created, createdCategory);
         }
         else
         {

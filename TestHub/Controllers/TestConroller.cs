@@ -1,7 +1,7 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TestHub.Core.Dtos;
-using TestHub.Infrastructure.Repository;
 using TestHub.Core.Models;
 using TestHub.Infrastructure.Services;
 
@@ -10,34 +10,52 @@ namespace TestHub.Controllers;
 [Route("api/Test")]
 [Produces("application/json")]
 [ApiController]
+[Authorize]
 public class TestController : Controller
 {
     private readonly TestService _testService;
+    private readonly UserService _userService;
     private readonly ILogger _logger;
-    
-    public TestController(ILogger<TestController> logger, TestService testService)
+
+    public TestController(ILogger<TestController> logger, TestService testService, UserService userService)
     {
         _logger = logger;
         _testService = testService;
+        _userService = userService;
 
         // Log the type being injected
         _logger.LogInformation($"Injected testService of type: {testService.GetType()}");
+        _logger.LogInformation($"Injected userService of type: {userService.GetType()}");
     }
 
-    [HttpGet]
+    [HttpGet("GetAll")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public ActionResult<ICollection<TestDto>> Get()
+    public ActionResult<ICollection<Test>> GetAll()
     {
         return Ok(_testService.GetAll());
     }
+
+    [HttpGet("GetByUser")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult<ICollection<Test>> GetByUser()
+    {
+        return Ok(_testService.GetAll().Where(u => u.OwnerId == _userService.GerRegistrationUser().Id));
+    }
     
+    [HttpGet("GetPublicTests")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult<ICollection<Test>> GetPublicTests()
+    {
+        return Ok(_testService.GetAll().Where(u => u.IsPublic == true));
+    }
+
     [HttpGet("{id:int}", Name = "GetTest")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<Test> GetTest(int id)
     {
-        Test? searchTest = _testService.GetAll().FirstOrDefault(r=>r.Id==id);
+        Test? searchTest = _testService.GetAll().FirstOrDefault(r => r.Id == id);
         if (searchTest == null)
             return StatusCode(StatusCodes.Status404NotFound, "There is no such test in the database.");
 
@@ -50,6 +68,7 @@ public class TestController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<TestDto> CreateTest([FromBody] TestDto? testDto)
     {
+        int ownerId = _userService.GerRegistrationUser()!.Id;
         if (testDto == null)
             return StatusCode(StatusCodes.Status400BadRequest, testDto);
 
@@ -61,16 +80,18 @@ public class TestController : Controller
             var createdTest = new Test
             {
                 Title = testDto.Title,
-                Duration = 30,
-                IsPublic = true,
-                OwnerId = 1,
-                Status = "string",
+                Description = testDto.Description,
+                Duration = testDto.Duration,
+                IsPublic = testDto.IsPublic,
+                OwnerId = ownerId,
+                Status = testDto.Status,
                 CreatedAt = DateTime.Now
             };
-            
-            _testService.Add(createdTest);
 
-        return StatusCode(StatusCodes.Status201Created, createdTest);
+            _testService.Add(createdTest);
+            _testService.SetCategories(createdTest, testDto.Categories);
+
+            return StatusCode(StatusCodes.Status201Created, createdTest);
         }
         else
         {
@@ -83,7 +104,7 @@ public class TestController : Controller
             return StatusCode(StatusCodes.Status500InternalServerError, validationResult.Errors);
         }
     }
-    
+
     [HttpDelete("{id:int}", Name = "DeleteTest")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -93,11 +114,17 @@ public class TestController : Controller
         Test? testToDelete = _testService.GetAll().FirstOrDefault(c => c.Id == id);
         if (testToDelete == null)
             return StatusCode(StatusCodes.Status404NotFound, "There is not such test in DataBase.");
-    
+
+        _testService.DeleteCategories(testToDelete);
+        _testService.DeleteQuestionsAndAnswers(testToDelete);
+
+        // Видалити видаляємий тест
         _testService.Delete(testToDelete);
+
         return StatusCode(StatusCodes.Status204NoContent);
     }
-    
+
+
     [HttpPut("{id:int}", Name = "UpdateTest")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -106,17 +133,18 @@ public class TestController : Controller
     {
         if (testDto == null)
             return StatusCode(StatusCodes.Status400BadRequest, "Invalid object identification.");
-        
+
         Test? testToUpdate = _testService.GetAll().FirstOrDefault(c => c.Id == id);
         if (testToUpdate == null)
             return StatusCode(StatusCodes.Status404NotFound, "There is not such test in DataBase.");
-        
+
         var modelValidator = new ModelValidatorService();
         var validationResult = modelValidator.ValidateModel(testDto);
 
         if (validationResult.IsValid)
         {
             _testService.Update(testToUpdate, testDto);
+            _testService.UpdateCategories(testToUpdate, testDto.Categories);
             return StatusCode(StatusCodes.Status201Created, testDto);
         }
         else

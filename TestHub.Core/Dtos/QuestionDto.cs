@@ -1,12 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace TestHub.Core.Dtos;
+﻿namespace TestHub.Core.Dtos;
 
 public class QuestionDto
 {
-    [Required] [MaxLength(215)] public string Title { get; set; } = null!;
+    public string Title { get; set; } = null!;
 
-    [Required] [MaxLength(512)] public string? Description { get; set; }
+    public string? Description { get; set; }
+    
+    public string Type { get; set; }
 
-    [MaxLength(512)] public string? Image { get; set; }
+    public FileDto? q_image { get; set; }
+    
+    public AnswerDto[] Answers { get; set; }
 }

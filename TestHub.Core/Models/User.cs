@@ -14,12 +14,23 @@ public class User
 
     public DateTime CreateAt { get; set; }
 
-    public DateTime UpdateAd { get; set; }
+    public DateTime? UpdateAt { get; set; }
 
-    public DateTime DeleteAt { get; set; }
+    public DateTime? DeleteAt { get; set; }
 
-    public string Comment { get; set; } = null!;
+    public string? Comment { get; set; }
 
+
+    public string? Token { get; set; } = string.Empty;
+    
+    public bool IsVerifiedEmail { get; set; } = false;
+    public DateTime? TokenCreated { get; set; }
+    public DateTime? TokenExpires { get; set; }
+
+    public string? PasswordResetToken { get; set; }
+    
+    public DateTime? ResetTokenExpires { get; set; }
+    
     public virtual ICollection<TestMetadata> TestMetadata { get; set; } = new List<TestMetadata>();
 
     public virtual ICollection<TestSession> TestSessions { get; set; } = new List<TestSession>();

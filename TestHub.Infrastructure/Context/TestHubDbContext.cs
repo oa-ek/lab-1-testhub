@@ -236,7 +236,8 @@ public partial class TestHubDbContext : DbContext
             entity.ToTable("User");
 
             entity.HasIndex(e => e.Name, "UQ__User__737584F633AAFF38").IsUnique();
-
+            entity.HasIndex(e => e.Email).IsUnique();
+            
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Comment)
                 .HasMaxLength(512)
@@ -255,7 +256,7 @@ public partial class TestHubDbContext : DbContext
             entity.Property(e => e.Role)
                 .HasMaxLength(255)
                 .IsUnicode(false);
-            entity.Property(e => e.UpdateAd).HasColumnType("datetime");
+            entity.Property(e => e.UpdateAt).HasColumnType("datetime");
         });
 
         OnModelCreatingPartial(modelBuilder);
