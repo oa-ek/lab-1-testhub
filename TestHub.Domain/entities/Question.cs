@@ -7,10 +7,10 @@ public class Question : BaseAuditableEntity
     public string? Image { get; set; }
    
     public int TestId { get; set; }
-    public virtual Test Test { get; set; } = new Test();
+    public virtual Test Test { get; set; }
 
     public int TypeId { get; set; } 
-    public virtual QuestionType Type { get; set; } = new QuestionType();
+    public virtual QuestionType Type { get; set; }
 
     
     public virtual ICollection<Answer> Answers { get; set; } = new List<Answer>();

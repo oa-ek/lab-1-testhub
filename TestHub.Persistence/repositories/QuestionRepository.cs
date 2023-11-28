@@ -26,4 +26,14 @@ public class QuestionRepository : GenericRepository<Question>, IQuestionReposito
             .ToListAsync();
         return questions;
     }
+
+    public async Task<List<Question>> GetQuestionsWithDetailsByTest(int testId)
+    {
+        var questions = await _context.Questions!
+            .Where(q => q.TestId == testId)
+            .Include(q => q.Answers)
+            .ToListAsync();
+
+        return questions;
+    }
 }

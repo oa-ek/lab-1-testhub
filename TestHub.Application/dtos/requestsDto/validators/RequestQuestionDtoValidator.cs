@@ -1,7 +1,4 @@
-﻿using Application.contracts.persistence;
-using Application.dtos.sharedDTOs.validators;
-
-namespace Application.dtos.requestsDto.validators
+﻿namespace Application.dtos.requestsDto.validators
 {
     public class RequestQuestionDtoValidator : AbstractValidator<RequestQuestionDto>
     {

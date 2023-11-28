@@ -15,11 +15,18 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
     
     public async Task<BaseCommandResponse<RespondQuestionDto>> Handle(CreateQuestionCommand command, CancellationToken cancellationToken)
     {
+        if (command.QuestionDto == null)
+            return new BadRequestFailedStatusResponse<RespondQuestionDto>(new List<ValidationFailure>
+            {
+                new ("QuestionDto", "QuestionDto cannot be null.")
+            });
+        
         var validator = new RequestQuestionDtoValidator(_repository);
         var validationResult = await validator.ValidateAsync(command.QuestionDto, cancellationToken);
         if (!validationResult.IsValid) return new BadRequestFailedStatusResponse<RespondQuestionDto>(validationResult.Errors);
         
         var question = _mapper.Map<Question>(command.QuestionDto);
+        question.TestId = command.TestId;
 
         question = await _repository.Add(question);
         return new CreatedSuccessStatusResponse<RespondQuestionDto>(question.Id);
