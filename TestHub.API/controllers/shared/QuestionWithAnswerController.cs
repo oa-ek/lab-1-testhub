@@ -1,8 +1,5 @@
 ﻿using Application.dtos.respondsDto;
-using Application.responses.failed;
-using Application.responses.success;
-using AutoMapper;
-using TestHub.API.services;
+using Application.features.shared.questionwithanswer.requests.commands;
 
 namespace TestHub.API.controllers.shared;
 
@@ -11,11 +8,11 @@ namespace TestHub.API.controllers.shared;
 [ApiController]
 public class QuestionWithAnswerController
 {
-    private readonly QuestionService _questionService;
+    private readonly IMediator _mediator;
     
-    public QuestionWithAnswerController(IMediator mediator, IMapper mapper)
+    public QuestionWithAnswerController(IMediator mediator)
     {
-        _questionService = new QuestionService(mediator, mapper);
+        _mediator = mediator;
     }
     
     [HttpPost("{testId:int}", Name = "CreateQuestionWithAnswer")]
@@ -24,22 +21,9 @@ public class QuestionWithAnswerController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<BaseCommandResponse<RespondQuestionDto>> CreateQuestionWithAnswer(int testId, [FromBody] RequestQuestionWithAnswerDto? requestQuestionWithAnswerDto)
     {
-        var createQuestionResponse = await _questionService.CreateQuestion(testId, requestQuestionWithAnswerDto);
-
-        if (!createQuestionResponse.Success)
-            return createQuestionResponse;
-
-        var createdQuestionId = createQuestionResponse.ResponseObjectId!.Value;
-
-        if (requestQuestionWithAnswerDto == null)
-            return new CreatedSuccessStatusResponse<RespondQuestionDto>(createdQuestionId);
-       
-        var createAnswerResponse = await _questionService.CreateAnswers(createdQuestionId, requestQuestionWithAnswerDto.AnswerDtos);
-
-        if (!createAnswerResponse.Success)
-            return new BadRequestFailedStatusResponse<RespondQuestionDto>() { Errors = createAnswerResponse.Errors };
-
-        return new CreatedSuccessStatusResponse<RespondQuestionDto>(createdQuestionId);
+        var command = new CreateQuestionWithAnswersCommand { QuestionWithAnswerDto = requestQuestionWithAnswerDto, TestId = testId };
+        var response = await _mediator.Send(command);
+        return response;
     }
     
     [HttpDelete("{id:int}", Name = "DeleteQuestionWithAnswer")]
@@ -48,17 +32,9 @@ public class QuestionWithAnswerController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<BaseCommandResponse<RespondQuestionDto>> DeleteQuestionWithAnswer(int id)
     {
-        var deleteCommandResponse = await _questionService.DeleteQuestion(id);
-
-        if (!deleteCommandResponse.Success)
-            return deleteCommandResponse;
-       
-        var deleteAnswerResponse = await _questionService.DeleteQuestion(id);
-
-        if (!deleteAnswerResponse.Success)
-            return new BadRequestFailedStatusResponse<RespondQuestionDto>() { Errors = deleteAnswerResponse.Errors };
-
-        return new OkSuccessStatusResponse<RespondQuestionDto>(id);
+        var command = new DeleteQuestionWithAnswersCommand { QuestionId = id};
+        var response = await _mediator.Send(command);
+        return response;
     }
     
     [HttpPut("{questionId:int}", Name = "UpdateQuestionAndAnswer")]
@@ -67,21 +43,8 @@ public class QuestionWithAnswerController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<BaseCommandResponse<RespondQuestionDto>> UpdateQuestionAnswer(int questionId, [FromBody] RequestQuestionWithAnswerDto? requestQuestionWithAnswerDto)
     {
-        var createQuestionResponse = await _questionService.UpdateQuestion(questionId, requestQuestionWithAnswerDto);
-
-        if (!createQuestionResponse.Success)
-            return createQuestionResponse;
-
-        var updatedQuestionId = createQuestionResponse.ResponseObjectId!.Value;
-
-        if (requestQuestionWithAnswerDto == null)
-            return new CreatedSuccessStatusResponse<RespondQuestionDto>(updatedQuestionId);
-       
-        var updateAnswerResponse = await _questionService.UpdateAnswers(updatedQuestionId, requestQuestionWithAnswerDto.AnswerDtos);
-
-        if (!updateAnswerResponse.Success)
-            return new BadRequestFailedStatusResponse<RespondQuestionDto>() { Errors = updateAnswerResponse.Errors };
-
-        return new CreatedSuccessStatusResponse<RespondQuestionDto>(updatedQuestionId);
+        var command = new UpdateQuestionWithAnswersCommand { QuestionWithAnswerDto = requestQuestionWithAnswerDto, QuestionId = questionId };
+        var response = await _mediator.Send(command);
+        return response;
     }
 }

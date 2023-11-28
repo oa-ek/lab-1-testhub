@@ -24,6 +24,7 @@
 
     <ItemGroup>
       <Folder Include="features\user\handlers\" />
+      <Folder Include="models\identity\" />
     </ItemGroup>
 
 </Project>

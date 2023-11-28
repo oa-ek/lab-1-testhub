@@ -11,3 +11,5 @@ global using Application.models;
 global using Application.contracts.persistence;
 global using FluentValidation.Results;
 global using Application.dtos.respondsDto;
+global using Application.dtos.requestsDto;
+global using Application.dtos.sharedDTOs;
