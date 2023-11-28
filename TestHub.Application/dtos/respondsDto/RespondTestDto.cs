@@ -1,7 +1,4 @@
-﻿using Application.dtos.requestsDto;
-using Application.dtos.sharedDTOs;
-
-namespace Application.dtos.respondsDto;
+﻿namespace Application.dtos.respondsDto;
 
 public class RespondTestDto
 {

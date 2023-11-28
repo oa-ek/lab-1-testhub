@@ -9,9 +9,9 @@
         public bool IsPublic { get; set; }
         
         public int OwnerId { get; set; }
-        public virtual User Owner { get; set; } = new User();
+        public virtual User Owner { get; set; } 
         
-        public virtual Question Question { get; set; } = new Question();
+        public virtual Question Question { get; set; } 
         public virtual ICollection<TestCategory> TestCategories { get; set; } = new List<TestCategory>();
         public virtual ICollection<TestMetadata> TestMetadata { get; set; } = new List<TestMetadata>();
         public virtual ICollection<TestSession> TestSessions { get; set; } = new List<TestSession>();

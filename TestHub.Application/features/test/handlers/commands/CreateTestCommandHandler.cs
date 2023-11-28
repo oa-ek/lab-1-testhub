@@ -26,7 +26,8 @@ public class CreateTestCommandHandler : IRequestHandler<CreateTestCommand, BaseC
         if (!validationResult.IsValid) return new BadRequestFailedStatusResponse<RespondTestDto>(validationResult.Errors);
         
         var test = _mapper.Map<Test>(command.TestDto);
-
+        test.OwnerId = command.OwnerId;
+        
         test = await _repository.Add(test);
         return new CreatedSuccessStatusResponse<RespondTestDto>(test.Id);
     }
