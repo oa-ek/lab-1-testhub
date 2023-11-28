@@ -1,6 +1,4 @@
-﻿using Application.dtos.sharedDTOs;
-
-namespace Application.dtos.requestsDto;
+﻿namespace Application.dtos.requestsDto;
 
 public class RequestAnswerDto
 {

@@ -15,6 +15,12 @@ public class UpdateAnswerCommandHandler : IRequestHandler<UpdateAnswerCommand, B
     
     public async Task<BaseCommandResponse<RespondAnswerDto>> Handle(UpdateAnswerCommand command, CancellationToken cancellationToken)
     {
+        if (command.AnswerDto == null)
+            return new BadRequestFailedStatusResponse<RespondAnswerDto>(new List<ValidationFailure>
+            {
+                new ("AnswerDto", "AnswerDto cannot be null.")
+            });
+        
         var validator = new RequestAnswerDtoValidator(_repository);
         var validationResult = await validator.ValidateAsync(command.AnswerDto, cancellationToken);
         if (!validationResult.IsValid) return new BadRequestFailedStatusResponse<RespondAnswerDto>(validationResult.Errors);

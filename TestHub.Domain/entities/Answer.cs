@@ -10,5 +10,5 @@ public class Answer : BaseAuditableEntity
     public bool IsStrictText { get; set; }
 
     public int QuestionId { get; set; }
-    public virtual Question Question { get; set; } = new Question();
+    public virtual Question Question { get; set; }
 }
