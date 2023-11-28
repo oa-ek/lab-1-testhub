@@ -2,6 +2,12 @@
 
 public class BadRequestFailedStatusResponse<T> : BaseCommandResponse <T>
 {
+    public BadRequestFailedStatusResponse()
+    {
+        Success = false;
+        Message = "Operation Failed";
+    }
+
     public BadRequestFailedStatusResponse(IEnumerable<ValidationFailure> errors) 
     {
         Success = false;

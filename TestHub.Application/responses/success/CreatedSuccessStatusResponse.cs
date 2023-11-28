@@ -8,4 +8,11 @@ public class CreatedSuccessStatusResponse<T> : BaseCommandResponse<T>
         Message = "Creation Successful";
         ResponseObjectId = objectId;
     }
+    
+    public CreatedSuccessStatusResponse(T responseObject)
+    {
+        Success = true;
+        Message = "Creation Successful";
+        ResponseObject = responseObject;
+    }
 }
