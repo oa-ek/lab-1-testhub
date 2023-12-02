@@ -29,6 +29,18 @@ public class CreateTestCommandHandler : IRequestHandler<CreateTestCommand, BaseC
         test.OwnerId = command.OwnerId;
         
         test = await _repository.Add(test);
+        
+        var requestCategories = command.TestDto.Categories;
+        await ProcessCategoriesAsync(test, requestCategories, cancellationToken);
+        
         return new CreatedSuccessStatusResponse<RespondTestDto>(test.Id);
+    }
+    
+    private async Task ProcessCategoriesAsync(Test test, IEnumerable<CategoryDto> requestCategories, CancellationToken cancellationToken)
+    {
+        foreach (var categoryDto in requestCategories)
+        {
+            await _repository.SetCategories(test, categoryDto);
+        }
     }
 }

@@ -6,4 +6,6 @@ public interface ITestRepository : IGenericRepository<Test>
     Task<List<Test>> GetTestWithDetails();
     Task<List<Test>> GetTestWithDetailsByUser(int ownerId);
     Task<List<Test>> GetTestWithDetailsByPublicity();
+    Task SetCategories(Test test, CategoryDto categoryDto);
+    Task DeleteCategories(Test test);
 }

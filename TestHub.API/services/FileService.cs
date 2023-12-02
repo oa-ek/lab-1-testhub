@@ -1,6 +1,6 @@
 ﻿namespace TestHub.API.services;
 
-public class FileService
+public class FileService : IFileService
 {
     private readonly ILocalFileStorage _localFileStorage;
     private readonly ICloudFileStorage _cloudFileStorage;

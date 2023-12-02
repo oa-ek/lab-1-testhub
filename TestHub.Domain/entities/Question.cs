@@ -4,7 +4,7 @@ public class Question : BaseAuditableEntity
 {
     public string Title { get; set; } = string.Empty;
     public string? Description { get; set; }
-    public string? Image { get; set; }
+    public string? ImageUrl { get; set; }
    
     public int TestId { get; set; }
     public virtual Test Test { get; set; }

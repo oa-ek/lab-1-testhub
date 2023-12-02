@@ -6,13 +6,15 @@ public class UpdateQuestionWithAnswersCommandHandler : IRequestHandler<UpdateQue
 {
     private readonly IQuestionRepository _questionRepository;
     private readonly IAnswerRepository _answerRepository;
+    private readonly IFileService _fileService;
     private readonly IMapper _mapper;
 
-    public UpdateQuestionWithAnswersCommandHandler(IQuestionRepository questionRepository, IMapper mapper, IAnswerRepository answerRepository)
+    public UpdateQuestionWithAnswersCommandHandler(IQuestionRepository questionRepository, IMapper mapper, IAnswerRepository answerRepository, IFileService fileService)
     {
         _questionRepository = questionRepository;
         _mapper = mapper;
         _answerRepository = answerRepository;
+        _fileService = fileService;
     }
 
     public async Task<BaseCommandResponse<RespondQuestionDto>> Handle(UpdateQuestionWithAnswersCommand command, CancellationToken cancellationToken)
@@ -32,6 +34,7 @@ public class UpdateQuestionWithAnswersCommandHandler : IRequestHandler<UpdateQue
         if (question == null) return new NotFoundFailedStatusResponse<RespondQuestionDto>(command.QuestionId);
         
         _mapper.Map(questionDto, question);
+        question.ImageUrl = await MapImageAsync(questionDto.Image);
         await _questionRepository.Update(question);
 
         var requestAnswers = requestQuestion.AnswerDtos;
@@ -66,6 +69,7 @@ public class UpdateQuestionWithAnswersCommandHandler : IRequestHandler<UpdateQue
             
             var answer = _mapper.Map<Answer>(requestAnswerDto);
             answer.QuestionId = questionId;
+            answer.ImageUrl = await MapImageAsync(requestAnswerDto.Image);
 
             await _answerRepository.Add(answer);
         }
@@ -75,5 +79,10 @@ public class UpdateQuestionWithAnswersCommandHandler : IRequestHandler<UpdateQue
     {
         var answerDtoValidator = new RequestAnswerDtoValidator(_answerRepository);
         return await answerDtoValidator.ValidateAsync(answerDto, cancellationToken);
+    }
+    
+    private async Task<string> MapImageAsync(FileDto? imageDto)
+    {
+        return imageDto == null ? string.Empty : await _fileService.UploadImage(imageDto);
     }
 }

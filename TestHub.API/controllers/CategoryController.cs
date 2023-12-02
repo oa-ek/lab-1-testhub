@@ -17,19 +17,28 @@ public class CategoryController : Controller
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<BaseCommandResponse<List<CategoryDto>>> Get()
+    public async Task<List<CategoryDto>?> Get()
     {
         var response = await _mediator.Send(new GetCategoryListRequest());
-        return response;
+        return response.ResponseObject;
     }
 
     [HttpGet("{id:int}", Name = "GetCategory")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<BaseCommandResponse<CategoryDto>> GetCategory(int id)
+    public async Task<CategoryDto?> GetCategory(int id)
     {
         var command = new GetCategoryDtoRequest { Id = id };
         var response = await _mediator.Send(command);
-        return response;
+        return response.ResponseObject;
+    }
+    
+    [HttpGet("getByTest/{id:int}", Name = "GetTestCategories")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<List<CategoryDto>?> GetCategoriesByTestId(int id)
+    {
+        var command = new GetCategoryListByTestIdRequest { Id = id };
+        var response = await _mediator.Send(command);
+        return response.ResponseObject;
     }
 
     [HttpPost]

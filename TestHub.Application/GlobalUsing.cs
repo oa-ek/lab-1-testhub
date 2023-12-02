@@ -13,3 +13,4 @@ global using FluentValidation.Results;
 global using Application.dtos.respondsDto;
 global using Application.dtos.requestsDto;
 global using Application.dtos.sharedDTOs;
+global using Application.contracts.infrastructure;

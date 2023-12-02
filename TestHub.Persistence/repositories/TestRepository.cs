@@ -1,4 +1,5 @@
 ﻿using Application.contracts.persistence;
+using Application.dtos.sharedDTOs;
 
 namespace TestHub.Persistence.repositories;
 
@@ -49,5 +50,28 @@ public class TestRepository : GenericRepository<Test>, ITestRepository
             .ToListAsync();
 
         return tests;
+    }
+    
+    public async Task SetCategories(Test test, CategoryDto categoryDto)
+    {
+        var category = await _context.Categories!
+            .FirstOrDefaultAsync(c=> c.Title == categoryDto.Title);
+
+        var testCategory = new TestCategory { Category = category!, Test = test};
+        
+        await _context.TestCategories!.AddAsync(testCategory);
+        await _context.SaveChangesAsync();
+    }
+    
+    public async Task DeleteCategories(Test test)
+    {
+        var categories = _context.TestCategories!
+            .Where(c=> c.Test == test);
+
+        if (categories.Any())
+        {
+            _context.TestCategories!.RemoveRange(categories);
+            await _context.SaveChangesAsync();
+        }
     }
 }

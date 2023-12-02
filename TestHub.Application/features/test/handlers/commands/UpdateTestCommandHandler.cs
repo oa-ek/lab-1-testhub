@@ -30,6 +30,17 @@ public class UpdateTestCommandHandler : IRequestHandler<UpdateTestCommand, BaseC
         
         _mapper.Map(command.TestDto, test);
         await _repository.Update(test);
+
+        await _repository.DeleteCategories(test);
+        await ProcessCategoriesAsync(test, command.TestDto.Categories);
         return new OkSuccessStatusResponse<RespondTestDto>(test.Id);
+    }
+    
+    private async Task ProcessCategoriesAsync(Test test, IEnumerable<CategoryDto> requestCategories)
+    {
+        foreach (var categoryDto in requestCategories)
+        {
+            await _repository.SetCategories(test, categoryDto);
+        }
     }
 }

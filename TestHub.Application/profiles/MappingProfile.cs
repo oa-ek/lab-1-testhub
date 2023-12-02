@@ -8,5 +8,17 @@ public class MappingProfile : Profile
         
         CreateMap<Test, RequestTestDto>().ReverseMap();
         CreateMap<Test, RespondTestDto>().ReverseMap();
+        
+        CreateMap<RequestAnswerDto, Answer>()
+            .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.Image));
+        CreateMap<Answer, RespondAnswerDto>().ReverseMap();
+
+        CreateMap<Question, RespondQuestionDto>()
+            .ForMember(dest => dest.Answers, opt => opt.MapFrom(src => src.Answers)).ReverseMap();
+
+        CreateMap<RequestQuestionDto, Question>()
+            .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type.ToString()))
+            .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.Image));
+        CreateMap<RequestQuestionWithAnswerDto, RespondQuestionDto>();
     }
 }

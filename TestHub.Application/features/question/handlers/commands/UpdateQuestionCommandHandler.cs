@@ -5,12 +5,14 @@ namespace Application.features.question.handlers.commands;
 public class UpdateQuestionCommandHandler : IRequestHandler<UpdateQuestionCommand, BaseCommandResponse<RespondQuestionDto>>
 {
     private readonly IQuestionRepository _repository;
+    private readonly IFileService _fileService;
     private readonly IMapper _mapper;
 
-    public UpdateQuestionCommandHandler(IQuestionRepository repository, IMapper mapper)
+    public UpdateQuestionCommandHandler(IQuestionRepository repository, IMapper mapper, IFileService fileService)
     {
         _repository = repository;
         _mapper = mapper;
+        _fileService = fileService;
     }
     public async Task<BaseCommandResponse<RespondQuestionDto>> Handle(UpdateQuestionCommand command, CancellationToken cancellationToken)
     {
@@ -28,7 +30,14 @@ public class UpdateQuestionCommandHandler : IRequestHandler<UpdateQuestionComman
         if (question == null) return new NotFoundFailedStatusResponse<RespondQuestionDto>(command.Id);
         
         _mapper.Map(command.QuestionDto, question);
+        question.ImageUrl = await MapImageAsync(command.QuestionDto.Image);
+        
         await _repository.Update(question);
         return new OkSuccessStatusResponse<RespondQuestionDto>(question.Id);
+    }
+    
+    private async Task<string> MapImageAsync(FileDto? imageDto)
+    {
+        return imageDto == null ? string.Empty : await _fileService.UploadImage(imageDto);
     }
 }

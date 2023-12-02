@@ -18,28 +18,28 @@ public class QuestionController : Controller
     
     [HttpGet(Name = "GetQuestionList")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<BaseCommandResponse<List<RespondQuestionDto>>> Get()
+    public async Task<List<RespondQuestionDto>?> Get()
     {
         var response = await _mediator.Send(new GetQuestionDetailedListRequest());
-        return response;
+        return response.ResponseObject;
     }
     
     [HttpGet("{id:int}", Name = "GetQuestion")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<BaseCommandResponse<RespondQuestionDto>> GetQuestion(int id)
+    public async Task<RespondQuestionDto?> GetQuestion(int id)
     {
         var response = await _mediator.Send(new GetQuestionDetailedDtoRequest() { Id = id });
-        return response;
+        return response.ResponseObject;
     }
     
     [HttpGet("getByTest/{testId:int}",  Name = "GetQuestionListByTest")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<BaseCommandResponse<List<RespondQuestionDto>>> GetAllQuestionByTest(int testId)
+    public async Task<List<RespondQuestionDto>?> GetAllQuestionByTest(int testId)
     {
         var command = new GetQuestionDetailedListRequestByTest{ TestId = testId};
         var response = await _mediator.Send(command);
-        return response;
+        return response.ResponseObject;
     }
     
     [HttpPost(Name = "CreateQuestion")]
@@ -56,7 +56,7 @@ public class QuestionController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<BaseCommandResponse<RespondQuestionDto>> UpdateTest(int id, RequestQuestionDto? questionDto)
+    public async Task<BaseCommandResponse<RespondQuestionDto>> UpdateQuestion(int id, RequestQuestionDto? questionDto)
     {
         var command = new UpdateQuestionCommand() { Id = id, QuestionDto = questionDto };
         var response = await _mediator.Send(command);
@@ -66,7 +66,7 @@ public class QuestionController : Controller
     [HttpDelete("{id:int}", Name = "DeleteQuestion")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<BaseCommandResponse<RespondQuestionDto>> Delete(int id)
+    public async Task<BaseCommandResponse<RespondQuestionDto>> DeleteQuestion(int id)
     {
         var command = new DeleteQuestionCommand() { Id = id };
         var response = await _mediator.Send(command);

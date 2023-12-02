@@ -18,40 +18,40 @@ public class TestController : Controller
     
     [HttpGet("GetAll")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<BaseCommandResponse<List<RespondTestDto>>> Get()
+    public async Task<List<RespondTestDto>?> Get()
     {
         var response = await _mediator.Send(new GetTestDetailedListRequest());
-        return response;
+        return response.ResponseObject;
     }
     
     [HttpGet("{id:int}", Name = "GetTest")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<BaseCommandResponse<RespondTestDto>> GetTest(int id)
+    public async Task<RespondTestDto?> GetTest(int id)
     {
         var response = await _mediator.Send(new GetTestDetailedDtoRequest { Id = id });
-        return response;
+        return response.ResponseObject;
     }
     
     [HttpGet("GetByUser")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<BaseCommandResponse<List<RespondTestDto>>> GetTestDtosByUser()
+    public async Task<List<RespondTestDto>?> GetTestDtosByUser()
     {
         var ownerId = 2;
         var command = new GetTestDetailedListRequestByUser { OwnerId = ownerId };
         var response = await _mediator.Send(command);
-        return response;
+        return response.ResponseObject;
     }
     
     [HttpGet("GetPublicTests")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<BaseCommandResponse<List<RespondTestDto>>> GetPublicTests()
+    public async Task<List<RespondTestDto>?> GetPublicTests()
     {
         var command = new GetTestDetailedListRequestByPublicity( );
         var response = await _mediator.Send(command);
-        return response;
+        return response.ResponseObject;
     }
     
     [HttpPost]

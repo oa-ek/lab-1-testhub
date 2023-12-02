@@ -1,8 +1,7 @@
-using System.Text;
 using Application;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using TestHub.API;
 using TestHub.Infrastructure;
 using TestHub.Persistence;
 
@@ -12,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddPersistenceServices(builder.Configuration);
+builder.Services.AddPresentationServices();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -7,13 +7,15 @@ public class CreateQuestionWithAnswersCommandHandler : IRequestHandler<CreateQue
 {
     private readonly IQuestionRepository _questionRepository;
     private readonly IAnswerRepository _answerRepository;
+    private readonly IFileService _fileService;
     private readonly IMapper _mapper;
 
-    public CreateQuestionWithAnswersCommandHandler(IQuestionRepository questionRepository, IMapper mapper, IAnswerRepository answerRepository)
+    public CreateQuestionWithAnswersCommandHandler(IQuestionRepository questionRepository, IMapper mapper, IAnswerRepository answerRepository, IFileService fileService)
     {
         _questionRepository = questionRepository;
         _mapper = mapper;
         _answerRepository = answerRepository;
+        _fileService = fileService;
     }
 
     public async Task<BaseCommandResponse<RespondQuestionDto>> Handle(CreateQuestionWithAnswersCommand command, CancellationToken cancellationToken)
@@ -31,6 +33,7 @@ public class CreateQuestionWithAnswersCommandHandler : IRequestHandler<CreateQue
         
         var question = _mapper.Map<Question>(questionDto);
         question.TestId = command.TestId;
+        question.ImageUrl = await MapImageAsync(questionDto.Image);
 
         question = await _questionRepository.Add(question);
 
@@ -62,7 +65,8 @@ public class CreateQuestionWithAnswersCommandHandler : IRequestHandler<CreateQue
             
             var answer = _mapper.Map<Answer>(requestAnswerDto);
             answer.QuestionId = questionId;
-
+            answer.ImageUrl = await MapImageAsync(requestAnswerDto.Image);
+            
             await _answerRepository.Add(answer);
         }
     }
@@ -71,5 +75,10 @@ public class CreateQuestionWithAnswersCommandHandler : IRequestHandler<CreateQue
     {
         var answerDtoValidator = new RequestAnswerDtoValidator(_answerRepository);
         return await answerDtoValidator.ValidateAsync(answerDto, cancellationToken);
+    }
+    
+    private async Task<string> MapImageAsync(FileDto? imageDto)
+    {
+        return imageDto == null ? string.Empty : await _fileService.UploadImage(imageDto);
     }
 }

@@ -18,19 +18,19 @@ public class AnswerController : Controller
     
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<BaseCommandResponse<List<RespondAnswerDto>>> Get()
+    public async Task<List<RespondAnswerDto>?> Get()
     {
         var response = await _mediator.Send(new GetAnswerDtoListRequest());
-        return response;
+        return response.ResponseObject;
     }
 
     [HttpGet("{id:int}", Name = "GetAnswer")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<BaseCommandResponse<RespondAnswerDto>> GetAnswer(int id)
+    public async Task<RespondAnswerDto?> GetAnswer(int id)
     {
         var command = new GetAnswerDtoRequest { Id = id };
         var response = await _mediator.Send(command);
-        return response;
+        return response.ResponseObject;
     }
 
     [HttpPost]

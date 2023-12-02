@@ -8,7 +8,6 @@ public class RespondTestDto
     public bool IsPublic { get; set; }
     public string Status { get; set; } = null!;
     
-    public List<CategoryDto>? Categories { get; set; }
     public List<RequestQuestionDto>? Questions { get; set; }
     
 }

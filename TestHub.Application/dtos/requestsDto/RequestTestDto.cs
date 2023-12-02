@@ -7,4 +7,6 @@ public class RequestTestDto
     public int Duration { get; set; }
     public string Status { get; set; } = null!;
     public bool IsPublic { get; set; }
+    
+    public CategoryDto[] Categories { get; set; } = null!;
 }

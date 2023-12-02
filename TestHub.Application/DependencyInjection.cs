@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Application.contracts.infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
