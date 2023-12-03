@@ -1,6 +1,4 @@
-﻿using Application.dtos.requestsDto;
-
-namespace Application.dtos.respondsDto;
+﻿namespace Application.dtos.respondsDto;
 
 public class RespondQuestionDto
 {
@@ -9,5 +7,5 @@ public class RespondQuestionDto
     public required string Type { get; set; }
     public string? ImageUrl { get; set; }
     
-    public List<RequestAnswerDto>? Answers { get; set; }
+    public List<RespondAnswerDto>? Answers { get; set; }
 }

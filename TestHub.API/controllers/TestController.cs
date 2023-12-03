@@ -59,7 +59,7 @@ public class TestController : Controller
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<BaseCommandResponse<RespondTestDto>> CreateTest([FromBody] RequestTestDto? testDto)
     {
-        var ownerId = 2;
+        var ownerId = 1;
         var command = new CreateTestCommand() { TestDto = testDto, OwnerId = ownerId};
         var response = await _mediator.Send(command);
         return response;
