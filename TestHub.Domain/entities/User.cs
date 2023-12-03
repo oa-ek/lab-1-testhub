@@ -12,11 +12,11 @@
 
         public string Token { get; set; } = string.Empty;
         public bool IsEmailVerified { get; set; }
-        public DateTimeOffset? TokenCreated { get; set; }
-        public DateTimeOffset? TokenExpires { get; set; }
+        public DateTime? TokenCreated { get; set; }
+        public DateTime? TokenExpires { get; set; }
 
         public string? PasswordResetToken { get; set; }
-        public DateTimeOffset? ResetTokenExpires { get; set; }
+        public DateTime? ResetTokenExpires { get; set; }
 
 
         public virtual ICollection<Test> Tests { get; set; } = new List<Test>();

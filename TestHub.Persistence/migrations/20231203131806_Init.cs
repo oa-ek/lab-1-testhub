@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -58,10 +59,10 @@ namespace TestHub.Persistence.Migrations
                     Deleted = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Token = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsEmailVerified = table.Column<bool>(type: "bit", nullable: false),
-                    TokenCreated = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    TokenExpires = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    TokenCreated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    TokenExpires = table.Column<DateTime>(type: "datetime2", nullable: true),
                     PasswordResetToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ResetTokenExpires = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    ResetTokenExpires = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -73,17 +74,16 @@ namespace TestHub.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tests",
+                name: "Answers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Duration = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsPublic = table.Column<bool>(type: "bit", nullable: false),
-                    OwnerId = table.Column<int>(type: "int", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsCorrect = table.Column<bool>(type: "bit", nullable: false),
+                    IsStrictText = table.Column<bool>(type: "bit", nullable: false),
+                    QuestionId = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -91,13 +91,7 @@ namespace TestHub.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tests", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tests_Users_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_Answers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -108,10 +102,9 @@ namespace TestHub.Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TestId = table.Column<int>(type: "int", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AssociatedTestId = table.Column<int>(type: "int", nullable: false),
                     TypeId = table.Column<int>(type: "int", nullable: false),
-                    TestId1 = table.Column<int>(type: "int", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -126,17 +119,41 @@ namespace TestHub.Persistence.Migrations
                         principalTable: "QuestionTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Duration = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsPublic = table.Column<bool>(type: "bit", nullable: false),
+                    OwnerId = table.Column<int>(type: "int", nullable: false),
+                    QuestionId = table.Column<int>(type: "int", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Questions_Tests_TestId",
-                        column: x => x.TestId,
-                        principalTable: "Tests",
+                        name: "FK_Tests_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Questions_Tests_TestId1",
-                        column: x => x.TestId1,
-                        principalTable: "Tests",
-                        principalColumn: "Id");
+                        name: "FK_Tests_Users_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,33 +215,6 @@ namespace TestHub.Persistence.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Answers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsCorrect = table.Column<bool>(type: "bit", nullable: false),
-                    IsStrictText = table.Column<bool>(type: "bit", nullable: false),
-                    QuestionId = table.Column<int>(type: "int", nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Answers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Answers_Questions_QuestionId",
-                        column: x => x.QuestionId,
-                        principalTable: "Questions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -298,16 +288,9 @@ namespace TestHub.Persistence.Migrations
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Questions_TestId",
+                name: "IX_Questions_AssociatedTestId",
                 table: "Questions",
-                column: "TestId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Questions_TestId1",
-                table: "Questions",
-                column: "TestId1",
-                unique: true,
-                filter: "[TestId1] IS NOT NULL");
+                column: "AssociatedTestId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_TypeId",
@@ -350,6 +333,11 @@ namespace TestHub.Persistence.Migrations
                 column: "OwnerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tests_QuestionId",
+                table: "Tests",
+                column: "QuestionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TestSessions_StatusSessionQuestionId",
                 table: "TestSessions",
                 column: "StatusSessionQuestionId");
@@ -363,6 +351,22 @@ namespace TestHub.Persistence.Migrations
                 name: "IX_TestSessions_UserId",
                 table: "TestSessions",
                 column: "UserId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Answers_Questions_QuestionId",
+                table: "Answers",
+                column: "QuestionId",
+                principalTable: "Questions",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Questions_Tests_AssociatedTestId",
+                table: "Questions",
+                column: "AssociatedTestId",
+                principalTable: "Tests",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_StatusSessionQuestions_TestSessions_SessionId",
@@ -379,6 +383,10 @@ namespace TestHub.Persistence.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_StatusSessionQuestions_Questions_QuestionId",
                 table: "StatusSessionQuestions");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Tests_Questions_QuestionId",
+                table: "Tests");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_TestSessions_Tests_TestId",

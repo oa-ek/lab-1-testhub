@@ -63,6 +63,293 @@ namespace TestHub.Persistence.Migrations
                     b.HasIndex("QuestionId");
 
                     b.ToTable("Answers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = false,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 1,
+                            Text = "Грецька"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = true,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 1,
+                            Text = "Кіммерійська"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = false,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 1,
+                            Text = "Римська"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = false,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 1,
+                            Text = "Готська"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = true,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 2,
+                            Text = "Заснування Києва"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = false,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 2,
+                            Text = "Велика Літературна Реформа"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = false,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 2,
+                            Text = "Хрестовий похід"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = false,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 2,
+                            Text = "Заснування Львова"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = true,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 3,
+                            Text = "Перша Козацька угода"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = false,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 3,
+                            Text = "Битва під Грунвальдом"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = true,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 3,
+                            Text = "Український повстанський рух"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = false,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 3,
+                            Text = "Укладення Білоцерківського договору"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = true,
+                            IsStrictText = true,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 4,
+                            Text = "Галицько-Волинська держава"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = true,
+                            IsStrictText = true,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 4,
+                            Text = "Данилом Романовичем"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = false,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 5,
+                            Text = "Марс"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = true,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 5,
+                            Text = "Венера"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = false,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 5,
+                            Text = "Юпітер"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = false,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 5,
+                            Text = "Земля"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = false,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 6,
+                            Text = "Канада"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = true,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 6,
+                            Text = "Бразилія"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = true,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 6,
+                            Text = "Аргентина"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = false,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 6,
+                            Text = "Італія"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCorrect = false,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 6,
+                            Text = "Колумбія"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImageUrl = "https://firebasestorage.googleapis.com/v0/b/testhub-aspdotnetwithmvc.appspot.com/o/images%2F65ce5f4fff1d35b974767bded50f3717_f99219.jpg?alt=media&token=53fe6082-63ba-410f-83b4-117a82a23a45",
+                            IsCorrect = true,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 7,
+                            Text = "Червоний"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImageUrl = "https://firebasestorage.googleapis.com/v0/b/testhub-aspdotnetwithmvc.appspot.com/o/images%2F%D0%97%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8%D0%B9-0071-1_0884d7.jpg?alt=media&token=7b040b26-c30a-4bf0-98ac-28b0846617d7",
+                            IsCorrect = true,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 7,
+                            Text = "Зелений"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImageUrl = "https://firebasestorage.googleapis.com/v0/b/testhub-aspdotnetwithmvc.appspot.com/o/images%2F%D0%A1%D0%B8%D0%BD%D1%96%D0%B9-0073-1_27c1e6.jpg?alt=media&token=cdff2ce5-c2b6-40b9-94ee-3916434a861a",
+                            IsCorrect = false,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 7,
+                            Text = "Синій"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImageUrl = "https://firebasestorage.googleapis.com/v0/b/testhub-aspdotnetwithmvc.appspot.com/o/images%2FORANGE_med_d4b2d6.jpg?alt=media&token=226f8a8f-4ccc-4ce3-9bf1-da2db2889dbd",
+                            IsCorrect = true,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 7,
+                            Text = "Помаранчевий"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImageUrl = "https://firebasestorage.googleapis.com/v0/b/testhub-aspdotnetwithmvc.appspot.com/o/images%2F5UYjcAn_43f234.png?alt=media&token=6dcac393-e627-4e60-9a6a-d3cb3d872ae5",
+                            IsCorrect = true,
+                            IsStrictText = false,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuestionId = 7,
+                            Text = "Жовтий"
+                        });
                 });
 
             modelBuilder.Entity("Domain.entities.Category", b =>
@@ -92,6 +379,78 @@ namespace TestHub.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Географія та подорожі"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Здоров'я та медицина"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Історія та культура"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Математика та статистика"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Мови та лінгвістика"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Наука та технологія"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Освіта та навчання"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Психологія та особистісний розвиток"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Розваги та мистецтво"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Спорт та фізична підготовка"
+                        });
                 });
 
             modelBuilder.Entity("Domain.entities.Question", b =>
@@ -101,6 +460,9 @@ namespace TestHub.Persistence.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AssociatedTestId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
@@ -120,12 +482,6 @@ namespace TestHub.Persistence.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TestId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TestId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -135,15 +491,84 @@ namespace TestHub.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TestId");
-
-                    b.HasIndex("TestId1")
-                        .IsUnique()
-                        .HasFilter("[TestId1] IS NOT NULL");
+                    b.HasIndex("AssociatedTestId");
 
                     b.HasIndex("TypeId");
 
                     b.ToTable("Questions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AssociatedTestId = 1,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Оберіть один варіант відповіді",
+                            ImageUrl = "https://firebasestorage.googleapis.com/v0/b/testhub-aspdotnetwithmvc.appspot.com/o/images%2F124807.010_111049.png?alt=media&token=e255952a-d349-4732-b577-afb570318c35",
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Яка цивілізація існувала на території України в добу бронзи?",
+                            TypeId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AssociatedTestId = 1,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Виберіть всі правильні варіанти відповіді",
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Яка з наступних подій відбулася в середньовіччі на території України?",
+                            TypeId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AssociatedTestId = 1,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Виберіть всі правильні варіанти відповіді",
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Які події стали переломними в історії Козацької Речі Посполитої?",
+                            TypeId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AssociatedTestId = 1,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Заповніть пропуски",
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Пізніше, у середньовіччі, на території України виникла держава під назвою \"[Галицько-Волинська держава]\", заснована князем [Данилом Романовичем].",
+                            TypeId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AssociatedTestId = 2,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImageUrl = "https://firebasestorage.googleapis.com/v0/b/testhub-aspdotnetwithmvc.appspot.com/o/images%2Fmaxresdefault_6586f4.jpg?alt=media&token=f3a400ce-3fc8-46a5-b111-57bb6631b6f2",
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Яка планета є найближчою до Сонця?",
+                            TypeId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AssociatedTestId = 2,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Виберіть всі правильні відповіді",
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Які з нижче перелічених країн розташовані в Південній Америці?",
+                            TypeId = 2
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AssociatedTestId = 2,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Виберіть всі правильні відповіді",
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Які з нижче перелічених кольорів є теплими кольорами?",
+                            TypeId = 2
+                        });
                 });
 
             modelBuilder.Entity("Domain.entities.QuestionType", b =>
@@ -173,6 +598,36 @@ namespace TestHub.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("QuestionTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Type = "single"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Type = "multiple"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Type = "binary"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Type = "blank"
+                        });
                 });
 
             modelBuilder.Entity("Domain.entities.StatusSessionQuestion", b =>
@@ -258,6 +713,32 @@ namespace TestHub.Persistence.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Tests");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Цей тест призначений для визначення знань про історію України в перші історичні періоди - первісні часи.",
+                            Duration = 15,
+                            IsPublic = true,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            OwnerId = 1,
+                            Status = "Draft",
+                            Title = "Історія України. Первісні часи"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Тест містить 5 питань, що охоплюють різні теми.",
+                            Duration = 5,
+                            IsPublic = true,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            OwnerId = 1,
+                            Status = "Created",
+                            Title = "Природознавство 6 клас"
+                        });
                 });
 
             modelBuilder.Entity("Domain.entities.TestCategory", b =>
@@ -293,6 +774,40 @@ namespace TestHub.Persistence.Migrations
                     b.HasIndex("TestId");
 
                     b.ToTable("TestCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 4,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TestId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 10,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TestId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 7,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TestId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 2,
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TestId = 2
+                        });
                 });
 
             modelBuilder.Entity("Domain.entities.TestMetadata", b =>
@@ -435,8 +950,8 @@ namespace TestHub.Persistence.Migrations
                     b.Property<string>("PasswordResetToken")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ResetTokenExpires")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ResetTokenExpires")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -446,15 +961,32 @@ namespace TestHub.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("TokenCreated")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("TokenCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTimeOffset?>("TokenExpires")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("TokenExpires")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Comment = "This is User 1",
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user1@example.com",
+                            IsEmailVerified = true,
+                            LastModified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "User 1",
+                            Password = "$2a$11$X4BnEeGGHouHYjehJ.MNqu16R9DEm9oQ20Aoxa9jb8fDQdy.wt7cG",
+                            Role = "User",
+                            Token = "vYbFwWVY5Hd1ixiMT6OTu44Zr2hDStwqeWUte8TBdxCIl2ZcZ+LyQBonzFPcX7jxuwqzJvOGqs5Qhnr1t4UTgw==",
+                            TokenCreated = new DateTime(2023, 12, 3, 22, 20, 24, 214, DateTimeKind.Local).AddTicks(4144),
+                            TokenExpires = new DateTime(2024, 12, 3, 22, 20, 24, 214, DateTimeKind.Local).AddTicks(4207)
+                        });
                 });
 
             modelBuilder.Entity("Domain.entities.Answer", b =>
@@ -472,13 +1004,9 @@ namespace TestHub.Persistence.Migrations
                 {
                     b.HasOne("Domain.entities.Test", "Test")
                         .WithMany("Questions")
-                        .HasForeignKey("TestId")
+                        .HasForeignKey("AssociatedTestId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("Domain.entities.Test", null)
-                        .WithOne("Question")
-                        .HasForeignKey("Domain.entities.Question", "TestId1");
 
                     b.HasOne("Domain.entities.QuestionType", "Type")
                         .WithMany("Questions")
@@ -606,9 +1134,6 @@ namespace TestHub.Persistence.Migrations
 
             modelBuilder.Entity("Domain.entities.Test", b =>
                 {
-                    b.Navigation("Question")
-                        .IsRequired();
-
                     b.Navigation("Questions");
 
                     b.Navigation("TestCategories");

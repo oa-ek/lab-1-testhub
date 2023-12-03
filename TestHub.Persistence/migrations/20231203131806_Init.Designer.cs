@@ -12,7 +12,7 @@ using TestHub.Persistence;
 namespace TestHub.Persistence.Migrations
 {
     [DbContext(typeof(TestHubDbContext))]
-    [Migration("20231126212545_init")]
+    [Migration("20231203131806_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -105,6 +105,9 @@ namespace TestHub.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AssociatedTestId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
@@ -114,7 +117,7 @@ namespace TestHub.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Image")
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastModified")
@@ -122,12 +125,6 @@ namespace TestHub.Persistence.Migrations
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TestId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TestId1")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -138,11 +135,7 @@ namespace TestHub.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TestId");
-
-                    b.HasIndex("TestId1")
-                        .IsUnique()
-                        .HasFilter("[TestId1] IS NOT NULL");
+                    b.HasIndex("AssociatedTestId");
 
                     b.HasIndex("TypeId");
 
@@ -248,6 +241,9 @@ namespace TestHub.Persistence.Migrations
                     b.Property<int>("OwnerId")
                         .HasColumnType("int");
 
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -259,6 +255,8 @@ namespace TestHub.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("OwnerId");
+
+                    b.HasIndex("QuestionId");
 
                     b.ToTable("Tests");
                 });
@@ -438,8 +436,8 @@ namespace TestHub.Persistence.Migrations
                     b.Property<string>("PasswordResetToken")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ResetTokenExpires")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ResetTokenExpires")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -449,11 +447,11 @@ namespace TestHub.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("TokenCreated")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("TokenCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTimeOffset?>("TokenExpires")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("TokenExpires")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -475,13 +473,9 @@ namespace TestHub.Persistence.Migrations
                 {
                     b.HasOne("Domain.entities.Test", "Test")
                         .WithMany("Questions")
-                        .HasForeignKey("TestId")
+                        .HasForeignKey("AssociatedTestId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("Domain.entities.Test", null)
-                        .WithOne("Question")
-                        .HasForeignKey("Domain.entities.Question", "TestId1");
 
                     b.HasOne("Domain.entities.QuestionType", "Type")
                         .WithMany("Questions")
@@ -521,7 +515,15 @@ namespace TestHub.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.entities.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Owner");
+
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("Domain.entities.TestCategory", b =>
@@ -609,9 +611,6 @@ namespace TestHub.Persistence.Migrations
 
             modelBuilder.Entity("Domain.entities.Test", b =>
                 {
-                    b.Navigation("Question")
-                        .IsRequired();
-
                     b.Navigation("Questions");
 
                     b.Navigation("TestCategories");

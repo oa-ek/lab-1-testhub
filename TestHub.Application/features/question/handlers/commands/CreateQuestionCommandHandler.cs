@@ -28,7 +28,7 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
         if (!validationResult.IsValid) return new BadRequestFailedStatusResponse<RespondQuestionDto>(validationResult.Errors);
         
         var question = _mapper.Map<Question>(command.QuestionDto);
-        question.TestId = command.TestId;
+        question.AssociatedTestId = command.TestId;
         question.ImageUrl = await MapImageAsync(command.QuestionDto.Image);
 
         question = await _repository.Add(question);

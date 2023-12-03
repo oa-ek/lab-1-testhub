@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Domain.common;
+using TestHub.Persistence.configurations.entities;
 
 namespace TestHub.Persistence
 {
@@ -77,7 +78,7 @@ namespace TestHub.Persistence
             modelBuilder.Entity<Question>()
                 .HasOne(q => q.Test)
                 .WithMany(t => t.Questions)
-                .HasForeignKey(q => q.TestId)
+                .HasForeignKey(q => q.AssociatedTestId)
                 .OnDelete(DeleteBehavior.Restrict);
             
             modelBuilder.Entity<StatusSessionQuestion>()
@@ -97,6 +98,15 @@ namespace TestHub.Persistence
                 .WithMany(p => p.TestSessions)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            //Database seeders
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new QuestionTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new TestConfiguration());
+            modelBuilder.ApplyConfiguration(new TestCategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new QuestionConfiguration());
+            modelBuilder.ApplyConfiguration(new AnswerConfiguration());
         }
     }
 }
