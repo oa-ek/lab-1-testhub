@@ -31,16 +31,29 @@ public class CreateTestCommandHandler : IRequestHandler<CreateTestCommand, BaseC
         test = await _repository.Add(test);
         
         var requestCategories = command.TestDto.Categories;
-        await ProcessCategoriesAsync(test, requestCategories, cancellationToken);
+        var validationSetCategories = await ProcessCategoriesAsync(test, requestCategories);
+        var validationFailures = validationSetCategories as ValidationFailure[] ?? validationSetCategories.ToArray();
+        if (validationFailures.Any())
+            return new BadRequestFailedStatusResponse<RespondTestDto>(validationFailures);
         
         return new CreatedSuccessStatusResponse<RespondTestDto>(test.Id);
     }
     
-    private async Task ProcessCategoriesAsync(Test test, IEnumerable<CategoryDto> requestCategories, CancellationToken cancellationToken)
+    private async Task<IEnumerable<ValidationFailure>> ProcessCategoriesAsync(Test test, IEnumerable<CategoryDto> requestCategories)
     {
+        var errors = new List<ValidationFailure>();
         foreach (var categoryDto in requestCategories)
         {
-            await _repository.SetCategories(test, categoryDto);
+            try
+            {
+                await _repository.SetCategories(test, categoryDto);
+            }
+            catch (Exception ex)
+            {
+                errors.Add(new ValidationFailure("Categories", $"Failed to assign category '{categoryDto.Title}' to the test '{test.Id}'. {ex.InnerException}"));
+            }
         }
+
+        return errors;
     }
 }
