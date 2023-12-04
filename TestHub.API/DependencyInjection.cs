@@ -8,7 +8,6 @@ public static class DependencyInjection
     {
         services.AddScoped<ILocalFileStorage, LocalFileStorage>();
         services.AddScoped<ICloudFileStorage, CloudFileStorage>();
-        services.AddScoped<IFileService, FileService>();
 
         return services;
     }

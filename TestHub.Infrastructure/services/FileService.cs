@@ -1,4 +1,7 @@
-﻿namespace TestHub.API.services;
+﻿using Application.contracts.infrastructure;
+using Application.dtos.sharedDTOs;
+
+namespace TestHub.Infrastructure.services;
 
 public class FileService : IFileService
 {

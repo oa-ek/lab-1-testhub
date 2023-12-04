@@ -2,7 +2,7 @@
 
 public interface IUserRepository : IGenericRepository<User>
 {
-    Task<User?> GerByEmail(string email);
+    Task<User?> GetByEmail(string email);
     Task AddResetPassword(User user, string password);
     Task VerifiedEmail(User user);
 }
