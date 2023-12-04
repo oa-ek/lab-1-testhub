@@ -14,4 +14,11 @@ public class BadRequestFailedStatusResponse<T> : BaseCommandResponse <T>
         Message = "Operation Failed";
         Errors = errors.Select(q => q.ErrorMessage).ToList();
     }
+    
+    public BadRequestFailedStatusResponse(string error) 
+    {
+        Success = false;
+        Message = "Operation Failed";
+        Errors = new List<string> { error };
+    }
 }

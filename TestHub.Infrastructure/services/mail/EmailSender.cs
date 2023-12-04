@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-namespace TestHub.Infrastructure.mail;
+namespace TestHub.Infrastructure.services.mail;
 
 public class EmailSender : IEmailSender
 {

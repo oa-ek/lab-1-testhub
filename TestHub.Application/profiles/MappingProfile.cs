@@ -4,6 +4,9 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
+        CreateMap<RequestRegisterDto, User>().ReverseMap();
+        CreateMap<User, RespondUserDto>().ReverseMap();
+        
         CreateMap<Category, CategoryDto>().ReverseMap();
         
         CreateMap<Test, RequestTestDto>().ReverseMap();

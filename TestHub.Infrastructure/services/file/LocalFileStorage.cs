@@ -2,7 +2,7 @@
 using Application.dtos.sharedDTOs;
 using Microsoft.CSharp.RuntimeBinder;
 
-namespace TestHub.Infrastructure.file
+namespace TestHub.Infrastructure.services.file
 {
     public class LocalFileStorage : ILocalFileStorage
     {

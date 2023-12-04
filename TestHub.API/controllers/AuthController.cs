@@ -1,6 +1,5 @@
-﻿using Application.contracts.identity;
-using Application.models.identity;
-using TestHub.API.models.identity;
+﻿using Application.contracts.persistence.authentication;
+using Application.dtos.respondsDto;
 
 namespace TestHub.API.controllers;
 
@@ -9,20 +8,30 @@ namespace TestHub.API.controllers;
 [ApiController]
 public class AuthController : Controller
 {
-    private readonly IAuthService _service;
+    private readonly IAuthenticationService _authentication;
 
-    public AuthController(IAuthService service)
+    public AuthController(IAuthenticationService authentication)
     {
-        _service = service;
+        _authentication = authentication;
     }
 
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<BaseCommandResponse<AuthResponse>> Login(AuthRequest? request)
+    public async Task<string?> Login(RequestLoginDto? request)
     {
-        var response = await _service.Login(request);
-        return response;
+        var authResult = await _authentication.Login(request);
+        return authResult.ResponseObject != null ? authResult.ResponseObject!.Token : null;
+    }
+    
+    [HttpPost("register")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<RespondAuthenticationDto> Register(RequestRegisterDto? request)
+    {
+        var authResult = await _authentication.Register(request);
+        return authResult.ResponseObject!;
     }
 }

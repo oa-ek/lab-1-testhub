@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Application.contracts.authentication;
 using Application.models.identity;
 using Application.responses.success;
 using Microsoft.Extensions.Configuration;
@@ -21,35 +22,35 @@ public class AuthService : IAuthService
         _configuration = configuration;
     }
 
-    public async Task<BaseCommandResponse<AuthResponse>> Login(AuthRequest? request)
+    public async Task<BaseCommandResponse<AuthenticationResponse>> Login(LoginRequest? request)
     {
         var user = await _repository.GetByEmail(request.Email);
         if (user == null)
-            return new NotFoundFailedStatusResponse<AuthResponse>(request.Email);
+            return new NotFoundFailedStatusResponse<AuthenticationResponse>(request.Email);
         
         if (user.IsEmailVerified ==false )
-            return new BadRequestFailedStatusResponse<AuthResponse>(new List<ValidationFailure>
+            return new BadRequestFailedStatusResponse<AuthenticationResponse>(new List<ValidationFailure>
             {
                  new ("AuthResponse", "The email is not verified")
             });
         
         if (!BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
-            return new BadRequestFailedStatusResponse<AuthResponse>(new List<ValidationFailure>
+            return new BadRequestFailedStatusResponse<AuthenticationResponse>(new List<ValidationFailure>
             {
                 new ("AuthResponse", "Wrong password.")
             });
         
         var token = CreateToken(user);
-        var response = new AuthResponse
+        var response = new AuthenticationResponse
         {
             Email = user.Email,
             UserName = user.Name,
             Token = new JwtSecurityTokenHandler().WriteToken(token)
         };
-        return new OkSuccessStatusResponse<AuthResponse>(response);
+        return new OkSuccessStatusResponse<AuthenticationResponse>(response);
     }
 
-    public async Task<BaseCommandResponse<RegistrationResponse>> Register(RegistrationRequest request)
+    public async Task<BaseCommandResponse<RegistrationResponse>> Register(RegisterRequest request)
     {
         throw new NotImplementedException();
     }

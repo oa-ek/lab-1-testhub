@@ -1,22 +1,15 @@
-﻿using Application.contracts.infrastructure;
-using Application.models;
-using Application.models.identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using TestHub.Infrastructure.mail;
-using TestHub.Infrastructure.services;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace TestHub.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {
-        services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
-        services.Configure<AuthSettings>(configuration.GetSection("AuthSettings"));
         services.AddTransient<IEmailSender, EmailSender>();
         services.AddScoped<IFileService, FileService>();
-        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
         return services;
     }

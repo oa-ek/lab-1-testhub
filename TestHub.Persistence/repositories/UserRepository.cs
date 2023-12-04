@@ -27,6 +27,15 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         await _context.SaveChangesAsync();
     }
 
+    public async Task<User> SetRefreshToken(User user, string refreshToken)
+    {
+        user.Token = refreshToken;
+        _context.Users!.Update(user);
+
+        await _context.SaveChangesAsync();
+        return user;
+    }
+
     public async Task VerifiedEmail(User user)
     {
         user.IsEmailVerified = true;

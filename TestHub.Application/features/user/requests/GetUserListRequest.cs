@@ -2,4 +2,4 @@
 
 namespace Application.features.user.requests;
 
-public class GetUserListRequest : IRequest<List<UserDto>> {}
+public class GetUserListRequest : IRequest<List<RespondUserDto>> {}

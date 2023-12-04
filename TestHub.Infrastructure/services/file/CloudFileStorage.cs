@@ -2,7 +2,7 @@
 using Firebase.Auth;
 using Firebase.Storage;
 
-namespace TestHub.Infrastructure.file
+namespace TestHub.Infrastructure.services.file
 {
     public class CloudFileStorage : ICloudFileStorage
     {

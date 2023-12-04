@@ -1,6 +1,6 @@
-﻿namespace Application.dtos.sharedDTOs;
+﻿namespace Application.dtos.requestsDto;
 
-public class UserDto
+public class RequestRegisterDto
 {
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
