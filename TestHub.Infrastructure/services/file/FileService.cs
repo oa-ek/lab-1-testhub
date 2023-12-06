@@ -1,7 +1,7 @@
-﻿using Application.contracts.infrastructure;
+﻿using Application.contracts.infrastructure.file;
 using Application.dtos.sharedDTOs;
 
-namespace TestHub.Infrastructure.services;
+namespace TestHub.Infrastructure.services.file;
 
 public class FileService : IFileService
 {

@@ -1,4 +1,5 @@
 ﻿using Application.contracts.infrastructure;
+using Application.contracts.infrastructure.file;
 using Firebase.Auth;
 using Firebase.Storage;
 

@@ -1,4 +1,4 @@
-﻿namespace Application.contracts.infrastructure;
+﻿namespace Application.contracts.infrastructure.file;
 
 public interface ICloudFileStorage
 {

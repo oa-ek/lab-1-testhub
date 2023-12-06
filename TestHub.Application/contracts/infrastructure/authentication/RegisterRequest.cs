@@ -1,4 +1,4 @@
-﻿namespace Application.contracts.authentication;
+﻿namespace Application.contracts.infrastructure.authentication;
 
 public record RegisterRequest (
     string UserName,

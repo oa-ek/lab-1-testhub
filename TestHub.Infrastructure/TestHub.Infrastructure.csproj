@@ -17,10 +17,10 @@
       <PackageReference Include="Firebase.Auth" Version="1.0.0" />
       <PackageReference Include="Firebase.js" Version="2.1.2" />
       <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
+      <PackageReference Include="MailKit" Version="4.3.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.14" />
       <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
       <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.24.0" />
-      <PackageReference Include="SendGrid" Version="9.28.1" />
       <PackageReference Include="SendGrid.SmtpApi" Version="1.4.6" />
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.24.0" />
     </ItemGroup>
@@ -29,7 +29,6 @@
 
     <ItemGroup>
       <Compile Remove="services\AuthService.cs" />
-      <None Include="services\AuthService.cs" />
     </ItemGroup>
 
 

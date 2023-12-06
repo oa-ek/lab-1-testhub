@@ -1,4 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using Application.contracts.infrastructure.email;
+using MimeKit;
+using MimeKit.Text;
 
 namespace TestHub.Infrastructure.services.authentication;
 
@@ -7,12 +10,14 @@ public class AuthenticationService : IAuthenticationService
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IUserRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IEmailService _email;
 
-    public AuthenticationService(IJwtTokenGenerator jwtTokenGenerator, IMapper mapper, IUserRepository repository)
+    public AuthenticationService(IJwtTokenGenerator jwtTokenGenerator, IMapper mapper, IUserRepository repository, IEmailService email)
     {
         _jwtTokenGenerator = jwtTokenGenerator;
         _mapper = mapper;
         _repository = repository;
+        _email = email;
     }
 
     public async Task<BaseCommandResponse<RespondAuthenticationDto>> Login(RequestLoginDto? request)
@@ -68,6 +73,8 @@ public class AuthenticationService : IAuthenticationService
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
         var user = await RegisterUser(request, token, passwordHash);
+        await SendConfirmationEmail(user);
+        
         var respondUserDto = _mapper.Map<RespondUserDto>(user);
         var respondAuthenticationDto = new RespondAuthenticationDto
         {
@@ -97,5 +104,23 @@ public class AuthenticationService : IAuthenticationService
     {
         var validator = new RequestLoginDtoValidator();
         return await validator.ValidateAsync(request);
+    }
+
+    private async Task SendConfirmationEmail(User user)
+    {
+        var data = new EmailData
+        {
+            To = user.Email,
+            ToName = user.Name,
+            Subject = "Confirm email TestHub ",
+            Body = new TextPart(TextFormat.Html)
+            {
+                Text = $"Для підтвердження пошти перейдіть за посиланням: <br />" +
+                       $"http://localhost:3000/confirm/{user.Email}/{user.Token}" +
+                       $"<br />Дякуємо за використання нашої платформи!"
+            }
+        };
+        
+        await _email.SendEmailAsync(data);
     }
 }

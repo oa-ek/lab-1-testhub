@@ -16,10 +16,7 @@ public class CreateTestCommandHandler : IRequestHandler<CreateTestCommand, BaseC
     public async Task<BaseCommandResponse<RespondTestDto>> Handle(CreateTestCommand command, CancellationToken cancellationToken)
     {
         if (command.TestDto == null)
-            return new BadRequestFailedStatusResponse<RespondTestDto>(new List<ValidationFailure>
-            {
-                new ("TestDto", "TestDto cannot be null.")
-            });
+            return new BadRequestFailedStatusResponse<RespondTestDto>("TestDto cannot be null.");
         
         var validator = new RequestTestDtoValidator();
         var validationResult = await validator.ValidateAsync(command.TestDto, cancellationToken);
