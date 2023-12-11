@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using Application.contracts.infrastructure.email;
+using Application.results.common;
 using MimeKit;
 using MimeKit.Text;
 
@@ -20,24 +21,24 @@ public class AuthenticationService : IAuthenticationService
         _email = email;
     }
 
-    public async Task<BaseCommandResponse<RespondAuthenticationDto>> Login(RequestLoginDto? request)
+    public async Task<BaseCommandResult<RespondAuthenticationDto>> Login(RequestLoginDto? request)
     {
         if (request == null)
-            return new BadRequestFailedStatusResponse<RespondAuthenticationDto>("RequestRegisterDto cannot be null.");
+            return new BadRequestFailedStatusResult<RespondAuthenticationDto>("RequestRegisterDto cannot be null.");
 
         var existingUser = await _repository.GetByEmail(request.Email);
         if (existingUser == null)
-            return new NotFoundFailedStatusResponse<RespondAuthenticationDto>(request.Email);
+            return new NotFoundFailedStatusResult<RespondAuthenticationDto>(request.Email);
 
         if (!existingUser.IsEmailVerified)
-            return new BadRequestFailedStatusResponse<RespondAuthenticationDto>("The email is not verified.");
+            return new BadRequestFailedStatusResult<RespondAuthenticationDto>("The email is not verified.");
 
         var validationResult = await ValidateLoginRequest(request);
         if (!validationResult.IsValid)
-            return new BadRequestFailedStatusResponse<RespondAuthenticationDto>(validationResult.Errors);
+            return new BadRequestFailedStatusResult<RespondAuthenticationDto>(validationResult.Errors);
 
         if (!BCrypt.Net.BCrypt.Verify(request.Password, existingUser.Password))
-            return new BadRequestFailedStatusResponse<RespondAuthenticationDto>("Wrong password.");
+            return new BadRequestFailedStatusResult<RespondAuthenticationDto>("Wrong password.");
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var decodedToken = tokenHandler.ReadJwtToken(existingUser.Token);
@@ -53,21 +54,21 @@ public class AuthenticationService : IAuthenticationService
             RespondUserDto = respondUserDto,
             Token = existingUser.Token
         };
-        return new OkSuccessStatusResponse<RespondAuthenticationDto>(respondAuthenticationDto);
+        return new OkSuccessStatusResult<RespondAuthenticationDto>(respondAuthenticationDto);
     }
 
-    public async Task<BaseCommandResponse<RespondAuthenticationDto>> Register(RequestRegisterDto? request)
+    public async Task<BaseCommandResult<RespondAuthenticationDto>> Register(RequestRegisterDto? request)
     {
         if (request == null)
-            return new BadRequestFailedStatusResponse<RespondAuthenticationDto>("RequestRegisterDto cannot be null.");
+            return new BadRequestFailedStatusResult<RespondAuthenticationDto>("RequestRegisterDto cannot be null.");
 
         var existingUser = await _repository.GetByEmail(request.Email);
         if (existingUser != null)
-            return new BadRequestFailedStatusResponse<RespondAuthenticationDto>("User already exists in database.");
+            return new BadRequestFailedStatusResult<RespondAuthenticationDto>("User already exists in database.");
 
         var validationResult = await ValidateRegistrationRequest(request);
         if (!validationResult.IsValid)
-            return new BadRequestFailedStatusResponse<RespondAuthenticationDto>(validationResult.Errors);
+            return new BadRequestFailedStatusResult<RespondAuthenticationDto>(validationResult.Errors);
 
         var token = _jwtTokenGenerator.GenerateToken(request.Name, request.Email, Roles.User);
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
@@ -81,7 +82,7 @@ public class AuthenticationService : IAuthenticationService
             RespondUserDto = respondUserDto,
             Token = token
         };
-        return new OkSuccessStatusResponse<RespondAuthenticationDto>(respondAuthenticationDto);
+        return new OkSuccessStatusResult<RespondAuthenticationDto>(respondAuthenticationDto);
     }
 
     private static async Task<ValidationResult> ValidateRegistrationRequest(RequestRegisterDto request)

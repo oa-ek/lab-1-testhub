@@ -1,7 +1,9 @@
-﻿namespace Application.contracts.persistence.authentication;
+﻿using Application.results.common;
+
+namespace Application.contracts.persistence.authentication;
 
 public interface IAuthenticationService
 {
-    Task<BaseCommandResponse<RespondAuthenticationDto>> Login(RequestLoginDto? request);
-    Task<BaseCommandResponse<RespondAuthenticationDto>> Register(RequestRegisterDto? request);
+    Task<BaseCommandResult<RespondAuthenticationDto>> Login(RequestLoginDto? request);
+    Task<BaseCommandResult<RespondAuthenticationDto>> Register(RequestRegisterDto? request);
 }

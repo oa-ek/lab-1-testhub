@@ -1,3 +1,5 @@
-﻿namespace Application.features.user.requests.queries;
+﻿using Application.results.common;
 
-public class GetUserListRequest : IRequest<BaseCommandResponse<List<RespondUserDto>>> {}
+namespace Application.features.user.requests.queries;
+
+public class GetUserListRequest : IRequest<BaseCommandResult<List<RespondUserDto>>> {}

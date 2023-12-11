@@ -1,8 +1,9 @@
 ﻿using Application.features.test.requests.queries;
+using Application.results.common;
 
 namespace Application.features.test.handlers.queries;
 
-public class GetTestDetailedDtoRequestHandler : IRequestHandler<GetTestDetailedDtoRequest, BaseCommandResponse<RespondTestDto>>
+public class GetTestDetailedDtoRequestHandler : IRequestHandler<GetTestDetailedDtoRequest, BaseCommandResult<RespondTestDto>>
 {
     private readonly ITestRepository _repository;
     private readonly IMapper _mapper;
@@ -13,12 +14,12 @@ public class GetTestDetailedDtoRequestHandler : IRequestHandler<GetTestDetailedD
         _mapper = mapper;
     }
 
-    public async Task<BaseCommandResponse<RespondTestDto>> Handle(GetTestDetailedDtoRequest request, CancellationToken cancellationToken)
+    public async Task<BaseCommandResult<RespondTestDto>> Handle(GetTestDetailedDtoRequest request, CancellationToken cancellationToken)
     {
         var test = await _repository.GetTestWithDetails(request.Id);
-        if (test == null) return new NotFoundFailedStatusResponse<RespondTestDto>(request.Id);
+        if (test == null) return new NotFoundFailedStatusResult<RespondTestDto>(request.Id);
 
         var respondTestDto = _mapper.Map<RespondTestDto>(test);
-        return new OkSuccessStatusResponse<RespondTestDto>(respondTestDto);
+        return new OkSuccessStatusResult<RespondTestDto>(respondTestDto);
     }
 }

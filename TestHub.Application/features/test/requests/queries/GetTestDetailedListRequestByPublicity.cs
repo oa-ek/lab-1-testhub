@@ -1,6 +1,8 @@
-﻿namespace Application.features.test.requests.queries;
+﻿using Application.results.common;
 
-public class GetTestDetailedListRequestByPublicity : IRequest<BaseCommandResponse<List<RespondTestDto>>>
+namespace Application.features.test.requests.queries;
+
+public class GetTestDetailedListRequestByPublicity : IRequest<BaseCommandResult<List<RespondTestDto>>>
 {
     
 }

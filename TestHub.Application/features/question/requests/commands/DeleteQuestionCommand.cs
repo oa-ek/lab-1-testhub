@@ -1,6 +1,8 @@
-﻿namespace Application.features.question.requests.commands;
+﻿using Application.results.common;
 
-public class DeleteQuestionCommand : IRequest<BaseCommandResponse<RespondQuestionDto>>
+namespace Application.features.question.requests.commands;
+
+public class DeleteQuestionCommand : IRequest<BaseCommandResult<RespondQuestionDto>>
 {
     public int Id { get; set; }
 }

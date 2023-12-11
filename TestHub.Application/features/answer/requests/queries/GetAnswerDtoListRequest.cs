@@ -1,3 +1,5 @@
-﻿namespace Application.features.answer.requests.queries;
+﻿using Application.results.common;
 
-public class GetAnswerDtoListRequest : IRequest<BaseCommandResponse<List<RespondAnswerDto>>> {}
+namespace Application.features.answer.requests.queries;
+
+public class GetAnswerDtoListRequest : IRequest<BaseCommandResult<List<RespondAnswerDto>>> {}

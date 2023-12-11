@@ -1,6 +1,8 @@
-﻿namespace Application.features.test.requests.commands;
+﻿using Application.results.common;
 
-public class CreateTestCommand : IRequest<BaseCommandResponse<RespondTestDto>>
+namespace Application.features.test.requests.commands;
+
+public class CreateTestCommand : IRequest<BaseCommandResult<RespondTestDto>>
 {
     public required RequestTestDto? TestDto { get; set; }
     public required int OwnerId { get; set; }

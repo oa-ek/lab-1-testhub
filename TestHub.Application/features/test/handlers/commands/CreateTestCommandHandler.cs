@@ -1,8 +1,9 @@
 ﻿using Application.features.test.requests.commands;
+using Application.results.common;
 
 namespace Application.features.test.handlers.commands;
 
-public class CreateTestCommandHandler : IRequestHandler<CreateTestCommand, BaseCommandResponse<RespondTestDto>>
+public class CreateTestCommandHandler : IRequestHandler<CreateTestCommand, BaseCommandResult<RespondTestDto>>
 {
     private readonly ITestRepository _repository;
     private readonly IMapper _mapper;
@@ -13,14 +14,14 @@ public class CreateTestCommandHandler : IRequestHandler<CreateTestCommand, BaseC
         _mapper = mapper;
     }
     
-    public async Task<BaseCommandResponse<RespondTestDto>> Handle(CreateTestCommand command, CancellationToken cancellationToken)
+    public async Task<BaseCommandResult<RespondTestDto>> Handle(CreateTestCommand command, CancellationToken cancellationToken)
     {
         if (command.TestDto == null)
-            return new BadRequestFailedStatusResponse<RespondTestDto>("TestDto cannot be null.");
+            return new BadRequestFailedStatusResult<RespondTestDto>("TestDto cannot be null.");
         
         var validator = new RequestTestDtoValidator();
         var validationResult = await validator.ValidateAsync(command.TestDto, cancellationToken);
-        if (!validationResult.IsValid) return new BadRequestFailedStatusResponse<RespondTestDto>(validationResult.Errors);
+        if (!validationResult.IsValid) return new BadRequestFailedStatusResult<RespondTestDto>(validationResult.Errors);
         
         var test = _mapper.Map<Test>(command.TestDto);
         test.OwnerId = command.OwnerId;
@@ -31,9 +32,9 @@ public class CreateTestCommandHandler : IRequestHandler<CreateTestCommand, BaseC
         var validationSetCategories = await ProcessCategoriesAsync(test, requestCategories);
         var validationFailures = validationSetCategories as ValidationFailure[] ?? validationSetCategories.ToArray();
         if (validationFailures.Any())
-            return new BadRequestFailedStatusResponse<RespondTestDto>(validationFailures);
+            return new BadRequestFailedStatusResult<RespondTestDto>(validationFailures);
         
-        return new CreatedSuccessStatusResponse<RespondTestDto>(test.Id);
+        return new CreatedSuccessStatusResult<RespondTestDto>(test.Id);
     }
     
     private async Task<IEnumerable<ValidationFailure>> ProcessCategoriesAsync(Test test, IEnumerable<CategoryDto> requestCategories)

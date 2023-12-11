@@ -1,9 +1,10 @@
 ﻿using Application.contracts.infrastructure.file;
 using Application.features.question.requests.commands;
+using Application.results.common;
 
 namespace Application.features.question.handlers.commands;
 
-public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionCommand, BaseCommandResponse<RespondQuestionDto>>
+public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionCommand, BaseCommandResult<RespondQuestionDto>>
 {
     private readonly IQuestionRepository _repository;
     private readonly IFileService _fileService;
@@ -16,24 +17,24 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
         _fileService = fileService;
     }
     
-    public async Task<BaseCommandResponse<RespondQuestionDto>> Handle(CreateQuestionCommand command, CancellationToken cancellationToken)
+    public async Task<BaseCommandResult<RespondQuestionDto>> Handle(CreateQuestionCommand command, CancellationToken cancellationToken)
     {
         if (command.QuestionDto == null)
-            return new BadRequestFailedStatusResponse<RespondQuestionDto>(new List<ValidationFailure>
+            return new BadRequestFailedStatusResult<RespondQuestionDto>(new List<ValidationFailure>
             {
                 new ("QuestionDto", "QuestionDto cannot be null.")
             });
         
         var validator = new RequestQuestionDtoValidator(_repository);
         var validationResult = await validator.ValidateAsync(command.QuestionDto, cancellationToken);
-        if (!validationResult.IsValid) return new BadRequestFailedStatusResponse<RespondQuestionDto>(validationResult.Errors);
+        if (!validationResult.IsValid) return new BadRequestFailedStatusResult<RespondQuestionDto>(validationResult.Errors);
         
         var question = _mapper.Map<Question>(command.QuestionDto);
         question.AssociatedTestId = command.TestId;
         question.ImageUrl = await MapImageAsync(command.QuestionDto.Image);
 
         question = await _repository.Add(question);
-        return new CreatedSuccessStatusResponse<RespondQuestionDto>(question.Id);
+        return new CreatedSuccessStatusResult<RespondQuestionDto>(question.Id);
     }
     
     private async Task<string> MapImageAsync(FileDto? imageDto)

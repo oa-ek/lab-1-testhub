@@ -1,6 +1,8 @@
-﻿namespace Application.features.test.requests.commands;
+﻿using Application.results.common;
 
-public class DeleteTestCommand : IRequest<BaseCommandResponse<RespondTestDto>>
+namespace Application.features.test.requests.commands;
+
+public class DeleteTestCommand : IRequest<BaseCommandResult<RespondTestDto>>
 {
     public int Id { get; set; }
 }

@@ -1,8 +1,9 @@
 ﻿using Application.features.answer.requests.queries;
+using Application.results.common;
 
 namespace Application.features.answer.handlers.queries;
 
-public class GetAnswerDtoListRequestHandler : IRequestHandler<GetAnswerDtoListRequest, BaseCommandResponse<List<RespondAnswerDto>>>
+public class GetAnswerDtoListRequestHandler : IRequestHandler<GetAnswerDtoListRequest, BaseCommandResult<List<RespondAnswerDto>>>
 {
     private readonly IAnswerRepository _repository;
     private readonly IMapper _mapper;
@@ -13,11 +14,11 @@ public class GetAnswerDtoListRequestHandler : IRequestHandler<GetAnswerDtoListRe
         _mapper = mapper;
     }
 
-    public async Task<BaseCommandResponse<List<RespondAnswerDto>>> Handle(GetAnswerDtoListRequest request, CancellationToken cancellationToken)
+    public async Task<BaseCommandResult<List<RespondAnswerDto>>> Handle(GetAnswerDtoListRequest request, CancellationToken cancellationToken)
     {
         var answers = await _repository.GetAll();
 
         var respondAnswerDtos = _mapper.Map<List<RespondAnswerDto>>(answers);
-        return new OkSuccessStatusResponse<List<RespondAnswerDto>>(respondAnswerDtos);
+        return new OkSuccessStatusResult<List<RespondAnswerDto>>(respondAnswerDtos);
     }
 }

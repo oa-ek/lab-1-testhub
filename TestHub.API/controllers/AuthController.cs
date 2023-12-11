@@ -1,6 +1,7 @@
 ﻿using Application.contracts.persistence.authentication;
 using Application.dtos.respondsDto;
 using Application.features.user.requests.commands;
+using TestHub.API.responces;
 
 namespace TestHub.API.controllers;
 
@@ -22,30 +23,30 @@ public class AuthController : Controller
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<string?> Login(RequestLoginDto? request)
+    public async Task<ActionResult<RespondAuthenticationDto>> Login(RequestLoginDto? request)
     {
         var authResult = await _authentication.Login(request);
-        return authResult.ResponseObject != null ? authResult.ResponseObject!.Token : null;
+        return BaseCommandResponse<RespondAuthenticationDto>.GetBaseCommandResponseMessage(authResult);
     }
     
     [HttpPost("register")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<RespondAuthenticationDto?> Register(RequestRegisterDto? request)
+    public async Task<ActionResult<RespondAuthenticationDto>> Register(RequestRegisterDto? request)
     {
         var authResult = await _authentication.Register(request);
-        return authResult.ResponseObject;
+        return BaseCommandResponse<RespondAuthenticationDto>.GetBaseCommandResponseMessage(authResult);
     }
     
     [HttpPatch("verify")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<RespondAuthenticationDto?> VerifiedEmail(VerifiedEmailDto? request)
+    public async Task<ActionResult<RespondAuthenticationDto>> VerifiedEmail(VerifiedEmailDto? request)
     {
         var command = new SetVerifiedEmailRequest { VerifiedEmailDto = request };
         var response = await _mediator.Send(command);
-        return response.ResponseObject!;
+        return BaseCommandResponse<RespondAuthenticationDto>.GetBaseCommandResponseMessage(response);
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace Application.features.test.requests.queries;
+﻿using Application.results.common;
 
-public class GetTestDetailedListRequestByUser : IRequest<BaseCommandResponse<List<RespondTestDto>>>
+namespace Application.features.test.requests.queries;
+
+public class GetTestDetailedListRequestByUser : IRequest<BaseCommandResult<List<RespondTestDto>>>
 {
     public required int OwnerId { get; set; }
 }

@@ -1,6 +1,8 @@
-﻿namespace Application.features.shared.questionwithanswer.requests.commands;
+﻿using Application.results.common;
 
-public class DeleteQuestionWithAnswersCommand : IRequest<BaseCommandResponse<RespondQuestionDto>>
+namespace Application.features.shared.questionwithanswer.requests.commands;
+
+public class DeleteQuestionWithAnswersCommand : IRequest<BaseCommandResult<RespondQuestionDto>>
 {
     public required int QuestionId { get; set; }
 }

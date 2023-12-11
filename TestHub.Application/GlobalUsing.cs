@@ -12,6 +12,5 @@ global using Application.dtos.requestsDto;
 global using Application.dtos.sharedDTOs;
 global using Application.contracts.infrastructure;
 global using Application.contracts.persistence;
-global using Application.responses.common;
 global using Application.responses.failed;
 global using Domain.entities;

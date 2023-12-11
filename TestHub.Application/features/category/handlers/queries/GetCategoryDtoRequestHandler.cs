@@ -1,9 +1,10 @@
 ﻿using Application.dtos.sharedDTOs;
 using Application.features.category.requests.queries;
+using Application.results.common;
 
 namespace Application.features.category.handlers.queries;
 
-public class GetCategoryDtoRequestHandler : IRequestHandler<GetCategoryDtoRequest, BaseCommandResponse<CategoryDto>>
+public class GetCategoryDtoRequestHandler : IRequestHandler<GetCategoryDtoRequest, BaseCommandResult<CategoryDto>>
 {
     private readonly ICategoryRepository _repository;
     private readonly IMapper _mapper;
@@ -14,12 +15,12 @@ public class GetCategoryDtoRequestHandler : IRequestHandler<GetCategoryDtoReques
         _mapper = mapper;
     }
     
-    public async Task<BaseCommandResponse<CategoryDto>> Handle(GetCategoryDtoRequest request, CancellationToken cancellationToken)
+    public async Task<BaseCommandResult<CategoryDto>> Handle(GetCategoryDtoRequest request, CancellationToken cancellationToken)
     {
         var category = await _repository.Get(request.Id);
-        if (category == null) return new NotFoundFailedStatusResponse<CategoryDto>(request.Id);
+        if (category == null) return new NotFoundFailedStatusResult<CategoryDto>(request.Id);
 
         var categoryDto = _mapper.Map<CategoryDto>(category);
-        return new OkSuccessStatusResponse<CategoryDto>(categoryDto);
+        return new OkSuccessStatusResult<CategoryDto>(categoryDto);
     }
 }

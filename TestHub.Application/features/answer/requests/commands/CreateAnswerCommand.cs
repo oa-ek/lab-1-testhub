@@ -1,6 +1,8 @@
-﻿namespace Application.features.answer.requests.commands;
+﻿using Application.results.common;
 
-public class CreateAnswerCommand : IRequest<BaseCommandResponse<RespondAnswerDto>>
+namespace Application.features.answer.requests.commands;
+
+public class CreateAnswerCommand : IRequest<BaseCommandResult<RespondAnswerDto>>
 {
     public required RequestAnswerDto? AnswerDto { get; set; }
     public int QuestionId { get; set; }

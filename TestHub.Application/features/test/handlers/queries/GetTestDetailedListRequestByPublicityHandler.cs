@@ -1,8 +1,9 @@
 ﻿using Application.features.test.requests.queries;
+using Application.results.common;
 
 namespace Application.features.test.handlers.queries;
 
-public class GetTestDetailedListRequestByPublicityHandler : IRequestHandler<GetTestDetailedListRequestByPublicity, BaseCommandResponse<List<RespondTestDto>>>
+public class GetTestDetailedListRequestByPublicityHandler : IRequestHandler<GetTestDetailedListRequestByPublicity, BaseCommandResult<List<RespondTestDto>>>
 {
     private readonly ITestRepository _repository;
     private readonly IMapper _mapper;
@@ -13,11 +14,11 @@ public class GetTestDetailedListRequestByPublicityHandler : IRequestHandler<GetT
         _mapper = mapper;
     }
 
-    public async Task<BaseCommandResponse<List<RespondTestDto>>> Handle(GetTestDetailedListRequestByPublicity request, CancellationToken cancellationToken)
+    public async Task<BaseCommandResult<List<RespondTestDto>>> Handle(GetTestDetailedListRequestByPublicity request, CancellationToken cancellationToken)
     {
         var tests = await _repository.GetTestWithDetailsByPublicity();
         
         var respondTestDtos = _mapper.Map<List<RespondTestDto>>(tests);
-        return new OkSuccessStatusResponse<List<RespondTestDto>>(respondTestDtos);
+        return new OkSuccessStatusResult<List<RespondTestDto>>(respondTestDtos);
     }
 }

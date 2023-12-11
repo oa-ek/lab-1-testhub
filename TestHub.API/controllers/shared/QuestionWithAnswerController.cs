@@ -1,5 +1,6 @@
 ﻿using Application.dtos.respondsDto;
 using Application.features.shared.questionwithanswer.requests.commands;
+using Application.results.common;
 
 namespace TestHub.API.controllers.shared;
 
@@ -19,7 +20,7 @@ public class QuestionWithAnswerController
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<BaseCommandResponse<RespondQuestionDto>> CreateQuestionWithAnswer(int testId, [FromBody] RequestQuestionWithAnswerDto? requestQuestionWithAnswerDto)
+    public async Task<BaseCommandResult<RespondQuestionDto>> CreateQuestionWithAnswer(int testId, [FromBody] RequestQuestionWithAnswerDto? requestQuestionWithAnswerDto)
     {
         var command = new CreateQuestionWithAnswersCommand { QuestionWithAnswerDto = requestQuestionWithAnswerDto, TestId = testId };
         var response = await _mediator.Send(command);
@@ -30,7 +31,7 @@ public class QuestionWithAnswerController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<BaseCommandResponse<RespondQuestionDto>> DeleteQuestionWithAnswer(int id)
+    public async Task<BaseCommandResult<RespondQuestionDto>> DeleteQuestionWithAnswer(int id)
     {
         var command = new DeleteQuestionWithAnswersCommand { QuestionId = id};
         var response = await _mediator.Send(command);
@@ -41,7 +42,7 @@ public class QuestionWithAnswerController
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<BaseCommandResponse<RespondQuestionDto>> UpdateQuestionAnswer(int questionId, [FromBody] RequestQuestionWithAnswerDto? requestQuestionWithAnswerDto)
+    public async Task<BaseCommandResult<RespondQuestionDto>> UpdateQuestionAnswer(int questionId, [FromBody] RequestQuestionWithAnswerDto? requestQuestionWithAnswerDto)
     {
         var command = new UpdateQuestionWithAnswersCommand { QuestionWithAnswerDto = requestQuestionWithAnswerDto, QuestionId = questionId };
         var response = await _mediator.Send(command);

@@ -1,6 +1,8 @@
-﻿namespace Application.features.question.requests.queries;
+﻿using Application.results.common;
 
-public class GetQuestionDetailedDtoRequest : IRequest<BaseCommandResponse<RespondQuestionDto>>
+namespace Application.features.question.requests.queries;
+
+public class GetQuestionDetailedDtoRequest : IRequest<BaseCommandResult<RespondQuestionDto>>
 {
     public int Id { get; set; }
 }

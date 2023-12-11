@@ -1,6 +1,8 @@
-﻿namespace Application.features.test.requests.queries;
+﻿using Application.results.common;
 
-public class GetTestDetailedDtoRequest: IRequest<BaseCommandResponse<RespondTestDto>>
+namespace Application.features.test.requests.queries;
+
+public class GetTestDetailedDtoRequest: IRequest<BaseCommandResult<RespondTestDto>>
 {
     public int Id { get; set; }
 }

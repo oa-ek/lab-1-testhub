@@ -1,9 +1,10 @@
 ﻿using Application.contracts.infrastructure.file;
 using Application.features.question.requests.commands;
+using Application.results.common;
 
 namespace Application.features.question.handlers.commands;
 
-public class UpdateQuestionCommandHandler : IRequestHandler<UpdateQuestionCommand, BaseCommandResponse<RespondQuestionDto>>
+public class UpdateQuestionCommandHandler : IRequestHandler<UpdateQuestionCommand, BaseCommandResult<RespondQuestionDto>>
 {
     private readonly IQuestionRepository _repository;
     private readonly IFileService _fileService;
@@ -15,26 +16,26 @@ public class UpdateQuestionCommandHandler : IRequestHandler<UpdateQuestionComman
         _mapper = mapper;
         _fileService = fileService;
     }
-    public async Task<BaseCommandResponse<RespondQuestionDto>> Handle(UpdateQuestionCommand command, CancellationToken cancellationToken)
+    public async Task<BaseCommandResult<RespondQuestionDto>> Handle(UpdateQuestionCommand command, CancellationToken cancellationToken)
     {
         if (command.QuestionDto == null)
-            return new BadRequestFailedStatusResponse<RespondQuestionDto>(new List<ValidationFailure>
+            return new BadRequestFailedStatusResult<RespondQuestionDto>(new List<ValidationFailure>
             {
                 new ("QuestionDto", "QuestionDto cannot be null.")
             });
         
         var validator = new RequestQuestionDtoValidator(_repository);
         var validationResult = await validator.ValidateAsync(command.QuestionDto, cancellationToken);
-        if (!validationResult.IsValid) return new BadRequestFailedStatusResponse<RespondQuestionDto>(validationResult.Errors);
+        if (!validationResult.IsValid) return new BadRequestFailedStatusResult<RespondQuestionDto>(validationResult.Errors);
         
         var question = await _repository.Get(command.Id);
-        if (question == null) return new NotFoundFailedStatusResponse<RespondQuestionDto>(command.Id);
+        if (question == null) return new NotFoundFailedStatusResult<RespondQuestionDto>(command.Id);
         
         _mapper.Map(command.QuestionDto, question);
         question.ImageUrl = await MapImageAsync(command.QuestionDto.Image);
         
         await _repository.Update(question);
-        return new OkSuccessStatusResponse<RespondQuestionDto>(question.Id);
+        return new OkSuccessStatusResult<RespondQuestionDto>(question.Id);
     }
     
     private async Task<string> MapImageAsync(FileDto? imageDto)

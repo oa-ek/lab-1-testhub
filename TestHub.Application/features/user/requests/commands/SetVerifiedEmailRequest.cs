@@ -1,6 +1,8 @@
-﻿namespace Application.features.user.requests.commands;
+﻿using Application.results.common;
 
-public class SetVerifiedEmailRequest : IRequest<BaseCommandResponse<RespondAuthenticationDto>>
+namespace Application.features.user.requests.commands;
+
+public class SetVerifiedEmailRequest : IRequest<BaseCommandResult<RespondAuthenticationDto>>
 {
     public required VerifiedEmailDto? VerifiedEmailDto { get; set; }
 }

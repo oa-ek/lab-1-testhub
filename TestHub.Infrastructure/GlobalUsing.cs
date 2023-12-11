@@ -7,7 +7,6 @@ global using Application.contracts.persistence;
 global using Application.dtos.requestsDto;
 global using Application.dtos.requestsDto.validators;
 global using Application.dtos.respondsDto;
-global using Application.responses.common;
 global using Application.responses.failed;
 global using Application.responses.success;
 global using AutoMapper;

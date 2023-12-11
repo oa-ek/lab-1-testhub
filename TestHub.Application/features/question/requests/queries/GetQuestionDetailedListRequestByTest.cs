@@ -1,6 +1,8 @@
-﻿namespace Application.features.question.requests.queries;
+﻿using Application.results.common;
 
-public class GetQuestionDetailedListRequestByTest : IRequest<BaseCommandResponse<List<RespondQuestionDto>>>
+namespace Application.features.question.requests.queries;
+
+public class GetQuestionDetailedListRequestByTest : IRequest<BaseCommandResult<List<RespondQuestionDto>>>
 {
     public required int TestId { get; set; }
 }

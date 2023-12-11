@@ -1,6 +1,8 @@
-﻿namespace Application.features.shared.questionwithanswer.requests.commands;
+﻿using Application.results.common;
 
-public class CreateQuestionWithAnswersCommand : IRequest<BaseCommandResponse<RespondQuestionDto>>
+namespace Application.features.shared.questionwithanswer.requests.commands;
+
+public class CreateQuestionWithAnswersCommand : IRequest<BaseCommandResult<RespondQuestionDto>>
 {
     public RequestQuestionWithAnswerDto? QuestionWithAnswerDto { get; set; }
     public required int TestId { get; set; }

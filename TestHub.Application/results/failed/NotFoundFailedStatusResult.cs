@@ -1,8 +1,10 @@
-﻿namespace Application.responses.failed;
+﻿using Application.results.common;
 
-public class NotFoundFailedStatusResponse<T> : BaseCommandResponse<T>
+namespace Application.responses.failed;
+
+public class NotFoundFailedStatusResult<T> : BaseCommandResult<T>
 {
-    public NotFoundFailedStatusResponse(int objectId)
+    public NotFoundFailedStatusResult(int objectId)
     {
         Success = false;
         Message = "Operation Failed";
@@ -10,7 +12,7 @@ public class NotFoundFailedStatusResponse<T> : BaseCommandResponse<T>
         ResponseObjectId = objectId;
     }
     
-    public NotFoundFailedStatusResponse(T responseObject)
+    public NotFoundFailedStatusResult(T responseObject)
     {
         Success = false;
         Message = "Operation Failed";
@@ -18,7 +20,7 @@ public class NotFoundFailedStatusResponse<T> : BaseCommandResponse<T>
         ResponseObject = responseObject;
     }
     
-    public NotFoundFailedStatusResponse(string property)
+    public NotFoundFailedStatusResult(string property)
     {
         Success = false;
         Message = "Operation Failed";

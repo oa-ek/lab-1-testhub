@@ -1,9 +1,10 @@
 ﻿using Application.dtos.sharedDTOs;
 using Application.features.category.requests.commands;
+using Application.results.common;
 
 namespace Application.features.category.handlers.commands;
 
-public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, BaseCommandResponse<CategoryDto>>
+public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, BaseCommandResult<CategoryDto>>
 {
     private readonly ICategoryRepository _repository;
 
@@ -12,12 +13,12 @@ public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryComman
         _repository = repository;
     }
     
-    public async Task<BaseCommandResponse<CategoryDto>> Handle(DeleteCategoryCommand command, CancellationToken cancellationToken)
+    public async Task<BaseCommandResult<CategoryDto>> Handle(DeleteCategoryCommand command, CancellationToken cancellationToken)
     {
         var category = await _repository.Get(command.Id);
-        if (category == null) return new NotFoundFailedStatusResponse<CategoryDto>(command.Id);
+        if (category == null) return new NotFoundFailedStatusResult<CategoryDto>(command.Id);
 
         await _repository.Delete(category);
-        return new OkSuccessStatusResponse<CategoryDto>(command.Id);
+        return new OkSuccessStatusResult<CategoryDto>(command.Id);
     }
 }
