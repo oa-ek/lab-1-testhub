@@ -196,7 +196,7 @@ public class TestController : Controller
                 StartedAt = DateTime.Now
             };
     
-            _testSessionService.Add(createdTestSession);
+            _testSessionService.AddSession(createdTestSession);
     
             return StatusCode(StatusCodes.Status201Created, createdTestSession);
         }

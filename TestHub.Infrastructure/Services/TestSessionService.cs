@@ -27,7 +27,7 @@ public class TestSessionService
         return _testSessionRepository.GetByID(id);
     }
 
-    public void Add(TestSession testSession)
+    public void AddSession(TestSession testSession)
     {
         _testSessionRepository.Insert(testSession);
     }
