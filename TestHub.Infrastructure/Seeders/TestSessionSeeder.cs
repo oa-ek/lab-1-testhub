@@ -25,7 +25,7 @@ namespace TestHub.Infrastructure.Seeders
                     UserId = 1,
                     TestId = 1,
                     Result = 80,
-                    IsTraining = 0
+                    IsTraining =true
                 },
                 new TestSession
                 {
@@ -34,7 +34,7 @@ namespace TestHub.Infrastructure.Seeders
                     UserId = 2,
                     TestId = 2,
                     Result = 95,
-                    IsTraining = 0
+                    IsTraining = true
                 },
                 new TestSession
                 {
@@ -43,7 +43,7 @@ namespace TestHub.Infrastructure.Seeders
                     UserId = 1,
                     TestId = 3,
                     Result = 75,
-                    IsTraining = 0
+                    IsTraining = true
                 },
                 new TestSession
                 {
@@ -52,7 +52,7 @@ namespace TestHub.Infrastructure.Seeders
                     UserId = 3,
                     TestId = 1,
                     Result = 90,
-                    IsTraining = 0
+                    IsTraining = false
                 },
                 new TestSession
                 {
@@ -61,7 +61,7 @@ namespace TestHub.Infrastructure.Seeders
                     UserId = 2,
                     TestId = 4,
                     Result = 60,
-                    IsTraining = 0
+                    IsTraining = false
                 }
             };
 

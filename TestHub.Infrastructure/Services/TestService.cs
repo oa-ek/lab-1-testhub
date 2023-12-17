@@ -13,6 +13,7 @@ public class TestService
     private readonly QuestionService _questionService;
     private readonly AnswerService _answerService;
 
+
     public TestService(GenericRepository<Test> testRepository, 
         GenericRepository<TestCategory> testCategoryRepository, 
         CategoryService categoryService, 
@@ -24,8 +25,16 @@ public class TestService
         _categoryService = categoryService;
         _questionService = questionService;
         _answerService = answerService;
+      
     }
 
+    public IEnumerable<Test> Search(string text)
+    {
+        return _testRepository.Get(test => test.Title.Contains(text),
+            orderBy: q => q.OrderBy(test => test.Title),
+            includeProperties: "Owner");
+    }
+    
     public IEnumerable<Test> GetAll()
     {
         return _testRepository.Get(null, null, "Owner");

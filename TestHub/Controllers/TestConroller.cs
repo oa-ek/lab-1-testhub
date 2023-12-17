@@ -14,20 +14,28 @@ namespace TestHub.Controllers;
 public class TestController : Controller
 {
     private readonly TestService _testService;
+    private readonly TestSessionService _testSessionService;
     private readonly UserService _userService;
     private readonly ILogger _logger;
 
-    public TestController(ILogger<TestController> logger, TestService testService, UserService userService)
+    public TestController(ILogger<TestController> logger, TestService testService, UserService userService, TestSessionService testSessionService)
     {
         _logger = logger;
         _testService = testService;
         _userService = userService;
-
+        _testSessionService = testSessionService;
         // Log the type being injected
         _logger.LogInformation($"Injected testService of type: {testService.GetType()}");
         _logger.LogInformation($"Injected userService of type: {userService.GetType()}");
     }
 
+    [HttpGet("search/{text}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult<ICollection<Test>> Search(string text)
+    {
+        return Ok(_testService.Search(text));
+    }
+    
     [HttpGet("GetAll")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<ICollection<Test>> GetAll()
@@ -158,4 +166,63 @@ public class TestController : Controller
             return StatusCode(StatusCodes.Status500InternalServerError, validationResult.Errors);
         }
     }
+    
+    
+    //createTest User session
+    [HttpPost("createTestSession")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public ActionResult<TestSession> CreateSession([FromBody] TestSessionDto? testSessionDto)
+    {
+        if (testSessionDto == null)
+            return StatusCode(StatusCodes.Status400BadRequest, testSessionDto);
+    
+        var modelValidator = new ModelValidatorService();
+        var validationResult = modelValidator.ValidateModel(testSessionDto);
+
+        var user = _userService.GetById(testSessionDto.UserId);
+        var test = _testService.GetById(testSessionDto.TestId);
+        if (validationResult.IsValid)
+        {
+            var createdTestSession = new TestSession()
+            {
+                UserId = testSessionDto.UserId,
+                TestId = testSessionDto.TestId,
+                IsTraining = testSessionDto.IsTraining,
+                StartedAt = DateTime.Now,
+                User = user,
+                Test = test
+            };
+    
+            _testSessionService.Add(createdTestSession);
+    
+            return StatusCode(StatusCodes.Status201Created, createdTestSession);
+        }
+        else
+        {
+            Debug.Assert(validationResult.Errors != null, "validationResult.Errors != null");
+            foreach (var error in validationResult.Errors)
+            {
+                _logger.LogError($"Errors occurred while validation model: {error.ErrorMessage}");
+            }
+    
+            return StatusCode(StatusCodes.Status500InternalServerError, validationResult.Errors);
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

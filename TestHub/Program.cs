@@ -24,6 +24,7 @@ builder.Services.AddScoped<DataSeederService.DataSeeder>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<PasswordService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<TestSessionService>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors(options =>
