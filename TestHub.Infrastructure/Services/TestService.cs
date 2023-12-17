@@ -8,6 +8,7 @@ public class TestService
 {
     private readonly GenericRepository<Test> _testRepository;
     private readonly GenericRepository<TestCategory> _testCategoryRepository;
+    private readonly GenericRepository<TestMetadata> _metadataRepository;
     private readonly CategoryService _categoryService;
     private readonly QuestionService _questionService;
     private readonly AnswerService _answerService;
@@ -16,18 +17,48 @@ public class TestService
         GenericRepository<TestCategory> testCategoryRepository, 
         CategoryService categoryService, 
         QuestionService questionService, 
-        AnswerService answerService)
+        AnswerService answerService, 
+        GenericRepository<TestMetadata> metadataRepository)
     {
         _testRepository = testRepository;
         _testCategoryRepository = testCategoryRepository;
         _categoryService = categoryService;
         _questionService = questionService;
         _answerService = answerService;
+        _metadataRepository = metadataRepository;
     }
 
     public IEnumerable<Test> GetAll()
     {
         return _testRepository.Get(null, null, "Owner");
+    }
+    
+    public IEnumerable<TestMetadata> GetMetadata()
+    {
+        return _metadataRepository.Get();
+    }
+    
+    public void AddMetadata(int userId, int testId, byte like)
+    {
+        var metadata = new TestMetadata
+        {
+            UserId = userId,
+            TestId = testId,
+            Like = like,
+            Rating = 4
+        };
+        _metadataRepository.Insert(metadata);
+    }
+    
+    public void UpdateMetadata(TestMetadata metadata, byte like)
+    {
+        metadata.Like = like;
+        _metadataRepository.Update(metadata);
+    }
+    
+    public void DeleteMetadata(TestMetadata metadata)
+    {
+        _metadataRepository.Delete(metadata);
     }
 
     public Test GetById(int id)

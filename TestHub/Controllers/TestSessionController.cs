@@ -42,6 +42,13 @@ public class TestSessionController : Controller
         return Ok(_sessionService.GetAll().Where(u => u.User == _userService.GerRegistrationUser()));
     }
     
+    [HttpGet("{testId:int}", Name = "GetByTest")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult<ICollection<TestSession>> GetCertificatesByTest(int testId)
+    {
+        return Ok(_sessionService.GetAll().Where(u => u.TestId == testId));
+    }
+    
     [HttpGet("Certificate/GetByUser")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<ICollection<Certificate>> GetCertificatesByUser()
