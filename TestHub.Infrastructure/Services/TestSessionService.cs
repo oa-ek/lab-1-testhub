@@ -19,7 +19,7 @@ public class TestSessionService
 
     public IEnumerable<TestSession> GetAll()
     {
-        return _testSessionRepository.Get();
+        return _testSessionRepository.Get(null, null, "StatusSessionQuestions");
     }
 
     public TestSession GetById(int id)
@@ -39,6 +39,7 @@ public class TestSessionService
     
     public void Update(TestSession testSesssionUpdate)
     {
+        Console.WriteLine(testSesssionUpdate);
         _testSessionRepository.Update(testSesssionUpdate);
     }
     
@@ -48,9 +49,9 @@ public class TestSessionService
         _statusSessionQuestion.Insert(statusSessionQuestion);
     }
 
-    public IEnumerable<StatusSessionQuestion> GetAllStatuses()
+    public IEnumerable<StatusSessionQuestion> GetAllStatusesSession(int session)
     {
-        return _statusSessionQuestion.Get();
+        return _statusSessionQuestion.Get().Where(s=>s.SessionId==session);
     }
 
     public void UpdateStatus(StatusSessionQuestion statusSessionQuestion, StatusQuestionSessionDto statusChanging)
@@ -60,5 +61,8 @@ public class TestSessionService
         _statusSessionQuestion.Update(statusSessionQuestion);
     }
     
-    
+    public IEnumerable<StatusSessionQuestion> GetAllStatuses()
+    {
+        return _statusSessionQuestion.Get();
+    }
 }

@@ -226,7 +226,7 @@ public class TestController : Controller
         var validationResult = modelValidator.ValidateModel(testSessionDto);
         TestSession? testSession = _testSessionService.GetAll().FirstOrDefault(c => c.Id == testSessionDto.Id);
         testSession.FinishedAt = DateTime.Now;
-        
+        testSession.Result = testSessionDto.Result;
         if (validationResult.IsValid)
         {
             
@@ -303,7 +303,7 @@ public class TestController : Controller
     }
     
     
-     [HttpGet("getResults/{testSessionId:int}")]
+     [HttpGet("getTestSession/{testSessionId:int}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -313,12 +313,27 @@ public class TestController : Controller
             return StatusCode(StatusCodes.Status400BadRequest);
     
         // TestSession? testSession = _testSessionService.GetAll().FirstOrDefault(r => r.Id == testSessionId);
-        TestSession? testSession = _testSessionService
-            .GetAll()
+        TestSession? testSession = _testSessionService.GetAll()
             .FirstOrDefault(ts => ts.Id == testSessionId);
         
         
         return StatusCode(StatusCodes.Status200OK, testSession);
+    
+    }
+    
+    [HttpGet("getResults/{testSessionId:int}")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public IActionResult GetSessionResults(int testSessionId)
+    {
+        if (testSessionId == null)
+            return StatusCode(StatusCodes.Status400BadRequest);
+    
+        // TestSession? testSession = _testSessionService.GetAll().FirstOrDefault(r => r.Id == testSessionId);
+        var statusSessionQuestion = _testSessionService.GetAllStatusesSession(testSessionId);
+        
+        return StatusCode(StatusCodes.Status200OK, statusSessionQuestion);
     
     }
 
