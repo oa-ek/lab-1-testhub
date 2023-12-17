@@ -33,6 +33,7 @@
 
     <ItemGroup>
       <Folder Include="Pages\" />
+      <Folder Include="wwwroot\src\files\" />
       <Folder Include="wwwroot\src\images\" />
     </ItemGroup>
 
