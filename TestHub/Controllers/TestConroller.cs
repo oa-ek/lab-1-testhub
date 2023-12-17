@@ -16,14 +16,17 @@ public class TestController : Controller
     private readonly TestService _testService;
     private readonly TestSessionService _testSessionService;
     private readonly UserService _userService;
+    private readonly QuestionService _questionService;
     private readonly ILogger _logger;
 
-    public TestController(ILogger<TestController> logger, TestService testService, UserService userService, TestSessionService testSessionService)
+    public TestController(ILogger<TestController> logger, TestService testService, UserService userService, TestSessionService testSessionService,
+        QuestionService questionService)
     {
         _logger = logger;
         _testService = testService;
         _userService = userService;
         _testSessionService = testSessionService;
+        _questionService = questionService;
         // Log the type being injected
         _logger.LogInformation($"Injected testService of type: {testService.GetType()}");
         _logger.LogInformation($"Injected userService of type: {userService.GetType()}");
@@ -247,15 +250,59 @@ public class TestController : Controller
     }
 
 
+    [HttpPost("statusQuestion")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public ActionResult<TestSession> CreateStatusQuestion([FromBody] StatusQuestionSessionDto? statusQuestionSessionDto)
+    {
+        if (statusQuestionSessionDto == null)
+            return StatusCode(StatusCodes.Status400BadRequest, statusQuestionSessionDto);
+    
+        var modelValidator = new ModelValidatorService();
+        var validationResult = modelValidator.ValidateModel(statusQuestionSessionDto);
+        
+        var question = _questionService.GetById(statusQuestionSessionDto.QuestionId);
+        var testSession = _testSessionService.GetById(statusQuestionSessionDto.SessionId);
+        var statusSession= _testSessionService.GetAllStatuses().
+            FirstOrDefault(c => c.QuestionId == statusQuestionSessionDto.QuestionId&&
+                                c.SessionId == statusQuestionSessionDto.SessionId);
+        
+        if (validationResult.IsValid)
+        {
+            if (statusSession != null)
+            {
+                
+                _testSessionService.UpdateStatus(statusSession, statusQuestionSessionDto);
+                return StatusCode(StatusCodes.Status200OK, statusSession);
+            }
+            else
+            {
+                var createdStatusTestSession = new StatusSessionQuestion()
+                {
+                    SessionId = statusQuestionSessionDto.SessionId,
+                    QuestionId = statusQuestionSessionDto.QuestionId,
+                    IsCorrect = statusQuestionSessionDto.IsCorrect ?? null,
+                    Point = statusQuestionSessionDto.Point ?? null,
+                    Attepts = 1,
+                    Question = question,
+                    Session = testSession
+                };
 
-
-
-
-
-
-
-
-
-
+                _testSessionService.AddStatus(createdStatusTestSession);
+                return StatusCode(StatusCodes.Status201Created, createdStatusTestSession);
+            }
+        }
+        else
+        {
+            Debug.Assert(validationResult.Errors != null, "validationResult.Errors != null");
+            foreach (var error in validationResult.Errors)
+            {
+                _logger.LogError($"Errors occurred while validation model: {error.ErrorMessage}");
+            }
+            return StatusCode(StatusCodes.Status500InternalServerError, validationResult.Errors);
+        }
+    }
+    
 
 }

@@ -8,10 +8,13 @@ public class TestSessionService
 {
 
     private readonly GenericRepository<TestSession> _testSessionRepository;
+    private readonly GenericRepository<StatusSessionQuestion> _statusSessionQuestion;
 
-    public TestSessionService(GenericRepository<TestSession> testSessionRepository)
+    public TestSessionService(GenericRepository<TestSession> testSessionRepository, 
+        GenericRepository<StatusSessionQuestion> statusSessionQuestion)
     {
         _testSessionRepository = testSessionRepository;
+        _statusSessionQuestion = statusSessionQuestion;
     }
 
     public IEnumerable<TestSession> GetAll()
@@ -38,4 +41,24 @@ public class TestSessionService
     {
         _testSessionRepository.Update(testSesssionUpdate);
     }
+    
+    
+    public void AddStatus(StatusSessionQuestion statusSessionQuestion)
+    {
+        _statusSessionQuestion.Insert(statusSessionQuestion);
+    }
+
+    public IEnumerable<StatusSessionQuestion> GetAllStatuses()
+    {
+        return _statusSessionQuestion.Get();
+    }
+
+    public void UpdateStatus(StatusSessionQuestion statusSessionQuestion, StatusQuestionSessionDto statusChanging)
+    {
+        statusSessionQuestion.Attepts += 1;
+        statusSessionQuestion.IsCorrect = statusChanging.IsCorrect;
+        _statusSessionQuestion.Update(statusSessionQuestion);
+    }
+    
+    
 }

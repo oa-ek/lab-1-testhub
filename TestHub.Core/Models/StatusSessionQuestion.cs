@@ -8,7 +8,7 @@ public class StatusSessionQuestion
 
     public int QuestionId { get; set; }
 
-    public bool IsCorrect { get; set; }
+    public bool? IsCorrect { get; set; }
 
     public int Attepts { get; set; }
     
