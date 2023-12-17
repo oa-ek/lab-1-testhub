@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using TestHub.Core.Dtos;
 using TestHub.Core.Models;
 using TestHub.Infrastructure.Services;
-
+using Microsoft.EntityFrameworkCore;
 namespace TestHub.Controllers;
 
 [Route("api/Test")]
@@ -193,9 +193,7 @@ public class TestController : Controller
                 UserId = testSessionDto.UserId,
                 TestId = testSessionDto.TestId,
                 IsTraining = testSessionDto.IsTraining,
-                StartedAt = DateTime.Now,
-                User = user,
-                Test = test
+                StartedAt = DateTime.Now
             };
     
             _testSessionService.Add(createdTestSession);
@@ -254,7 +252,7 @@ public class TestController : Controller
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<TestSession> CreateStatusQuestion([FromBody] StatusQuestionSessionDto? statusQuestionSessionDto)
+    public ActionResult<StatusQuestionSessionDto> CreateStatusQuestion([FromBody] StatusQuestionSessionDto? statusQuestionSessionDto)
     {
         if (statusQuestionSessionDto == null)
             return StatusCode(StatusCodes.Status400BadRequest, statusQuestionSessionDto);
@@ -288,7 +286,7 @@ public class TestController : Controller
                     Question = question,
                     Session = testSession
                 };
-
+    
                 _testSessionService.AddStatus(createdStatusTestSession);
                 return StatusCode(StatusCodes.Status201Created, createdStatusTestSession);
             }
@@ -304,5 +302,24 @@ public class TestController : Controller
         }
     }
     
+    
+     [HttpGet("getResults/{testSessionId:int}")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public IActionResult GetResults(int testSessionId)
+    {
+        if (testSessionId == null)
+            return StatusCode(StatusCodes.Status400BadRequest);
+    
+        // TestSession? testSession = _testSessionService.GetAll().FirstOrDefault(r => r.Id == testSessionId);
+        TestSession? testSession = _testSessionService
+            .GetAll()
+            .FirstOrDefault(ts => ts.Id == testSessionId);
+        
+        
+        return StatusCode(StatusCodes.Status200OK, testSession);
+    
+    }
 
 }

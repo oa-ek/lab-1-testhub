@@ -166,10 +166,10 @@ public class AuthController : Controller
     {
         List<Claim> claims = new List<Claim>
         {
-            new Claim("userId", user.Id.ToString()),
             new Claim("Name", user.Name),
             new Claim("Email", user.Email),
-            new Claim("Role", user.Role)
+            new Claim("Role", user.Role),
+            new Claim("userId", user.Id.ToString()),
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
