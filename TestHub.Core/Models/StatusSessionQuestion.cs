@@ -11,6 +11,8 @@ public class StatusSessionQuestion
     public bool IsCorrect { get; set; }
 
     public int Attepts { get; set; }
+    
+    public double? Point { get; set; }
 
     public virtual Question Question { get; set; } = null!;
 
