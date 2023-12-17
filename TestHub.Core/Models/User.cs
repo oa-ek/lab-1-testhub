@@ -36,4 +36,5 @@ public class User
     public virtual ICollection<TestSession> TestSessions { get; set; } = new List<TestSession>();
 
     public virtual ICollection<Test> Tests { get; set; } = new List<Test>();
+    public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
 }

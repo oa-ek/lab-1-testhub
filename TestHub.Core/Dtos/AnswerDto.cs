@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
-
-namespace TestHub.Core.Dtos;
+﻿namespace TestHub.Core.Dtos;
 
 public class AnswerDto
 {

@@ -50,14 +50,14 @@ public class TestController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<ICollection<Test>> GetByUser()
     {
-        return Ok(_testService.GetAll().Where(u => u.OwnerId == _userService.GerRegistrationUser().Id));
+        return Ok(_testService.GetAll().Where(u => u.OwnerId == _userService.GerRegistrationUser()!.Id));
     }
     
     [HttpGet("GetPublicTests")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<ICollection<Test>> GetPublicTests()
     {
-        return Ok(_testService.GetAll().Where(u => u.IsPublic == true));
+        return Ok(_testService.GetAll().Where(u => u.IsPublic));
     }
 
     [HttpGet("{id:int}", Name = "GetTest")]
@@ -71,6 +71,51 @@ public class TestController : Controller
             return StatusCode(StatusCodes.Status404NotFound, "There is no such test in the database.");
 
         return StatusCode(StatusCodes.Status200OK, searchTest);
+    }
+    
+    [HttpGet("TestMetadata/{testId:int}", Name = "GetMetadata")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<IEnumerable<TestMetadata>> GetMetadata(int testId)
+    {
+        var metadata = _testService.GetMetadata().Where(r => r.TestId == testId);
+
+        return StatusCode(StatusCodes.Status200OK, metadata);
+    }
+    
+    [HttpPut("TestMetadata/{testId:int}", Name = "UpdateMetadata")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<TestMetadata> UpdateMetadata(int testId, [FromBody] bool isLike)
+    {
+        var like = Convert.ToByte(isLike);
+        var user = _userService.GerRegistrationUser()!;
+        var metadata = _testService.GetMetadata().FirstOrDefault(r => r.TestId == testId && r.User == user);
+        if (metadata == null)
+            _testService.AddMetadata(user.Id, testId, like);
+        
+        if (metadata != null && metadata.Like != like)
+            _testService.UpdateMetadata(metadata, like);
+
+        return StatusCode(StatusCodes.Status200OK, metadata);
+    }
+    
+    [HttpDelete("TestMetadata/{testId:int}", Name = "DeleteMetadata")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public IActionResult DeleteMetadata(int testId)
+    {
+        var user = _userService.GerRegistrationUser()!;
+        var metadata = _testService.GetMetadata().FirstOrDefault(r => r.TestId == testId && r.User == user);
+        
+        if (metadata == null)
+            return StatusCode(StatusCodes.Status404NotFound, "There is not such metadata in DataBase.");
+        
+        _testService.DeleteMetadata(metadata);
+        return StatusCode(StatusCodes.Status204NoContent);
     }
 
     [HttpPost]

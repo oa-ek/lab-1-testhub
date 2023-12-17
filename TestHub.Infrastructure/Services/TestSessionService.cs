@@ -1,4 +1,4 @@
-﻿using TestHub.Core.Dtos;
+using TestHub.Core.Dtos;
 using TestHub.Core.Models;
 using TestHub.Infrastructure.Repository;
 
@@ -9,18 +9,23 @@ public class TestSessionService
 
     private readonly GenericRepository<TestSession> _testSessionRepository;
     private readonly GenericRepository<StatusSessionQuestion> _statusSessionQuestion;
+    private readonly GenericRepository<Certificate> _certificateRepository;
 
     public TestSessionService(GenericRepository<TestSession> testSessionRepository, 
-        GenericRepository<StatusSessionQuestion> statusSessionQuestion)
+        GenericRepository<StatusSessionQuestion> statusSessionQuestion, GenericRepository<Certificate> certificateRepository)
     {
         _testSessionRepository = testSessionRepository;
         _statusSessionQuestion = statusSessionQuestion;
+        _certificateRepository = certificateRepository;
     }
+   
+
 
     public IEnumerable<TestSession> GetAll()
     {
-        return _testSessionRepository.Get(null, null, "StatusSessionQuestions");
+        return _testSessionRepository.Get(null, null, "User,Test,StatusSessionQuestions");
     }
+
 
     public TestSession GetById(int id)
     {
@@ -64,5 +69,28 @@ public class TestSessionService
     public IEnumerable<StatusSessionQuestion> GetAllStatuses()
     {
         return _statusSessionQuestion.Get();
+    }
+
+   
+    
+    public IEnumerable<Certificate> GetCertificates()
+    {
+        return _certificateRepository.Get(null, null, "Owner");
+    }
+    
+    public void Add(string link, FileDto file, User user)
+    {
+        var certificate = new Certificate
+        {
+            IssueDate = DateTime.Today,
+            Name = file.FileName,
+            CertificateNumber = Guid.NewGuid().ToString()[..8],
+            ImageUrl = link,
+            CreatedAt = DateTime.Now,
+            UpdatedAt = DateTime.Now,
+            Owner = user
+        };
+        
+        _certificateRepository.Insert(certificate);
     }
 }

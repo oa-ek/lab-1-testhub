@@ -23,8 +23,8 @@ namespace TestHub.Infrastructure.Services
         {
             if (file.Data.Length == 0) return string.Empty;
 
-            string uniqueFileName = GetUniqueFileName(file.FileName);
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "src", "images", uniqueFileName);
+            var uniqueFileName = GetUniqueFileName(file.FileName);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "src", "images", uniqueFileName);
 
             await using (var fileStream = new FileStream(path, FileMode.Create))
             {
