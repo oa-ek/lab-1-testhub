@@ -9,7 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 using TestHub.Core.Dtos;
 using TestHub.Core.Dtos.AuthDTO;
 using TestHub.Core.Models;
-using TestHub.Infrastructure.Repository;
 using TestHub.Infrastructure.Services;
 using TestHub.Infrastructure.Services.Password;
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
@@ -178,7 +177,7 @@ public class AuthController : Controller
 
         var token = new JwtSecurityToken(
             claims: claims,
-            expires: DateTime.Now.AddHours(1),
+            expires: DateTime.Now.AddHours(24),
             signingCredentials: creds
         );
 

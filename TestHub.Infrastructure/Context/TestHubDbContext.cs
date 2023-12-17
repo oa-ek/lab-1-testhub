@@ -33,6 +33,8 @@ public partial class TestHubDbContext : DbContext
     public virtual DbSet<TestSession>? TestSessions { get; set; }
 
     public virtual DbSet<User>? Users { get; set; }
+    
+    public virtual DbSet<Certificate>? Certificates { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Server=.;Database=TestHubDb;Trusted_Connection=true;TrustServerCertificate=true;");
@@ -259,8 +261,25 @@ public partial class TestHubDbContext : DbContext
             entity.Property(e => e.UpdateAt).HasColumnType("datetime");
         });
 
-        OnModelCreatingPartial(modelBuilder);
-    }
+        modelBuilder.Entity<Certificate>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_Certificates");
 
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+            entity.ToTable("Certificates");
+
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            entity.Property(e => e.IssueDate).HasColumnType("date");
+            entity.Property(e => e.Name).HasMaxLength(255).IsUnicode(false);
+            entity.Property(e => e.CertificateNumber).HasMaxLength(255).IsUnicode(false);
+            entity.Property(e => e.ImageUrl).HasMaxLength(512).IsUnicode(false);
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+
+            // Визначте зв'язок з таблицею Users
+            entity.HasOne(d => d.Owner).WithMany(p => p.Certificates)
+                .HasForeignKey(d => d.OwnerId).
+                OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Certificates_Users");
+        });
+    }
 }

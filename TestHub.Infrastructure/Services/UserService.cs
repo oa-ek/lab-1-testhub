@@ -29,7 +29,8 @@ public class UserService
 
     public User? GerRegistrationUser()
     {
-        return GetAll().FirstOrDefault(u => u.Name == GetName());
+        var registrationUserName = GetName();
+        return GetAll().FirstOrDefault(u => u.Name == registrationUserName);
     }
     
     public IEnumerable<User> GetAll()
@@ -73,7 +74,7 @@ public class UserService
     {
         userToUpdate.Name = userChanging.Name;
         userToUpdate.Email = userChanging.Email;
-        userToUpdate.Password = userChanging.Password;
+        userToUpdate.Password = BCrypt.Net.BCrypt.HashPassword(userChanging.Password);
         userToUpdate.UpdateAt = DateTime.Now;
         
         _userRepository.Update(userToUpdate);
@@ -81,10 +82,7 @@ public class UserService
 
     public string? GetName()
     {
-        if (_httpContextAccessor.HttpContext == null)
-            return string.Empty;
-        
-        return _httpContextAccessor.HttpContext.User?.Claims.FirstOrDefault().Value;
+        return _httpContextAccessor.HttpContext == null ? string.Empty : _httpContextAccessor.HttpContext.User?.Claims.FirstOrDefault()?.Value;
     }
 
     public void Update(User userToUpdate)

@@ -6,7 +6,6 @@ namespace TestHub.Infrastructure.Services;
 
 public class TestService
 {
-
     private readonly GenericRepository<Test> _testRepository;
     private readonly GenericRepository<TestCategory> _testCategoryRepository;
     private readonly CategoryService _categoryService;
