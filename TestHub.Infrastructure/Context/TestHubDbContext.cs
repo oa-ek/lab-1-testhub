@@ -133,6 +133,7 @@ public partial class TestHubDbContext : DbContext
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.IsCorrect).HasColumnName("isCorrect");
             entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
+            entity.Property(e => e.Point).HasColumnName("Point");
 
             entity.HasOne(d => d.Question).WithMany(p => p.StatusSessionQuestions)
                 .HasForeignKey(d => d.QuestionId)

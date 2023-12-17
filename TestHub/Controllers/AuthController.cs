@@ -167,7 +167,8 @@ public class AuthController : Controller
         {
             new Claim("Name", user.Name),
             new Claim("Email", user.Email),
-            new Claim("Role", user.Role)
+            new Claim("Role", user.Role),
+            new Claim("userId", user.Id.ToString()),
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(

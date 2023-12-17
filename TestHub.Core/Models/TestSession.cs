@@ -6,7 +6,7 @@ public class TestSession
 
     public DateTime StartedAt { get; set; }
 
-    public DateTime FinishedAt { get; set; }
+    public DateTime? FinishedAt { get; set; }
 
     public int UserId { get; set; }
 
@@ -14,7 +14,7 @@ public class TestSession
 
     public int? Result { get; set; }
 
-    public int IsTraining { get; set; }
+    public bool IsTraining { get; set; }
 
     public virtual ICollection<StatusSessionQuestion> StatusSessionQuestions { get; set; } = new List<StatusSessionQuestion>();
 
