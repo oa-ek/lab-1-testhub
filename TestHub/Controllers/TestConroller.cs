@@ -212,6 +212,39 @@ public class TestController : Controller
 
     }
 
+    [HttpPatch("testSession")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public ActionResult<TestSession> UpdateSession([FromBody] UpdateTestSessionDto? testSessionDto)
+    {
+        if (testSessionDto == null)
+            return StatusCode(StatusCodes.Status400BadRequest, testSessionDto);
+    
+        var modelValidator = new ModelValidatorService();
+        var validationResult = modelValidator.ValidateModel(testSessionDto);
+        TestSession? testSession = _testSessionService.GetAll().FirstOrDefault(c => c.Id == testSessionDto.Id);
+        testSession.FinishedAt = DateTime.Now;
+        
+        if (validationResult.IsValid)
+        {
+            
+            _testSessionService.Update(testSession);
+    
+            return StatusCode(StatusCodes.Status201Created, testSession);
+        }
+        else
+        {
+            Debug.Assert(validationResult.Errors != null, "validationResult.Errors != null");
+            foreach (var error in validationResult.Errors)
+            {
+                _logger.LogError($"Errors occurred while validation model: {error.ErrorMessage}");
+            }
+    
+            return StatusCode(StatusCodes.Status500InternalServerError, validationResult.Errors);
+        }
+
+    }
 
 
 

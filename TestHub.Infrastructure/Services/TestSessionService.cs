@@ -33,10 +33,9 @@ public class TestSessionService
     {
         _testSessionRepository.Delete(testSession);
     }
-    //
-    // public void Update(TestSession categoryToUpdate, CategoryDto categoryChanging)
-    // {
-    //     categoryToUpdate.Title = categoryChanging.Title;
-    //     _testSessionRepository.Update(categoryToUpdate);
-    // }
+    
+    public void Update(TestSession testSesssionUpdate)
+    {
+        _testSessionRepository.Update(testSesssionUpdate);
+    }
 }
